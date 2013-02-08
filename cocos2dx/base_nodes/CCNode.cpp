@@ -94,8 +94,8 @@ CCNode::CCNode(void)
     m_pScheduler = director->getScheduler();
     m_pScheduler->retain();
 
-    CCScriptEngineProtocol* pEngine = CCScriptEngineManager::sharedManager()->getScriptEngine();
-    m_eScriptType = pEngine != NULL ? pEngine->getScriptType() : kScriptTypeNone;
+    /*CCScriptEngineProtocol* pEngine = CCScriptEngineManager::sharedManager()->getScriptEngine();
+    m_eScriptType = pEngine != NULL ? pEngine->getScriptType() : kScriptTypeNone;*/
 }
 
 CCNode::~CCNode(void)
@@ -103,10 +103,10 @@ CCNode::~CCNode(void)
     CCLOGINFO( "cocos2d: deallocing" );
     
     unregisterScriptHandler();
-    if (m_nUpdateScriptHandler)
+    /*if (m_nUpdateScriptHandler)
     {
         CCScriptEngineManager::sharedManager()->getScriptEngine()->removeScriptHandler(m_nUpdateScriptHandler);
-    }
+    }*/
 
     CC_SAFE_RELEASE(m_pActionManager);
     CC_SAFE_RELEASE(m_pScheduler);
@@ -525,10 +525,10 @@ void CCNode::cleanup()
     this->stopAllActions();
     this->unscheduleAllSelectors();
     
-    if ( m_eScriptType != kScriptTypeNone)
+    /*if ( m_eScriptType != kScriptTypeNone)
     {
         CCScriptEngineManager::sharedManager()->getScriptEngine()->executeNodeEvent(this, kCCNodeOnCleanup);
-    }
+    }*/
     
     // timers
     arrayMakeObjectsPerformSelector(m_pChildren, cleanup, CCNode*);
@@ -892,30 +892,30 @@ void CCNode::onEnter()
 
     m_bRunning = true;
 
-    if (m_eScriptType != kScriptTypeNone)
+    /*if (m_eScriptType != kScriptTypeNone)
     {
         CCScriptEngineManager::sharedManager()->getScriptEngine()->executeNodeEvent(this, kCCNodeOnEnter);
-    }
+    }*/
 }
 
 void CCNode::onEnterTransitionDidFinish()
 {
     arrayMakeObjectsPerformSelector(m_pChildren, onEnterTransitionDidFinish, CCNode*);
 
-    if (m_eScriptType == kScriptTypeJavascript)
+    /*if (m_eScriptType == kScriptTypeJavascript)
     {
         CCScriptEngineManager::sharedManager()->getScriptEngine()->executeNodeEvent(this, kCCNodeOnEnterTransitionDidFinish);
-    }
+    }*/
 }
 
 void CCNode::onExitTransitionDidStart()
 {
     arrayMakeObjectsPerformSelector(m_pChildren, onExitTransitionDidStart, CCNode*);
 
-    if (m_eScriptType == kScriptTypeJavascript)
+    /*if (m_eScriptType == kScriptTypeJavascript)
     {
         CCScriptEngineManager::sharedManager()->getScriptEngine()->executeNodeEvent(this, kCCNodeOnExitTransitionDidStart);
-    }
+    }*/
 }
 
 void CCNode::onExit()
@@ -924,10 +924,10 @@ void CCNode::onExit()
 
     m_bRunning = false;
 
-    if ( m_eScriptType != kScriptTypeNone)
+    /*if ( m_eScriptType != kScriptTypeNone)
     {
         CCScriptEngineManager::sharedManager()->getScriptEngine()->executeNodeEvent(this, kCCNodeOnExit);
-    }
+    }*/
 
     arrayMakeObjectsPerformSelector(m_pChildren, onExit, CCNode*);
 
@@ -943,12 +943,12 @@ void CCNode::registerScriptHandler(int nHandler)
 
 void CCNode::unregisterScriptHandler(void)
 {
-    if (m_nScriptHandler)
+    /*if (m_nScriptHandler)
     {
         CCScriptEngineManager::sharedManager()->getScriptEngine()->removeScriptHandler(m_nScriptHandler);
         LUALOG("[LUA] Remove CCNode event handler: %d", m_nScriptHandler);
         m_nScriptHandler = 0;
-    }
+    }*/
 }
 
 void CCNode::scheduleUpdateWithPriorityLua(int nHandler, int priority)
@@ -1037,11 +1037,11 @@ void CCNode::scheduleUpdateWithPriority(int priority)
 void CCNode::unscheduleUpdate()
 {
     m_pScheduler->unscheduleUpdateForTarget(this);
-    if (m_nUpdateScriptHandler)
+    /*if (m_nUpdateScriptHandler)
     {
         CCScriptEngineManager::sharedManager()->getScriptEngine()->removeScriptHandler(m_nUpdateScriptHandler);
         m_nUpdateScriptHandler = 0;
-    }
+    }*/
 }
 
 void CCNode::schedule(SEL_SCHEDULE selector)
@@ -1096,10 +1096,10 @@ void CCNode::pauseSchedulerAndActions()
 // override me
 void CCNode::update(float fDelta)
 {
-    if (m_nUpdateScriptHandler)
+    /*if (m_nUpdateScriptHandler)
     {
         CCScriptEngineManager::sharedManager()->getScriptEngine()->executeSchedule(m_nUpdateScriptHandler, fDelta);
-    }
+    }*/
 }
 
 CCAffineTransform CCNode::nodeToParentTransform(void)

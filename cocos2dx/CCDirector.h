@@ -37,7 +37,11 @@ THE SOFTWARE.
 #include "label_nodes/CCLabelTTF.h"
 #include "ccTypeInfo.h"
 
-
+#define CCID3D11Device CCDirector::sharedDirector()->getOpenGLView()->GetDevice()
+#define CCID3D11DeviceContext CCDirector::sharedDirector()->getOpenGLView()->GetDeviceContext()
+#define CCD3DCLASS CCDirector::sharedDirector()->getOpenGLView()
+#define CCOPENGLVIEW CCDirector::sharedDirector()->getOpenGLView()
+#define CCHWND CCDirector::sharedDirector()->getOpenGLView()->getHWnd()
 NS_CC_BEGIN
 
 /**

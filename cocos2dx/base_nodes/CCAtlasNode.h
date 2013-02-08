@@ -109,7 +109,7 @@ private :
     void calculateMaxItems();
     void updateBlendFunc();
     void updateOpacityModifyRGB();
-
+	
 };
 
 // end of base_node group

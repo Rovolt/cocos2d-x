@@ -24,7 +24,7 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "CCArray.h"
-
+#include <stdarg.h>
 NS_CC_BEGIN
 
 

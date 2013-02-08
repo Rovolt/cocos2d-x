@@ -69,7 +69,7 @@ public:
     unsigned int retainCount(void);
     virtual bool isEqual(const CCObject* pObject);
 
-    virtual void update(float dt) {CC_UNUSED_PARAM(dt);};
+    virtual void update(float dt) {/*CC_UNUSED_PARAM(dt);*/};
     
     friend class CCAutoreleasePool;
 };

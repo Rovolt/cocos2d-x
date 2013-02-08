@@ -209,7 +209,7 @@ protected:
     int m_nUpdateScriptHandler;
 
     // script type, lua or javascript
-    ccScriptType m_eScriptType;
+    //ccScriptType m_eScriptType;
 
 public:
     // getter & setter

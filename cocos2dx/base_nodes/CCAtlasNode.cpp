@@ -106,9 +106,10 @@ bool CCAtlasNode::initWithTileFile(const char *tile, unsigned int tileWidth, uns
     m_uQuadsToDraw = itemsToRender;
 
     // shader stuff
-    setShaderProgram(CCShaderCache::sharedShaderCache()->programForKey(kCCShader_PositionTexture_uColor));
+	//NOTE_PORT: ???
+    /*setShaderProgram(CCShaderCache::sharedShaderCache()->programForKey(kCCShader_PositionTexture_uColor));
     m_nUniformColor = glGetUniformLocation( getShaderProgram()->getProgram(), "u_color");
-
+*/
     return true;
 }
 

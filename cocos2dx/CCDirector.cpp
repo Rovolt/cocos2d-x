@@ -199,7 +199,7 @@ void CCDirector::setGLDefaultValues(void)
     setProjection(m_eProjection);
 
     // set other opengl default values
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    m_pobOpenGLView->D3DClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 }
 
 // Draw the Scene
@@ -214,7 +214,7 @@ void CCDirector::drawScene(void)
         m_pScheduler->update(m_fDeltaTime);
     }
 
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    m_pobOpenGLView->clearRender(NULL);
 
     /* to avoid flickr, nextScene MUST be here: after tick and before draw.
      XXX: Which bug is this one. It seems that it can't be reproduced with v0.9 */
@@ -223,7 +223,7 @@ void CCDirector::drawScene(void)
         setNextScene();
     }
 
-    kmGLPushMatrix();
+    m_pobOpenGLView->D3DPushMatrix();
 
     // draw the scene
     if (m_pRunningScene)
@@ -242,7 +242,7 @@ void CCDirector::drawScene(void)
         showStats();
     }
 
-    kmGLPopMatrix();
+    m_pobOpenGLView->D3DPopMatrix();
 
     m_uTotalFrames++;
 
@@ -421,17 +421,18 @@ void CCDirector::setAlphaBlending(bool bOn)
 void CCDirector::setDepthTest(bool bOn)
 {
     if (bOn)
-    {
-        glClearDepth(1.0f);
-        glEnable(GL_DEPTH_TEST);
-        glDepthFunc(GL_LEQUAL);
-//        glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-    }
-    else
-    {
-        glDisable(GL_DEPTH_TEST);
-    }
-    CHECK_GL_ERROR_DEBUG();
+	{
+		//=ccglClearDepth(1.0f);
+		//=glEnable(GL_DEPTH_TEST);
+		//=glDepthFunc(GL_LEQUAL);
+
+		m_pobOpenGLView->D3DDepthFunc(CC_LEQUAL);
+	}
+	else
+	{
+		//=glDisable(GL_DEPTH_TEST);
+		m_pobOpenGLView->D3DDepthFunc(-1);
+	}
 }
 
 static void
