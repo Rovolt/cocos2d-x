@@ -28,15 +28,6 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 
-int CCTime::gettimeofdayCocos2d(struct cc_timeval *tp, void *tzp)
-{
-    CC_UNUSED_PARAM(tzp);
-    if (tp)
-    {
-        gettimeofday((struct timeval *)tp,  0);
-    }
-    return 0;
-}
 
 double CCTime::timersubCocos2d(struct cc_timeval *start, struct cc_timeval *end)
 {

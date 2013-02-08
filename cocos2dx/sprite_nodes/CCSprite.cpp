@@ -46,7 +46,12 @@ THE SOFTWARE.
 // external
 #include "kazmath/GL/matrix.h"
 #include <string.h>
-
+#include "CCEGLView.h"
+#include <fstream>
+#include "DirectXHelper.h"
+#include <string.h>
+#include "BasicLoader.h"
+using namespace DirectX;
 using namespace std;
 
 NS_CC_BEGIN
@@ -544,69 +549,20 @@ void CCSprite::draw(void)
 
     CCAssert(!m_pobBatchNode, "If CCSprite is being rendered by CCSpriteBatchNode, CCSprite#draw SHOULD NOT be called");
 
-    CC_NODE_DRAW_SETUP();
+    bool newBlend = m_sBlendFunc.src != CC_BLEND_SRC || m_sBlendFunc.dst != CC_BLEND_DST;
+	if (newBlend)
+	{
+		CCD3DCLASS->D3DBlendFunc(m_sBlendFunc.src, m_sBlendFunc.dst);
+	}
 
-    ccGLBlendFunc( m_sBlendFunc.src, m_sBlendFunc.dst );
+	mDXSprite.Render(m_pobTexture,m_sQuad);
 
-    if (m_pobTexture != NULL)
-    {
-        ccGLBindTexture2D( m_pobTexture->getName() );
-    }
-    else
-    {
-        ccGLBindTexture2D(0);
-    }
-    
-    //
-    // Attributes
-    //
-
-    ccGLEnableVertexAttribs( kCCVertexAttribFlag_PosColorTex );
-
-#define kQuadSize sizeof(m_sQuad.bl)
-    long offset = (long)&m_sQuad;
-
-    // vertex
-    int diff = offsetof( ccV3F_C4B_T2F, vertices);
-    glVertexAttribPointer(kCCVertexAttrib_Position, 3, GL_FLOAT, GL_FALSE, kQuadSize, (void*) (offset + diff));
-
-    // texCoods
-    diff = offsetof( ccV3F_C4B_T2F, texCoords);
-    glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, kQuadSize, (void*)(offset + diff));
-
-    // color
-    diff = offsetof( ccV3F_C4B_T2F, colors);
-    glVertexAttribPointer(kCCVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, kQuadSize, (void*)(offset + diff));
-
-
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-    CHECK_GL_ERROR_DEBUG();
-
-
-#if CC_SPRITE_DEBUG_DRAW == 1
-    // draw bounding box
-    CCPoint vertices[4]={
-        ccp(m_sQuad.tl.vertices.x,m_sQuad.tl.vertices.y),
-        ccp(m_sQuad.bl.vertices.x,m_sQuad.bl.vertices.y),
-        ccp(m_sQuad.br.vertices.x,m_sQuad.br.vertices.y),
-        ccp(m_sQuad.tr.vertices.x,m_sQuad.tr.vertices.y),
-    };
-    ccDrawPoly(vertices, 4, true);
-#elif CC_SPRITE_DEBUG_DRAW == 2
-    // draw texture box
-    CCSize s = this->getTextureRect().size;
-    CCPoint offsetPix = this->getOffsetPosition();
-    CCPoint vertices[4] = {
-        ccp(offsetPix.x,offsetPix.y), ccp(offsetPix.x+s.width,offsetPix.y),
-        ccp(offsetPix.x+s.width,offsetPix.y+s.height), ccp(offsetPix.x,offsetPix.y+s.height)
-    };
-    ccDrawPoly(vertices, 4, true);
-#endif // CC_SPRITE_DEBUG_DRAW
+	if( newBlend )
+	{
+		CCD3DCLASS->D3DBlendFunc(CC_BLEND_SRC, CC_BLEND_DST);
+	}
 
     CC_INCREMENT_GL_DRAWS(1);
-
-    CC_PROFILER_STOP_CATEGORY(kCCProfilerCategorySprite, "CCSprite - draw");
 }
 
 // CCNode overrides
@@ -1092,5 +1048,301 @@ CCTexture2D* CCSprite::getTexture(void)
 {
     return m_pobTexture;
 }
+
+CCDXSprite::CCDXSprite()
+{
+	m_vertexShader = 0;
+	m_pixelShader = 0;
+	m_layout = 0;
+	m_matrixBuffer = 0;
+	m_indexBuffer = 0;
+	m_vertexBuffer = 0;
+	m_textureColorBuffer = 0;
+
+	mIsInit = FALSE;
+}
+
+CCDXSprite::~CCDXSprite()
+{
+	FreeBuffer();
+}
+
+void CCDXSprite::FreeBuffer()
+{
+	CC_SAFE_RELEASE_NULL_DX(m_vertexBuffer);
+	CC_SAFE_RELEASE_NULL_DX(m_indexBuffer);
+	CC_SAFE_RELEASE_NULL_DX(m_matrixBuffer);
+	CC_SAFE_RELEASE_NULL_DX(m_textureColorBuffer);
+	CC_SAFE_RELEASE_NULL_DX(m_layout);
+	CC_SAFE_RELEASE_NULL_DX(m_pixelShader);
+	CC_SAFE_RELEASE_NULL_DX(m_vertexShader);
+}
+void CCDXSprite::setIsInit(bool isInit)
+{
+	mIsInit = isInit;
+}
+
+void CCDXSprite::initVertexBuffer()
+{
+
+	D3D11_BUFFER_DESC vertexBufferDesc;
+	HRESULT result;
+
+	// Set up the description of the static vertex buffer.
+	vertexBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+	vertexBufferDesc.ByteWidth = sizeof(VertexType)*4;
+	vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	vertexBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	vertexBufferDesc.MiscFlags = 0;
+	vertexBufferDesc.StructureByteStride = 0;
+
+	ID3D11Device* pDevice=CCDirector::sharedDirector()->getOpenGLView()->GetDevice();
+	// Now create the vertex buffer.
+	result = pDevice->CreateBuffer(&vertexBufferDesc, NULL, &m_vertexBuffer);
+	if(FAILED(result))
+	{
+		return ;
+	}
+
+    CCushort indices[] = {
+		0, 1, 2,
+		0, 2, 3,
+	};
+
+	D3D11_BUFFER_DESC indexBufferDesc;
+	D3D11_SUBRESOURCE_DATA indexData;
+	ZeroMemory( &indexBufferDesc, sizeof(indexBufferDesc) );
+
+	indexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	indexBufferDesc.ByteWidth = sizeof(indices);
+	indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	indexBufferDesc.CPUAccessFlags = 0;
+	indexBufferDesc.MiscFlags = 0;
+
+	indexData.pSysMem = indices;
+	pDevice->CreateBuffer(&indexBufferDesc, &indexData, &m_indexBuffer);
+}
+
+void CCDXSprite::RenderVertexBuffer(ccV3F_C4B_T2F_Quad quad)
+{
+	// Create the vertex array.
+	VertexType verticesTmp[4];
+
+	verticesTmp[0].position = XMFLOAT3(quad.tl.vertices.x, quad.tl.vertices.y, quad.tl.vertices.z);
+	verticesTmp[1].position = XMFLOAT3(quad.tr.vertices.x, quad.tr.vertices.y, quad.tr.vertices.z);
+	verticesTmp[2].position = XMFLOAT3(quad.br.vertices.x, quad.br.vertices.y, quad.br.vertices.z);
+	verticesTmp[3].position = XMFLOAT3(quad.bl.vertices.x, quad.bl.vertices.y, quad.bl.vertices.z);
+
+	verticesTmp[0].texture = XMFLOAT2(quad.tl.texCoords.u, quad.tl.texCoords.v);
+	verticesTmp[1].texture = XMFLOAT2(quad.tr.texCoords.u, quad.tr.texCoords.v);
+	verticesTmp[2].texture = XMFLOAT2(quad.br.texCoords.u, quad.br.texCoords.v);
+	verticesTmp[3].texture = XMFLOAT2(quad.bl.texCoords.u, quad.bl.texCoords.v);
+
+	verticesTmp[0].color = XMFLOAT4(quad.tl.colors.r/255.0f, quad.tl.colors.g/255.0f, quad.tl.colors.b/255.0f, quad.tl.colors.a/255.0f);
+	verticesTmp[1].color = XMFLOAT4(quad.tr.colors.r/255.0f, quad.tr.colors.g/255.0f, quad.tr.colors.b/255.0f, quad.tr.colors.a/255.0f);
+	verticesTmp[2].color = XMFLOAT4(quad.br.colors.r/255.0f, quad.br.colors.g/255.0f, quad.br.colors.b/255.0f, quad.br.colors.a/255.0f);
+	verticesTmp[3].color = XMFLOAT4(quad.bl.colors.r/255.0f, quad.bl.colors.g/255.0f, quad.bl.colors.b/255.0f, quad.bl.colors.a/255.0f);
+
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+	VertexType* verticesPtr;
+	if(FAILED(CCID3D11DeviceContext->Map(m_vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource))){return ;}
+	verticesPtr = (VertexType*)mappedResource.pData;
+	memcpy(verticesPtr, (void*)verticesTmp, (sizeof(VertexType) * 4));
+	CCID3D11DeviceContext->Unmap(m_vertexBuffer, 0);
+
+	////////////////////////
+	unsigned int stride;
+	unsigned int offset;
+	// Set vertex buffer stride and offset.
+	stride = sizeof(VertexType); 
+	offset = 0;
+
+	// Set the vertex buffer to active in the input assembler so it can be rendered.
+	CCID3D11DeviceContext->IASetVertexBuffers(0, 1, &m_vertexBuffer, &stride, &offset);
+
+	CCID3D11DeviceContext->IASetIndexBuffer( m_indexBuffer, DXGI_FORMAT_R16_UINT, 0);
+
+	// Set the type of primitive that should be rendered from this vertex buffer, in this case triangles.
+	CCID3D11DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	return;
+}
+
+bool CCDXSprite::InitializeShader()
+{
+	HRESULT result;
+	ID3D10Blob* errorMessage;
+	errorMessage = 0;
+
+
+	BasicLoader^ loader = ref new BasicLoader(CCID3D11Device);
+	D3D11_INPUT_ELEMENT_DESC layoutDesc[] = 
+	{
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+	};
+
+	loader->LoadShader(
+		L"CCSpriteVertexShader.cso",
+		layoutDesc,
+		ARRAYSIZE(layoutDesc),
+		&m_vertexShader,
+		&m_layout
+		);
+
+	loader->LoadShader(
+		L"CCSpritePixelShader.cso",
+		&m_pixelShader
+		);
+
+	D3D11_BUFFER_DESC matrixBufferDesc;
+	ZeroMemory( &matrixBufferDesc, sizeof( D3D11_BUFFER_DESC ) );
+	matrixBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+	matrixBufferDesc.ByteWidth = sizeof(MatrixBufferType);
+	matrixBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	matrixBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	matrixBufferDesc.MiscFlags = 0;
+	matrixBufferDesc.StructureByteStride = 0;
+
+	// Create the constant buffer pointer so we can access the vertex shader constant buffer from within this class.
+	result = CCID3D11Device->CreateBuffer(&matrixBufferDesc, NULL, &m_matrixBuffer);
+	if(FAILED(result))
+	{
+		return false;
+	}
+
+	D3D11_BUFFER_DESC textureColorBufferDesc;
+	ZeroMemory( &textureColorBufferDesc, sizeof( D3D11_BUFFER_DESC ) );
+	textureColorBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	textureColorBufferDesc.ByteWidth = sizeof(TextureColorType);
+	textureColorBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	//textureColorBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	textureColorBufferDesc.MiscFlags = 0;
+	textureColorBufferDesc.StructureByteStride = 0;
+	result = CCID3D11Device->CreateBuffer(&textureColorBufferDesc, NULL, &m_textureColorBuffer);
+	if(FAILED(result))
+	{
+		return false;
+	}
+	return true;
+}
+
+void CCDXSprite::OutputShaderErrorMessage(ID3D10Blob* errorMessage,WCHAR* shaderFilename)
+{
+	char* compileErrors;
+	unsigned long bufferSize, i;
+	ofstream fout;
+
+
+	// Get a pointer to the error message text buffer.
+	compileErrors = (char*)(errorMessage->GetBufferPointer());
+
+	// Get the length of the message.
+	bufferSize = errorMessage->GetBufferSize();
+
+	// Open a file to write the error message to.
+	fout.open("shader-error.txt");
+
+	// Write out the error message.
+	for(i=0; i<bufferSize; i++)
+	{
+		fout << compileErrors[i];
+	}
+
+	// Close the file.
+	fout.close();
+
+	// Release the error message.
+	errorMessage->Release();
+	errorMessage = 0;
+
+	// Pop a message up on the screen to notify the user to check the text file for compile errors.
+	// MessageBox(CCHWND, L"Error compiling shader.  Check shader-error.txt for message.", shaderFilename, MB_OK);
+
+	return;
+}
+
+
+bool CCDXSprite::SetShaderParameters( XMMATRIX &viewMatrix, XMMATRIX &projectionMatrix, ID3D11ShaderResourceView* texture)
+{
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+	unsigned int bufferNumber;
+
+	viewMatrix = XMMatrixTranspose(viewMatrix);
+	projectionMatrix = XMMatrixTranspose(projectionMatrix);
+
+	MatrixBufferType* dataPtr;
+	if(FAILED(CCID3D11DeviceContext->Map(m_matrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource))){return false;}
+	dataPtr = (MatrixBufferType*)mappedResource.pData;
+	dataPtr->view = viewMatrix;
+	dataPtr->projection = projectionMatrix;
+	CCID3D11DeviceContext->Unmap(m_matrixBuffer, 0);
+	bufferNumber = 0;
+	CCID3D11DeviceContext->VSSetConstantBuffers(bufferNumber, 1, &m_matrixBuffer);
+
+	TextureColorType tc;
+	ZeroMemory(&tc, sizeof(tc));
+	tc.istexture[0] = (texture ? TRUE : FALSE);
+	CCID3D11DeviceContext->UpdateSubresource(m_textureColorBuffer, 0, 0, &tc, 0, 0);
+	bufferNumber = 0;
+	CCID3D11DeviceContext->PSSetConstantBuffers(bufferNumber, 1, &m_textureColorBuffer);
+
+	if ( texture )
+	{
+		CCID3D11DeviceContext->PSSetShaderResources(0, 1, &texture);
+	}
+
+	return true;
+}
+
+void CCDXSprite::RenderShader(CCTexture2D *texture)
+{
+	// Set the vertex input layout.
+	CCID3D11DeviceContext->IASetInputLayout(m_layout);
+
+	// Set the vertex and pixel shaders that will be used to render this triangle.
+	CCID3D11DeviceContext->VSSetShader(m_vertexShader, NULL, 0);
+	CCID3D11DeviceContext->PSSetShader(m_pixelShader, NULL, 0);
+	if ( texture )
+	{
+		// Set the sampler state in the pixel shader.
+		CCID3D11DeviceContext->PSSetSamplers(0, 1, texture->GetSamplerState());
+	}
+
+	// Render the triangle.
+	CCID3D11DeviceContext->DrawIndexed( 6, 0, 0 );
+
+	return;
+}
+
+
+void CCDXSprite::Render(CCTexture2D *texture,ccV3F_C4B_T2F_Quad quad)
+{
+
+	if ( !mIsInit )
+	{
+		mIsInit = TRUE;
+		FreeBuffer();
+		initVertexBuffer();
+		InitializeShader();
+	}
+	
+	XMMATRIX viewMatrix, projectionMatrix;
+
+	// Get the world, view, and projection matrices from the camera and d3d objects.
+	CCD3DCLASS->GetViewMatrix(viewMatrix);
+	CCD3DCLASS->GetProjectionMatrix(projectionMatrix);
+
+	// Put the model vertex and index buffers on the graphics pipeline to prepare them for drawing.
+	RenderVertexBuffer(quad);
+
+	// Set the shader parameters that it will use for rendering.
+	SetShaderParameters(viewMatrix, projectionMatrix, (texture ? texture->getTextureResource() : NULL));
+
+	// Now render the prepared buffers with the shader.
+	RenderShader(texture);
+}
+
 
 NS_CC_END

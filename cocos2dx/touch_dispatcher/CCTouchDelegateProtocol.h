@@ -51,18 +51,18 @@ public:
     {
     }
 
-    virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {CC_UNUSED_PARAM(pTouch); CC_UNUSED_PARAM(pEvent); return false;};
+    virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) { return false;};
     // optional
 
-    virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent) {CC_UNUSED_PARAM(pTouch); CC_UNUSED_PARAM(pEvent);}
-    virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent) {CC_UNUSED_PARAM(pTouch); CC_UNUSED_PARAM(pEvent);}
-    virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent) {CC_UNUSED_PARAM(pTouch); CC_UNUSED_PARAM(pEvent);}
+    virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent) {}
+    virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent) {}
+    virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent) {}
 
     // optional
-     virtual void ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent) {CC_UNUSED_PARAM(pTouches); CC_UNUSED_PARAM(pEvent);}
-     virtual void ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent) {CC_UNUSED_PARAM(pTouches); CC_UNUSED_PARAM(pEvent);}
-     virtual void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent) {CC_UNUSED_PARAM(pTouches); CC_UNUSED_PARAM(pEvent);}
-     virtual void ccTouchesCancelled(CCSet *pTouches, CCEvent *pEvent) {CC_UNUSED_PARAM(pTouches); CC_UNUSED_PARAM(pEvent);}
+     virtual void ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent) {}
+     virtual void ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent) {}
+     virtual void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent) {}
+     virtual void ccTouchesCancelled(CCSet *pTouches, CCEvent *pEvent) {}
 
 };
 /**
@@ -85,12 +85,12 @@ public:
      /** Return YES to claim the touch.
       @since v0
      */
-     virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) { CC_UNUSED_PARAM(pTouch); CC_UNUSED_PARAM(pEvent);return false;};
+     virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) { return false;};
  
      // optional
-     virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent) {CC_UNUSED_PARAM(pTouch); CC_UNUSED_PARAM(pEvent);}
-     virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent) {CC_UNUSED_PARAM(pTouch); CC_UNUSED_PARAM(pEvent);}
-     virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent) {CC_UNUSED_PARAM(pTouch); CC_UNUSED_PARAM(pEvent);}
+     virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent) {}
+     virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent) {}
+     virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent) {}
  };
  
 /** @brief
@@ -101,10 +101,10 @@ public:
  {
  public:
      // optional
-     virtual void ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent) {CC_UNUSED_PARAM(pTouches); CC_UNUSED_PARAM(pEvent);}
-     virtual void ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent) {CC_UNUSED_PARAM(pTouches); CC_UNUSED_PARAM(pEvent);}
-     virtual void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent) {CC_UNUSED_PARAM(pTouches); CC_UNUSED_PARAM(pEvent);}
-    virtual void ccTouchesCancelled(CCSet *pTouches, CCEvent *pEvent) {CC_UNUSED_PARAM(pTouches); CC_UNUSED_PARAM(pEvent);}
+     virtual void ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent) {}
+     virtual void ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent) {}
+     virtual void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent) {}
+    virtual void ccTouchesCancelled(CCSet *pTouches, CCEvent *pEvent) {}
  };
 
 // end of input group

@@ -152,6 +152,64 @@ void CC_DLL ccPointSize( GLfloat pointSize );
 // end of global group
 /// @}
 
+enum DXDrawingType
+{
+	DrawingPoints  = 0,
+	DrawingLines   = 1,
+	DrawingTrangles  = 2,
+	DrawingPolyClosed  = 3,
+	DrawingPolyOpened  = 4
+};
+
+class CC_DLL CCDrawingPrimitive
+{
+public:
+	static void D3DColor4f(float red, float green, float blue, float alpha);
+	static void Drawing(ccVertex2F *vertices, unsigned int numberOfPoints, DXDrawingType Type);
+	static void Drawing3D(ccVertex3F *vertices, unsigned int numberOfPoints, DXDrawingType Type);
+
+	CCDrawingPrimitive();
+	~CCDrawingPrimitive();
+
+	void initVertexBuffer(unsigned int numberOfPoints);
+	bool InitializeShader();
+
+	void RenderVertexBuffer();
+	void RenderVertexBuffer3D();
+	bool SetShaderParameters(DirectX::XMMATRIX &viewMatrix, DirectX::XMMATRIX &projectionMatrix);
+	void RenderShader();
+	void Render();
+	void Render3D();
+	void OutputShaderErrorMessage(ID3D10Blob* errorMessage,WCHAR* shaderFilename);
+
+	//BOOL initialized;
+	ID3D11VertexShader* m_vertexShader;
+	ID3D11PixelShader* m_pixelShader;
+	ID3D11InputLayout* m_layout;
+	ID3D11Buffer* m_vertexBuffer;
+	//ID3D11Buffer* m_indexBuffer;
+	ID3D11Buffer* m_matrixBuffer;
+
+	DXDrawingType  m_DarwingType;
+	int	m_vertexAmount;
+	ccVertex2F *m_vertices;
+	ccVertex3F *m_vertices3D;
+	DirectX::XMFLOAT4 m_currentColor;
+
+	struct MatrixBufferType
+	{
+		DirectX::XMMATRIX view;
+		DirectX::XMMATRIX projection;
+	};
+
+	struct VertexType
+	{
+		DirectX::XMFLOAT3 position;
+		DirectX::XMFLOAT4 color;
+	};
+
+};
+
 NS_CC_END
 
 #endif // __CCDRAWING_PRIMITIVES__

@@ -21,9 +21,9 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include <libxml/parser.h>
-#include <libxml/tree.h>
-#include <libxml/xmlmemory.h>
+//#include <libxml/parser.h>
+//#include <libxml/tree.h>
+//#include <libxml/xmlmemory.h>
 #include "CCSAXParser.h"
 #include "cocoa/CCDictionary.h"
 #include "CCFileUtils.h"

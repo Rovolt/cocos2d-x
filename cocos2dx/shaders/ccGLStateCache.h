@@ -27,7 +27,7 @@ THE SOFTWARE.
 #ifndef __CCGLSTATE_H__
 #define __CCGLSTATE_H__
 
-#include "CCGL.h"
+//#include "CCGL.h"
 #include "platform/CCPlatformMacros.h"
 
 NS_CC_BEGIN

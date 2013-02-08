@@ -99,7 +99,7 @@ bool CCProfilingTimer::initWithName(const char* timerName)
     totalTime = 0.0;
     minTime = 10000.0;
     maxTime = 0.0;
-    gettimeofday((struct timeval *)&m_sStartTime, NULL);
+    //gettimeofday((struct timeval *)&m_sStartTime, NULL);
 
     return true;
 }
@@ -123,7 +123,7 @@ void CCProfilingTimer::reset()
     totalTime = 0;
     minTime = 10000;
     maxTime = 0;
-    gettimeofday((struct timeval *)&m_sStartTime, NULL);
+    //gettimeofday((struct timeval *)&m_sStartTime, NULL);
 }
 
 void CCProfilingBeginTimingBlock(const char *timerName)
@@ -135,7 +135,7 @@ void CCProfilingBeginTimingBlock(const char *timerName)
         timer = p->createAndAddTimerWithName(timerName);
     }
 
-    gettimeofday((struct timeval *)&timer->m_sStartTime, NULL);
+    //gettimeofday((struct timeval *)&timer->m_sStartTime, NULL);
 
     timer->numberOfCalls++;
 }
@@ -147,16 +147,16 @@ void CCProfilingEndTimingBlock(const char *timerName)
 
     CCAssert(timer, "CCProfilingTimer  not found");
 
-    struct timeval currentTime;
-    gettimeofday(&currentTime, NULL);
+    //struct timeval currentTime;
+    //gettimeofday(&currentTime, NULL);
 
-    double duration = CCTime::timersubCocos2d((struct cc_timeval *)&timer->m_sStartTime, (struct cc_timeval *)&currentTime);
+    //double duration = CCTime::timersubCocos2d((struct cc_timeval *)&timer->m_sStartTime, (struct cc_timeval *)&currentTime);
 
     // milliseconds
-    timer->m_dAverageTime = (timer->m_dAverageTime + duration) / 2.0f;
+    /*timer->m_dAverageTime = (timer->m_dAverageTime + duration) / 2.0f;
     timer->totalTime += duration;
     timer->maxTime = MAX( timer->maxTime, duration);
-    timer->minTime = MIN( timer->minTime, duration);
+    timer->minTime = MIN( timer->minTime, duration);*/
 
 }
 

@@ -143,8 +143,8 @@ public:
     virtual void keyMenuClicked(void);
     
     inline CCTouchScriptHandlerEntry* getScriptTouchHandlerEntry() { return m_pScriptTouchHandlerEntry; };
-    inline CCScriptHandlerEntry* getScriptKeypadHandlerEntry() { return m_pScriptKeypadHandlerEntry; };
-    inline CCScriptHandlerEntry* getScriptAccelerateHandlerEntry() { return m_pScriptAccelerateHandlerEntry; };
+    //inline CCScriptHandlerEntry* getScriptKeypadHandlerEntry() { return m_pScriptKeypadHandlerEntry; };
+    //inline CCScriptHandlerEntry* getScriptAccelerateHandlerEntry() { return m_pScriptAccelerateHandlerEntry; };
 protected:   
     bool m_bTouchEnabled;
     bool m_bAccelerometerEnabled;
@@ -153,8 +153,8 @@ protected:
 private:
     // Script touch events handler
     CCTouchScriptHandlerEntry* m_pScriptTouchHandlerEntry;
-    CCScriptHandlerEntry* m_pScriptKeypadHandlerEntry;
-    CCScriptHandlerEntry* m_pScriptAccelerateHandlerEntry;
+    //CCScriptHandlerEntry* m_pScriptKeypadHandlerEntry;
+    //CCScriptHandlerEntry* m_pScriptAccelerateHandlerEntry;
     
     int m_nTouchPriority;
     ccTouchesMode m_eTouchMode;

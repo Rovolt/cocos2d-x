@@ -44,7 +44,7 @@ THE SOFTWARE.
 #include "shaders/CCGLProgram.h"
 #include "shaders/ccGLStateCache.h"
 #include "shaders/CCShaderCache.h"
-
+#include "CCEGLView.h"
 #if CC_ENABLE_CACHE_TEXTURE_DATA
     #include "CCTextureCache.h"
 #endif
@@ -174,70 +174,124 @@ bool CCTexture2D::hasPremultipliedAlpha()
 
 bool CCTexture2D::initWithData(const void *data, CCTexture2DPixelFormat pixelFormat, unsigned int pixelsWide, unsigned int pixelsHigh, const CCSize& contentSize)
 {
-    // XXX: 32 bits or POT textures uses UNPACK of 4 (is this correct ??? )
-    if( pixelFormat == kCCTexture2DPixelFormat_RGBA8888 || ( ccNextPOT(pixelsWide)==pixelsWide && ccNextPOT(pixelsHigh)==pixelsHigh) )
-    {
-        glPixelStorei(GL_UNPACK_ALIGNMENT,4);
-    }
-    else
-    {
-        glPixelStorei(GL_UNPACK_ALIGNMENT,1);
-    }
+    int formatTmp = DXGI_FORMAT_R8G8B8A8_UNORM;
+	int dataSizeByte = 4;
+	/*==
+	glPixelStorei(CC_UNPACK_ALIGNMENT,1);
+	glGenTextures(1, &m_uName);
+	glBindTexture(CC_TEXTURE_2D, m_uName);
+	==*/
+	this->setAntiAliasTexParameters();
+	
+	// Specify OpenGL texture image
+	switch(pixelFormat)
+	{
+	case kCCTexture2DPixelFormat_RGBA8888:
+		formatTmp = DXGI_FORMAT_R8G8B8A8_UNORM;
+		dataSizeByte = 4;
+		//info.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		//=glTexImage2D(CC_TEXTURE_2D, 0, CC_RGBA, (GLsizei)pixelsWide, (GLsizei)pixelsHigh, 0, CC_RGBA, CC_UNSIGNED_BYTE, data);
+		break;
+	case kCCTexture2DPixelFormat_RGB888:
+		dataSizeByte = 4;
+		formatTmp = DXGI_FORMAT_R8G8B8A8_UNORM;
+		//info.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		//=glTexImage2D(CC_TEXTURE_2D, 0, CC_RGB, (GLsizei)pixelsWide, (GLsizei)pixelsHigh, 0, CC_RGB, CC_UNSIGNED_BYTE, data);
+		break;
+	case kCCTexture2DPixelFormat_RGBA4444:
+		dataSizeByte = 4;
+		formatTmp = DXGI_FORMAT_R8G8B8A8_UNORM;
+		//info.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		//=glTexImage2D(CC_TEXTURE_2D, 0, CC_RGBA, (GLsizei)pixelsWide, (GLsizei)pixelsHigh, 0, CC_RGBA, CC_UNSIGNED_SHORT_4_4_4_4, data);
+		break;
+	case kCCTexture2DPixelFormat_RGB5A1:
+		dataSizeByte = 2;
+		formatTmp = DXGI_FORMAT_B5G5R5A1_UNORM;
+		//info.Format = DXGI_FORMAT_B5G5R5A1_UNORM;
+		//=glTexImage2D(CC_TEXTURE_2D, 0, CC_RGBA, (GLsizei)pixelsWide, (GLsizei)pixelsHigh, 0, CC_RGBA, CC_UNSIGNED_SHORT_5_5_5_1, data);
+		break;
+	case kCCTexture2DPixelFormat_RGB565:
+		dataSizeByte = 2;
+		formatTmp = DXGI_FORMAT_B5G6R5_UNORM;
+		//info.Format = DXGI_FORMAT_B5G6R5_UNORM;
+		//=glTexImage2D(CC_TEXTURE_2D, 0, CC_RGB, (GLsizei)pixelsWide, (GLsizei)pixelsHigh, 0, CC_RGB, CC_UNSIGNED_SHORT_5_6_5, data);
+		break;
+	case kCCTexture2DPixelFormat_AI88:
+		dataSizeByte = 2;
+		formatTmp = DXGI_FORMAT_R8G8_UNORM;
+		//info.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		//=glTexImage2D(CC_TEXTURE_2D, 0, CC_LUMINANCE_ALPHA, (GLsizei)pixelsWide, (GLsizei)pixelsHigh, 0, CC_LUMINANCE_ALPHA, CC_UNSIGNED_BYTE, data);
+		break;
+	case kCCTexture2DPixelFormat_A8:
+		dataSizeByte = 1;
+		formatTmp = DXGI_FORMAT_A8_UNORM;
+		//info.Format = DXGI_FORMAT_A8_UNORM;
+		//=glTexImage2D(CC_TEXTURE_2D, 0, CC_ALPHA, (GLsizei)pixelsWide, (GLsizei)pixelsHigh, 0, CC_ALPHA, CC_UNSIGNED_BYTE, data);
+		break;
+	default:
+		CCAssert(0, "NSInternalInconsistencyException");
 
-    glGenTextures(1, &m_uName);
-    ccGLBindTexture2D(m_uName);
+	}
+	ID3D11Device *pdevice = CCDirector::sharedDirector()->getOpenGLView()->GetDevice();
+	ID3D11Texture2D *tex;
+	D3D11_TEXTURE2D_DESC tdesc;
+	D3D11_SUBRESOURCE_DATA tbsd;
+	tbsd.pSysMem = data;
+	tbsd.SysMemPitch = pixelsWide*dataSizeByte;
+	tbsd.SysMemSlicePitch = pixelsWide*pixelsHigh*dataSizeByte; // Not needed since this is a 2d texture
 
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
+	tdesc.Width = pixelsWide;
+	tdesc.Height = pixelsHigh;
+	tdesc.MipLevels = 1;
+	tdesc.ArraySize = 1;
 
-    // Specify OpenGL texture image
+	tdesc.SampleDesc.Count = 1;
+	tdesc.SampleDesc.Quality = 0;
+	tdesc.Usage = D3D11_USAGE_DEFAULT;
+	tdesc.Format = (DXGI_FORMAT)formatTmp;
+	tdesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
 
-    switch(pixelFormat)
-    {
-    case kCCTexture2DPixelFormat_RGBA8888:
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)pixelsWide, (GLsizei)pixelsHigh, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-        break;
-    case kCCTexture2DPixelFormat_RGB888:
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, (GLsizei)pixelsWide, (GLsizei)pixelsHigh, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-        break;
-    case kCCTexture2DPixelFormat_RGBA4444:
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)pixelsWide, (GLsizei)pixelsHigh, 0, GL_RGBA, GL_UNSIGNED_SHORT_4_4_4_4, data);
-        break;
-    case kCCTexture2DPixelFormat_RGB5A1:
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)pixelsWide, (GLsizei)pixelsHigh, 0, GL_RGBA, GL_UNSIGNED_SHORT_5_5_5_1, data);
-        break;
-    case kCCTexture2DPixelFormat_RGB565:
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, (GLsizei)pixelsWide, (GLsizei)pixelsHigh, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, data);
-        break;
-    case kCCTexture2DPixelFormat_AI88:
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE_ALPHA, (GLsizei)pixelsWide, (GLsizei)pixelsHigh, 0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, data);
-        break;
-    case kCCTexture2DPixelFormat_A8:
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, (GLsizei)pixelsWide, (GLsizei)pixelsHigh, 0, GL_ALPHA, GL_UNSIGNED_BYTE, data);
-        break;
-    case kCCTexture2DPixelFormat_I8:
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, (GLsizei)pixelsWide, (GLsizei)pixelsHigh, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, data);
-        break;
-    default:
-        CCAssert(0, "NSInternalInconsistencyException");
+	tdesc.CPUAccessFlags = 0;
+	tdesc.MiscFlags = 0;
+	
+	if(FAILED(pdevice->CreateTexture2D(&tdesc,&tbsd,&tex)))
+	{
+		// e_fail
+	}
 
-    }
+	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
+	D3D11_TEXTURE2D_DESC desc;
+	// Get a texture description to determine the texture
+	// format of the loaded texture.
+	tex->GetDesc( &desc );
 
-    m_tContentSize = contentSize;
-    m_uPixelsWide = pixelsWide;
-    m_uPixelsHigh = pixelsHigh;
-    m_ePixelFormat = pixelFormat;
-    m_fMaxS = contentSize.width / (float)(pixelsWide);
-    m_fMaxT = contentSize.height / (float)(pixelsHigh);
+	// Fill in the D3D11_SHADER_RESOURCE_VIEW_DESC structure.
+	srvDesc.Format = desc.Format;
+	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	srvDesc.Texture2D.MostDetailedMip = 0;
+	srvDesc.Texture2D.MipLevels = desc.MipLevels;
 
-    m_bHasPremultipliedAlpha = false;
-    m_bHasMipmaps = false;
+	// Create the shader resource view.
+	pdevice->CreateShaderResourceView( tex, &srvDesc, &m_pTextureResource );
+	m_uName = (CCuint)m_pTextureResource;
+	if ( tex )
+	{
+		tex->Release();
+		tex = 0;
+	}
+	
+	m_tContentSize = contentSize;
+	m_uPixelsWide = pixelsWide;
+	m_uPixelsHigh = pixelsHigh;
+	m_ePixelFormat = pixelFormat;
+	m_fMaxS = contentSize.width / (float)(pixelsWide);
+	m_fMaxT = contentSize.height / (float)(pixelsHigh);
 
-    setShaderProgram(CCShaderCache::sharedShaderCache()->programForKey(kCCShader_PositionTexture));
+	m_bHasPremultipliedAlpha = false;
 
-    return true;
+	//m_eResolutionType = kCCResolutionUnknown;
+
+	return true;
 }
 
 
@@ -467,56 +521,56 @@ bool CCTexture2D::initWithString(const char *text, const char *fontName, float f
 
 void CCTexture2D::drawAtPoint(const CCPoint& point)
 {
-    GLfloat    coordinates[] = {    
-        0.0f,    m_fMaxT,
-        m_fMaxS,m_fMaxT,
-        0.0f,    0.0f,
-        m_fMaxS,0.0f };
+    //GLfloat    coordinates[] = {    
+    //    0.0f,    m_fMaxT,
+    //    m_fMaxS,m_fMaxT,
+    //    0.0f,    0.0f,
+    //    m_fMaxS,0.0f };
 
-    GLfloat    width = (GLfloat)m_uPixelsWide * m_fMaxS,
-        height = (GLfloat)m_uPixelsHigh * m_fMaxT;
+    //GLfloat    width = (GLfloat)m_uPixelsWide * m_fMaxS,
+    //    height = (GLfloat)m_uPixelsHigh * m_fMaxT;
 
-    GLfloat        vertices[] = {    
-        point.x,            point.y,
-        width + point.x,    point.y,
-        point.x,            height  + point.y,
-        width + point.x,    height  + point.y };
+    //GLfloat        vertices[] = {    
+    //    point.x,            point.y,
+    //    width + point.x,    point.y,
+    //    point.x,            height  + point.y,
+    //    width + point.x,    height  + point.y };
 
-    ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position | kCCVertexAttribFlag_TexCoords );
-    m_pShaderProgram->use();
-    m_pShaderProgram->setUniformsForBuiltins();
+    //ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position | kCCVertexAttribFlag_TexCoords );
+    //m_pShaderProgram->use();
+    //m_pShaderProgram->setUniformsForBuiltins();
 
-    ccGLBindTexture2D( m_uName );
+    //ccGLBindTexture2D( m_uName );
 
 
-    glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, vertices);
-    glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, 0, coordinates);
+    //glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, vertices);
+    //glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, 0, coordinates);
 
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    //glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 
 void CCTexture2D::drawInRect(const CCRect& rect)
 {
-    GLfloat    coordinates[] = {    
-        0.0f,    m_fMaxT,
-        m_fMaxS,m_fMaxT,
-        0.0f,    0.0f,
-        m_fMaxS,0.0f };
+    //GLfloat    coordinates[] = {    
+    //    0.0f,    m_fMaxT,
+    //    m_fMaxS,m_fMaxT,
+    //    0.0f,    0.0f,
+    //    m_fMaxS,0.0f };
 
-    GLfloat    vertices[] = {    rect.origin.x,        rect.origin.y,                            /*0.0f,*/
-        rect.origin.x + rect.size.width,        rect.origin.y,                            /*0.0f,*/
-        rect.origin.x,                            rect.origin.y + rect.size.height,        /*0.0f,*/
-        rect.origin.x + rect.size.width,        rect.origin.y + rect.size.height,        /*0.0f*/ };
+    //GLfloat    vertices[] = {    rect.origin.x,        rect.origin.y,                            /*0.0f,*/
+    //    rect.origin.x + rect.size.width,        rect.origin.y,                            /*0.0f,*/
+    //    rect.origin.x,                            rect.origin.y + rect.size.height,        /*0.0f,*/
+    //    rect.origin.x + rect.size.width,        rect.origin.y + rect.size.height,        /*0.0f*/ };
 
-    ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position | kCCVertexAttribFlag_TexCoords );
-    m_pShaderProgram->use();
-    m_pShaderProgram->setUniformsForBuiltins();
+    //ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position | kCCVertexAttribFlag_TexCoords );
+    //m_pShaderProgram->use();
+    //m_pShaderProgram->setUniformsForBuiltins();
 
-    ccGLBindTexture2D( m_uName );
+    //ccGLBindTexture2D( m_uName );
 
-    glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, vertices);
-    glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, 0, coordinates);
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    //glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, vertices);
+    //glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, 0, coordinates);
+    //glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 
 #ifdef CC_SUPPORT_PVRTC
@@ -605,9 +659,9 @@ void CCTexture2D::PVRImagesHavePremultipliedAlpha(bool haveAlphaPremultiplied)
 void CCTexture2D::generateMipmap()
 {
     CCAssert( m_uPixelsWide == ccNextPOT(m_uPixelsWide) && m_uPixelsHigh == ccNextPOT(m_uPixelsHigh), "Mipmap texture only works in POT textures");
-    ccGLBindTexture2D( m_uName );
-    glGenerateMipmap(GL_TEXTURE_2D);
-    m_bHasMipmaps = true;
+    //ccGLBindTexture2D( m_uName );
+    //glGenerateMipmap(GL_TEXTURE_2D);
+    //m_bHasMipmaps = true;
 }
 
 bool CCTexture2D::hasMipmaps()
@@ -617,59 +671,133 @@ bool CCTexture2D::hasMipmaps()
 
 void CCTexture2D::setTexParameters(ccTexParams *texParams)
 {
-    CCAssert( (m_uPixelsWide == ccNextPOT(m_uPixelsWide) || texParams->wrapS == GL_CLAMP_TO_EDGE) &&
-        (m_uPixelsHigh == ccNextPOT(m_uPixelsHigh) || texParams->wrapT == GL_CLAMP_TO_EDGE),
-        "GL_CLAMP_TO_EDGE should be used in NPOT dimensions");
+    CCAssert( (m_uPixelsWide == ccNextPOT(m_uPixelsWide) && m_uPixelsHigh == ccNextPOT(m_uPixelsHigh)) ||
+		(texParams->wrapS == CC_CLAMP_TO_EDGE && texParams->wrapT == CC_CLAMP_TO_EDGE),
+		"CC_CLAMP_TO_EDGE should be used in NPOT textures");
 
-    ccGLBindTexture2D( m_uName );
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, texParams->minFilter );
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, texParams->magFilter );
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, texParams->wrapS );
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, texParams->wrapT );
+	D3D11_SAMPLER_DESC samplerDesc;
+	int filter = -1;
+	int u = -1;
+	int v = -1;
+	bool bcreat = true;
+	ZeroMemory(&samplerDesc,sizeof(D3D11_SAMPLER_DESC));
+	if ( m_sampleState )
+	{
+		m_sampleState->GetDesc(&samplerDesc);
+		filter = samplerDesc.Filter;
+		u = samplerDesc.AddressU;
+		v = samplerDesc.AddressV;
+	}
 
-#if CC_ENABLE_CACHE_TEXTURE_DATA
-    VolatileTexture::setTexParameters(this, texParams);
-#endif
+	if ( texParams->magFilter == CC_NEAREST )
+	{
+		switch(texParams->minFilter)
+		{
+		case CC_NEAREST:
+			filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+			break;
+		case CC_LINEAR:
+			filter = D3D11_FILTER_MIN_LINEAR_MAG_MIP_POINT;
+			break;
+		case CC_NEAREST_MIPMAP_NEAREST:
+			filter = D3D11_FILTER_MIN_POINT_MAG_MIP_LINEAR;
+			break;
+		case CC_LINEAR_MIPMAP_NEAREST:
+			filter = D3D11_FILTER_MIN_POINT_MAG_LINEAR_MIP_POINT;
+			break;
+		case CC_NEAREST_MIPMAP_LINEAR:
+			filter = D3D11_FILTER_MIN_LINEAR_MAG_MIP_POINT;
+			break;
+		case CC_LINEAR_MIPMAP_LINEAR:
+			filter = D3D11_FILTER_MIN_LINEAR_MAG_POINT_MIP_LINEAR;
+			break;
+		}
+	}
+
+	if ( texParams->magFilter == CC_LINEAR )
+	{
+		switch(texParams->minFilter)
+		{
+		case CC_NEAREST:
+			filter = D3D11_FILTER_MIN_POINT_MAG_MIP_LINEAR;
+			break;
+		case CC_LINEAR:
+			filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+			break;
+		case CC_NEAREST_MIPMAP_NEAREST:
+			filter = D3D11_FILTER_MIN_POINT_MAG_LINEAR_MIP_POINT;
+			break;
+		case CC_LINEAR_MIPMAP_NEAREST:
+			filter = D3D11_FILTER_MIN_LINEAR_MAG_MIP_POINT;
+			break;
+		case CC_NEAREST_MIPMAP_LINEAR:
+			filter = D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT;
+			break;
+		case CC_LINEAR_MIPMAP_LINEAR:
+			filter = D3D11_FILTER_MIN_LINEAR_MAG_POINT_MIP_LINEAR;
+			break;
+		}
+	}
+	
+	if ( texParams->wrapS == CC_REPEAT )
+	{
+		u = D3D11_TEXTURE_ADDRESS_WRAP;
+	}
+	else if ( texParams->wrapS == CC_CLAMP_TO_EDGE )
+	{
+		u = D3D11_TEXTURE_ADDRESS_CLAMP;
+	}
+	
+	if ( texParams->wrapT == CC_REPEAT )
+	{
+		v = D3D11_TEXTURE_ADDRESS_WRAP;
+	}
+	else if ( texParams->wrapT == CC_CLAMP_TO_EDGE )
+	{
+		v = D3D11_TEXTURE_ADDRESS_CLAMP;
+	}
+
+	if ( (filter==samplerDesc.Filter) && (u==samplerDesc.AddressU) && (v==samplerDesc.AddressV) )
+	{
+		bcreat = false;
+	}
+	else
+	{
+		if ( m_sampleState )
+		{
+			m_sampleState->Release();
+			m_sampleState = 0;
+		}
+	}
+
+	samplerDesc.Filter = (D3D11_FILTER)filter;
+	samplerDesc.AddressU = static_cast<D3D11_TEXTURE_ADDRESS_MODE>(u);
+	samplerDesc.AddressV = static_cast<D3D11_TEXTURE_ADDRESS_MODE>(v);
+	samplerDesc.AddressW = static_cast<D3D11_TEXTURE_ADDRESS_MODE>(u);
+
+	samplerDesc.MipLODBias = 0.0f;
+	samplerDesc.MaxAnisotropy = 1;
+	samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+	samplerDesc.BorderColor[0] = samplerDesc.BorderColor[1] = samplerDesc.BorderColor[2] = samplerDesc.BorderColor[3] = 0;
+	samplerDesc.MinLOD = 0;
+	samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
+
+	if ( bcreat )
+	{
+		CCID3D11Device->CreateSamplerState(&samplerDesc, &m_sampleState);
+	}
 }
 
 void CCTexture2D::setAliasTexParameters()
 {
-    ccGLBindTexture2D( m_uName );
-
-    if( ! m_bHasMipmaps )
-    {
-        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
-    }
-    else
-    {
-        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST );
-    }
-
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
-#if CC_ENABLE_CACHE_TEXTURE_DATA
-    ccTexParams texParams = {m_bHasMipmaps?GL_NEAREST_MIPMAP_NEAREST:GL_NEAREST,GL_NEAREST,GL_NONE,GL_NONE};
-    VolatileTexture::setTexParameters(this, &texParams);
-#endif
+    ccTexParams texParams = { CC_NEAREST, CC_NEAREST, CC_CLAMP_TO_EDGE, CC_CLAMP_TO_EDGE };
+	this->setTexParameters(&texParams);
 }
 
 void CCTexture2D::setAntiAliasTexParameters()
 {
-    ccGLBindTexture2D( m_uName );
-
-    if( ! m_bHasMipmaps )
-    {
-        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-    }
-    else
-    {
-        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST );
-    }
-
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-#if CC_ENABLE_CACHE_TEXTURE_DATA
-    ccTexParams texParams = {m_bHasMipmaps?GL_LINEAR_MIPMAP_NEAREST:GL_LINEAR,GL_LINEAR,GL_NONE,GL_NONE};
-    VolatileTexture::setTexParameters(this, &texParams);
-#endif
+    ccTexParams texParams = { CC_LINEAR, CC_LINEAR, CC_CLAMP_TO_EDGE, CC_CLAMP_TO_EDGE };
+	this->setTexParameters(&texParams);
 }
 
 const char* CCTexture2D::stringForFormat()

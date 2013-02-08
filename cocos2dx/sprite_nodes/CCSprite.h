@@ -75,6 +75,8 @@ struct transformValues_;
 *
 * The default anchorPoint in CCSprite is (0.5, 0.5).
 */
+class CCDXSprite;
+
 class CC_DLL CCSprite : public CCNode, public CCTextureProtocol, public CCRGBAProtocol
 {
     /** Opacity: conforms to CCRGBAProtocol protocol */
@@ -345,9 +347,51 @@ protected:
     // image is flipped
     bool m_bFlipX;
     bool m_bFlipY;
+
+	static CCDXSprite mDXSprite;
 };
 
+class CC_DLL CCDXSprite
+{
+private:
+	_declspec(align(16)) struct MatrixBufferType
+	{
+		DirectX::XMMATRIX view;
+		DirectX::XMMATRIX projection;
+	};
+	_declspec(align(16)) struct VertexType
+	{
+		DirectX::XMFLOAT3 position;
+		DirectX::XMFLOAT4 color;
+		DirectX::XMFLOAT2 texture;
+	};
+	_declspec(align(16)) struct TextureColorType
+	{
+		bool istexture[16];
+	};
 
+	bool mIsInit;
+public:
+	ID3D11Buffer *m_vertexBuffer;
+	ID3D11Buffer* m_indexBuffer;
+	ID3D11VertexShader* m_vertexShader;
+	ID3D11PixelShader* m_pixelShader;
+	ID3D11InputLayout* m_layout;
+	ID3D11Buffer* m_matrixBuffer;
+	ID3D11Buffer* m_textureColorBuffer;
+
+	CCDXSprite();
+	~CCDXSprite();
+	void initVertexBuffer();
+	void FreeBuffer();
+	void setIsInit(bool isInit);
+	void RenderVertexBuffer(ccV3F_C4B_T2F_Quad quad);
+	void OutputShaderErrorMessage(ID3D10Blob* errorMessage,WCHAR* shaderFilename);
+	bool InitializeShader();
+	bool SetShaderParameters( DirectX::XMMATRIX &viewMatrix, DirectX::XMMATRIX &projectionMatrix, ID3D11ShaderResourceView* texture);
+	void RenderShader(CCTexture2D *texture);
+	void Render(CCTexture2D *texture,ccV3F_C4B_T2F_Quad quad);
+};
 // end of sprite_nodes group
 /// @}
 

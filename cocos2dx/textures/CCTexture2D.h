@@ -105,6 +105,9 @@ typedef struct _ccTexParams {
 class CC_DLL CCTexture2D : public CCObject
 {
 public:
+	ID3D11ShaderResourceView* getTextureResource();
+	ID3D11SamplerState** GetSamplerState();
+
     CCTexture2D();
     virtual ~CCTexture2D();
 
@@ -243,7 +246,9 @@ public:
     bool hasMipmaps();
 private:
     bool initPremultipliedATextureWithImage(CCImage * image, unsigned int pixelsWide, unsigned int pixelsHigh);
-    
+    ID3D11ShaderResourceView* m_pTextureResource;
+
+	ID3D11SamplerState* m_sampleState;
     // By default PVR images are treated as if they don't have the alpha channel premultiplied
     bool m_bPVRHaveAlphaPremultiplied;
 
@@ -271,6 +276,8 @@ private:
 
     /** shader program used by drawAtPoint and drawInRect */
     CC_PROPERTY(CCGLProgram*, m_pShaderProgram, ShaderProgram);
+
+	
 };
 
 // end of textures group

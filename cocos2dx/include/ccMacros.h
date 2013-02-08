@@ -32,7 +32,7 @@ THE SOFTWARE.
 #endif
 
 #include "platform/CCCommon.h"
-#include "CCStdC.h"
+//#include "CCStdC.h"
 
 #ifndef CCAssert
 #if COCOS2D_DEBUG > 0
@@ -115,6 +115,7 @@ On Mac it returns 1;
 On iPhone it returns 2 if RetinaDisplay is On. Otherwise it returns 1
 */
 #define CC_CONTENT_SCALE_FACTOR() CCDirector::sharedDirector()->getContentScaleFactor()
+#define CC_UNUSED_PARAM(unusedparam) (void)unusedparam
 
 /****************************/
 /** RETINA DISPLAY ENABLED **/

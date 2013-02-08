@@ -29,7 +29,7 @@
  */
 #include "ccConfig.h"
 #include "CCPlatformConfig.h"
-#include "CCPlatformDefine.h"
+#include "platform/CCPlatformConfig.h"
 
 /**
  * define a create function for a specific type, such as CCLayer
@@ -202,7 +202,7 @@ public: virtual void set##funName(varType var)   \
 #define CC_SAFE_RELEASE_NULL(p)        do { if(p) { (p)->release(); (p) = 0; } } while(0)
 #define CC_SAFE_RETAIN(p)            do { if(p) { (p)->retain(); } } while(0)
 #define CC_BREAK_IF(cond)            if(cond) break
-
+#define CC_SAFE_RELEASE_NULL_DX(p)	if(p) { (p)->Release(); (p) = 0; }
 #define __CCLOGWITHFUNCTION(s, ...) \
     CCLog("%s : %s",__FUNCTION__, CCString::createWithFormat(s, ##__VA_ARGS__)->getCString())
 

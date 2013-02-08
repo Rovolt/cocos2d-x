@@ -39,7 +39,7 @@ Use any of these editors to generate BMFonts:
 #include <sstream>
 #include <iostream>
 #include <vector>
-
+#include <set>
 NS_CC_BEGIN
 
 /**

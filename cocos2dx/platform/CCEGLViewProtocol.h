@@ -17,7 +17,8 @@ enum ResolutionPolicy
 
     kResolutionUnKnown,
 };
-
+#include <stack>
+#include <deque>
 NS_CC_BEGIN
 
 #define CC_MAX_TOUCHES  5
@@ -29,12 +30,111 @@ class CCSet;
  * @addtogroup platform
  * @{
  */
+template<typename T, size_t TALIGN=16, size_t TBLOCK=8>
+class aligned_allocator
+{
+public:
+	typedef T * pointer;
+	typedef const T * const_pointer;
+	typedef T& reference;
+	typedef const T& const_reference;
+	typedef T value_type;
+	typedef size_t size_type;
+	typedef ptrdiff_t difference_type;
+	T * address(T& r) const 
+	{
+		return &r;
+	}
+	const T * address(const T& s) const 
+	{
+		return &s;
+	}
+	size_t max_size() const 
+	{
+		return (static_cast<size_t>(0) - static_cast<size_t>(1)) / sizeof(T);
+	}
+	template <typename U> struct rebind 
+	{
+		typedef aligned_allocator<U> other;
+	};
+	bool operator!=(const aligned_allocator& other) const 
+	{
+		return !(*this == other);
+	}
+	bool operator==(const aligned_allocator& other) const 
+	{
+		return true;
+	}
+	void construct(pointer p, const T &val) 
+	{
+		new (p) T(val);
+	}
+	void destroy(pointer p) 
+	{
+		p->~T();
+	}
+	aligned_allocator() 
+	{
+	}
+	aligned_allocator(const aligned_allocator &) 
+	{
+	}
+	template<typename U> aligned_allocator(const aligned_allocator<U>&) 
+	{
+	}
+	~aligned_allocator() 
+	{
+	}
+	pointer allocate(size_t n) 
+	{
+		return allocate(n, NULL);
+	}
+	pointer allocate(size_t n, const void *hint) 
+	{
+		pointer p = NULL;
+		size_t count = sizeof(T) * n;
+		size_t count_left = count % TBLOCK;
+		if (0 != count_left) {
+			count += TBLOCK - count_left;
+		}
+		if (!hint) {
+			p = reinterpret_cast<pointer>(_aligned_malloc(count, TALIGN));
+		}
+		else {
+			p = reinterpret_cast<pointer>(_aligned_realloc((void *)hint, count, TALIGN));
+		}
+		return p;
+	}
+	void deallocate(pointer p, size_t) 
+	{
+		_aligned_free(p);
+	}
+};
 
 class CC_DLL CCEGLViewProtocol
 {
 public:
     CCEGLViewProtocol();
     virtual ~CCEGLViewProtocol();
+
+	//d3d
+	void D3DOrtho(float left, float right, float bottom, float top, float zNear, float zFar);
+	void D3DPerspective(FLOAT fovy, FLOAT Aspect, FLOAT zn, FLOAT zf);
+	void D3DLookAt(float fEyeX, float fEyeY, float fEyeZ, float fLookAtX, float fLookAtY, float fLookAtZ, float fUpX, float fUpY, float fUpZ);
+	void D3DTranslate(float x, float y, float z);
+	void D3DRotate(float angle, float x, float y, float z);
+	void D3DScale(float x, float y, float z);
+	void D3DMultMatrix(const float *m);
+	void D3DBlendFunc(int sfactor, int dfactor);
+	void D3DViewport(int x, int y, int width, int height);
+	void D3DScissor(int x,int y,int w,int h);
+	void D3DMatrixMode(int matrixMode);
+	void D3DLoadIdentity();
+	void D3DPushMatrix();
+	void D3DPopMatrix();
+	void D3DDepthFunc(int func);
+	void D3DClearColor(float r, float b, float g, float a);
+
 
     /** Force destroying EGL view, subclass must implement this method. */
     virtual void    end() = 0;
@@ -140,6 +240,30 @@ protected:
     float  m_fScaleX;
     float  m_fScaleY;
     ResolutionPolicy m_eResolutionPolicy;
+
+	ID3D11Device1*           m_d3dDevice;
+    ID3D11DeviceContext1*    m_d3dContext;
+    IDXGISwapChain1*         m_swapChain;
+    ID3D11RenderTargetView*  m_renderTargetView;
+    ID3D11DepthStencilView*  m_depthStencilView;
+
+	float m_color[4];
+    int mMatrixMode;
+
+	DirectX::XMMATRIX m_projectionMatrix;
+	DirectX::XMMATRIX m_viewMatrix;
+
+	struct MatrixStruct
+	{
+		DirectX::XMMATRIX view;
+		DirectX::XMMATRIX projection;
+	};
+#if defined(_XM_SSE_INTRINSICS_) && !defined(_XM_NO_INTRINSICS_)
+	std::stack<MatrixStruct, std::deque<MatrixStruct, aligned_allocator<MatrixStruct> > > m_MatrixStack;
+#else 
+	std::stack<MatrixStruct> m_MatrixStack;
+#endif
+    int m_oldViewState;
 };
 
 // end of platform group

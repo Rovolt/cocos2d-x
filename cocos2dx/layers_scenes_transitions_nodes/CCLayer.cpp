@@ -38,7 +38,7 @@ THE SOFTWARE.
 #include "support/TransformUtils.h"
 // extern
 #include "kazmath/GL/matrix.h"
-
+#include "CCEGLView.h"
 NS_CC_BEGIN
 
 // CCLayer
@@ -47,8 +47,8 @@ CCLayer::CCLayer()
 , m_bAccelerometerEnabled(false)
 , m_bKeypadEnabled(false)
 ,m_pScriptTouchHandlerEntry(NULL)
-,m_pScriptKeypadHandlerEntry(NULL)
-,m_pScriptAccelerateHandlerEntry(NULL)
+//,m_pScriptKeypadHandlerEntry(NULL)
+//,m_pScriptAccelerateHandlerEntry(NULL)
 , m_eTouchMode(kCCTouchesAllAtOnce)
 , m_nTouchPriority(0)
 {
@@ -101,7 +101,7 @@ void CCLayer::registerWithTouchDispatcher()
     CCTouchDispatcher* pDispatcher = CCDirector::sharedDirector()->getTouchDispatcher();
 
     // Using LuaBindings
-    if (m_pScriptTouchHandlerEntry)
+    /*if (m_pScriptTouchHandlerEntry)
     {
 	    if (m_pScriptTouchHandlerEntry->isMultiTouches())
 	    {
@@ -116,7 +116,7 @@ void CCLayer::registerWithTouchDispatcher()
 	       LUALOG("[LUA] Add touch event handler: %d", m_pScriptTouchHandlerEntry->getHandler());
 	    }
     }
-    else
+    else*/
     {
         if( m_eTouchMode == kCCTouchesAllAtOnce ) {
             pDispatcher->addStandardDelegate(this, 0);
@@ -129,23 +129,25 @@ void CCLayer::registerWithTouchDispatcher()
 void CCLayer::registerScriptTouchHandler(int nHandler, bool bIsMultiTouches, int nPriority, bool bSwallowsTouches)
 {
     unregisterScriptTouchHandler();
-    m_pScriptTouchHandlerEntry = CCTouchScriptHandlerEntry::create(nHandler, bIsMultiTouches, nPriority, bSwallowsTouches);
-    m_pScriptTouchHandlerEntry->retain();
+    /*m_pScriptTouchHandlerEntry = CCTouchScriptHandlerEntry::create(nHandler, bIsMultiTouches, nPriority, bSwallowsTouches);
+    m_pScriptTouchHandlerEntry->retain();*/
 }
 
 void CCLayer::unregisterScriptTouchHandler(void)
 {
-    CC_SAFE_RELEASE_NULL(m_pScriptTouchHandlerEntry);
+    //CC_SAFE_RELEASE_NULL(m_pScriptTouchHandlerEntry);
     }
 
 int CCLayer::excuteScriptTouchHandler(int nEventType, CCTouch *pTouch)
 {
-    return CCScriptEngineManager::sharedManager()->getScriptEngine()->executeLayerTouchEvent(this, nEventType, pTouch);
+	return 0;
+    //return CCScriptEngineManager::sharedManager()->getScriptEngine()->executeLayerTouchEvent(this, nEventType, pTouch);
 }
 
 int CCLayer::excuteScriptTouchHandler(int nEventType, CCSet *pTouches)
 {
-    return CCScriptEngineManager::sharedManager()->getScriptEngine()->executeLayerTouchesEvent(this, nEventType, pTouches);
+	return 0;
+    //return CCScriptEngineManager::sharedManager()->getScriptEngine()->executeLayerTouchesEvent(this, nEventType, pTouches);
 }
 
 /// isTouchEnabled getter
@@ -246,7 +248,7 @@ void CCLayer::setAccelerometerInterval(double interval) {
         if (m_bRunning)
         {
             CCDirector* pDirector = CCDirector::sharedDirector();
-            pDirector->getAccelerometer()->setAccelerometerInterval(interval);
+            //pDirector->getAccelerometer()->setAccelerometerInterval(interval);
         }
     }
 }
@@ -255,22 +257,22 @@ void CCLayer::setAccelerometerInterval(double interval) {
 void CCLayer::didAccelerate(CCAcceleration* pAccelerationValue)
 {
    CC_UNUSED_PARAM(pAccelerationValue);
-   if ( m_eScriptType != kScriptTypeNone)
+   /*if ( m_eScriptType != kScriptTypeNone)
    {
        CCScriptEngineManager::sharedManager()->getScriptEngine()->executeAccelerometerEvent(this, pAccelerationValue);
-   }
+   }*/
 }
 
 void CCLayer::registerScriptAccelerateHandler(int nHandler)
 {
     unregisterScriptAccelerateHandler();
-    m_pScriptAccelerateHandlerEntry = CCScriptHandlerEntry::create(nHandler);
-    m_pScriptAccelerateHandlerEntry->retain();
+    /*m_pScriptAccelerateHandlerEntry = CCScriptHandlerEntry::create(nHandler);
+    m_pScriptAccelerateHandlerEntry->retain();*/
 }
 
 void CCLayer::unregisterScriptAccelerateHandler(void)
 {
-    CC_SAFE_RELEASE_NULL(m_pScriptAccelerateHandlerEntry);
+    //CC_SAFE_RELEASE_NULL(m_pScriptAccelerateHandlerEntry);
 }
 
 /// isKeypadEnabled getter
@@ -303,29 +305,29 @@ void CCLayer::setKeypadEnabled(bool enabled)
 void CCLayer::registerScriptKeypadHandler(int nHandler)
 {
     unregisterScriptKeypadHandler();
-    m_pScriptKeypadHandlerEntry = CCScriptHandlerEntry::create(nHandler);
-    m_pScriptKeypadHandlerEntry->retain();
+    /*m_pScriptKeypadHandlerEntry = CCScriptHandlerEntry::create(nHandler);
+    m_pScriptKeypadHandlerEntry->retain();*/
 }
 
 void CCLayer::unregisterScriptKeypadHandler(void)
 {
-    CC_SAFE_RELEASE_NULL(m_pScriptKeypadHandlerEntry);
+    //CC_SAFE_RELEASE_NULL(m_pScriptKeypadHandlerEntry);
 }
 
 void CCLayer::keyBackClicked(void)
 {
-    if (m_pScriptKeypadHandlerEntry)
+    /*if (m_pScriptKeypadHandlerEntry)
     {
         CCScriptEngineManager::sharedManager()->getScriptEngine()->executeLayerKeypadEvent(this, kTypeBackClicked);
-    }
+    }*/
 }
 
 void CCLayer::keyMenuClicked(void)
 {
-    if (m_pScriptKeypadHandlerEntry)
+    /*if (m_pScriptKeypadHandlerEntry)
     {
         CCScriptEngineManager::sharedManager()->getScriptEngine()->executeLayerKeypadEvent(this, kTypeMenuClicked);
-    }
+    }*/
 }
 
 /// Callbacks
@@ -393,10 +395,10 @@ void CCLayer::onEnterTransitionDidFinish()
 
 bool CCLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
 {
-    if (kScriptTypeNone != m_eScriptType)
+    /*if (kScriptTypeNone != m_eScriptType)
     {
         return excuteScriptTouchHandler(CCTOUCHBEGAN, pTouch) == 0 ? false : true;
-    }
+    }*/
 
     CC_UNUSED_PARAM(pTouch);
     CC_UNUSED_PARAM(pEvent);
@@ -406,11 +408,11 @@ bool CCLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
 
 void CCLayer::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent)
 {
-    if (kScriptTypeNone != m_eScriptType)
+    /*if (kScriptTypeNone != m_eScriptType)
     {
         excuteScriptTouchHandler(CCTOUCHMOVED, pTouch);
         return;
-    }
+    }*/
 
     CC_UNUSED_PARAM(pTouch);
     CC_UNUSED_PARAM(pEvent);
@@ -418,11 +420,11 @@ void CCLayer::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent)
     
 void CCLayer::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 {
-    if (kScriptTypeNone != m_eScriptType)
+    /*if (kScriptTypeNone != m_eScriptType)
     {
         excuteScriptTouchHandler(CCTOUCHENDED, pTouch);
         return;
-    }
+    }*/
 
     CC_UNUSED_PARAM(pTouch);
     CC_UNUSED_PARAM(pEvent);
@@ -430,11 +432,11 @@ void CCLayer::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 
 void CCLayer::ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent)
 {
-    if (kScriptTypeNone != m_eScriptType)
+    /*if (kScriptTypeNone != m_eScriptType)
     {
         excuteScriptTouchHandler(CCTOUCHCANCELLED, pTouch);
         return;
-    }
+    }*/
 
     CC_UNUSED_PARAM(pTouch);
     CC_UNUSED_PARAM(pEvent);
@@ -442,11 +444,11 @@ void CCLayer::ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent)
 
 void CCLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent)
 {
-    if (kScriptTypeNone != m_eScriptType)
+    /*if (kScriptTypeNone != m_eScriptType)
     {
         excuteScriptTouchHandler(CCTOUCHBEGAN, pTouches);
         return;
-    }
+    }*/
 
     CC_UNUSED_PARAM(pTouches);
     CC_UNUSED_PARAM(pEvent);
@@ -454,11 +456,11 @@ void CCLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent)
 
 void CCLayer::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent)
 {
-    if (kScriptTypeNone != m_eScriptType)
+    /*if (kScriptTypeNone != m_eScriptType)
     {
         excuteScriptTouchHandler(CCTOUCHMOVED, pTouches);
         return;
-    }
+    }*/
 
     CC_UNUSED_PARAM(pTouches);
     CC_UNUSED_PARAM(pEvent);
@@ -466,11 +468,11 @@ void CCLayer::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent)
 
 void CCLayer::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent)
 {
-    if (kScriptTypeNone != m_eScriptType)
+    /*if (kScriptTypeNone != m_eScriptType)
     {
         excuteScriptTouchHandler(CCTOUCHENDED, pTouches);
         return;
-    }
+    }*/
 
     CC_UNUSED_PARAM(pTouches);
     CC_UNUSED_PARAM(pEvent);
@@ -478,11 +480,11 @@ void CCLayer::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent)
 
 void CCLayer::ccTouchesCancelled(CCSet *pTouches, CCEvent *pEvent)
 {
-    if (kScriptTypeNone != m_eScriptType)
+    /*if (kScriptTypeNone != m_eScriptType)
     {
         excuteScriptTouchHandler(CCTOUCHCANCELLED, pTouches);
         return;
-    }
+    }*/
 
     CC_UNUSED_PARAM(pTouches);
     CC_UNUSED_PARAM(pEvent);
@@ -660,24 +662,57 @@ void CCLayerColor::updateColor()
     }
 }
 
-void CCLayerColor::draw()
-{
-    CC_NODE_DRAW_SETUP();
-
-    ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position | kCCVertexAttribFlag_Color );
-
-    //
-    // Attributes
-    //
-    glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, m_pSquareVertices);
-    glVertexAttribPointer(kCCVertexAttrib_Color, 4, GL_FLOAT, GL_FALSE, 0, m_pSquareColors);
-
-    ccGLBlendFunc( m_tBlendFunc.src, m_tBlendFunc.dst );
-
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-    CC_INCREMENT_GL_DRAWS(1);
-}
+//void CCLayerColor::draw()
+//{
+//    //CC_NODE_DRAW_SETUP();
+//
+//    //ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position | kCCVertexAttribFlag_Color );
+//
+//    ////
+//    //// Attributes
+//    ////
+//    //glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, m_pSquareVertices);
+//    //glVertexAttribPointer(kCCVertexAttrib_Color, 4, GL_FLOAT, GL_FALSE, 0, m_pSquareColors);
+//
+//    //ccGLBlendFunc( m_tBlendFunc.src, m_tBlendFunc.dst );
+//
+//    //glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+//
+//    //CC_INCREMENT_GL_DRAWS(1);
+//
+//
+//	CCLayer::draw();
+//
+//	// Default GL states: CC_TEXTURE_2D, CC_VERTEX_ARRAY, CC_COLOR_ARRAY, CC_TEXTURE_COORD_ARRAY
+//	// Needed states: CC_VERTEX_ARRAY, CC_COLOR_ARRAY
+//	// Unneeded states: CC_TEXTURE_2D, CC_TEXTURE_COORD_ARRAY
+//	/*=glDisableClientState(CC_TEXTURE_COORD_ARRAY);
+//	glDisable(CC_TEXTURE_2D);
+//
+//	glVertexPointer(2, CC_FLOAT, 0, m_pSquareVertices);
+//	glColorPointer(4, CC_UNSIGNED_BYTE, 0, m_pSquareColors);
+//	=*/
+//	bool newBlend = false;
+//	if( m_tBlendFunc.src != CC_BLEND_SRC || m_tBlendFunc.dst != CC_BLEND_DST ) {
+//		newBlend = true;
+//		CCD3DCLASS->D3DBlendFunc(m_tBlendFunc.src, m_tBlendFunc.dst);
+//	}
+//	else if( m_cOpacity != 255 ) {
+//		newBlend = true;
+//		CCD3DCLASS->D3DBlendFunc(CC_SRC_ALPHA, CC_ONE_MINUS_SRC_ALPHA);
+//	}
+//	mDXLayerColor.Render(m_pSquareVertices,m_pSquareColors);
+//	//=glDrawArrays(CC_TRIANGLE_STRIP, 0, 4);
+//
+//	if( newBlend )
+//	{
+//		CCD3DCLASS->D3DBlendFunc(CC_BLEND_SRC, CC_BLEND_DST);
+//	}
+//	/*=
+//	// restore default GL state
+//	glEnableClientState(CC_TEXTURE_COORD_ARRAY);
+//	glEnable(CC_TEXTURE_2D);=*/
+//}
 
 //
 // CCLayerGradient

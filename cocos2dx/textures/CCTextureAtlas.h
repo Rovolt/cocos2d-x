@@ -35,7 +35,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 class CCTexture2D;
-
+class CCDXTextureAtlas;
 /**
  * @addtogroup textures
  * @{
@@ -210,8 +210,44 @@ private:
 #else
     void setupVBO();
 #endif
-};
 
+	static CCDXTextureAtlas mDXTextureAtlas;
+};
+class CC_DLL CCDXTextureAtlas
+{
+public:
+	ID3D11Buffer *m_vertexBuffer;
+	ID3D11Buffer* m_indexBuffer;
+	ID3D11VertexShader* m_vertexShader;
+	ID3D11PixelShader* m_pixelShader;
+	ID3D11InputLayout* m_layout;
+	ID3D11Buffer* m_matrixBuffer;
+
+	CCDXTextureAtlas();
+	~CCDXTextureAtlas();
+	void FreeBuffer();
+	void setIsInit(bool isInit);
+	void initVertexBuffer(unsigned short* indices,unsigned int capacity);
+	void RenderVertexBuffer(ccV3F_C4B_T2F_Quad* quads,unsigned int capacity);
+	void OutputShaderErrorMessage(ID3D10Blob* errorMessage, HWND hwnd, WCHAR* shaderFilename);
+	bool InitializeShader();
+	bool SetShaderParameters( DirectX::XMMATRIX &viewMatrix, DirectX::XMMATRIX &projectionMatrix, ID3D11ShaderResourceView* texture);
+	void RenderShader(CCTexture2D* texture,unsigned int n, unsigned int start);
+	void Render(ccV3F_C4B_T2F_Quad* quads,unsigned short* indices,unsigned int capacity,CCTexture2D* texture,unsigned int n, unsigned int start);
+private:
+	struct MatrixBufferType
+	{
+		DirectX::XMMATRIX view;
+		DirectX::XMMATRIX projection;
+	};
+	struct VertexType
+	{
+		DirectX::XMFLOAT3 position;
+		DirectX::XMFLOAT4 color;
+		DirectX::XMFLOAT2 texture;
+	};
+	bool mIsInit;
+};
 // end of textures group
 /// @}
 

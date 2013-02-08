@@ -6,6 +6,10 @@
 #include "cocoa/CCDictionary.h"
 #include "cocoa/CCInteger.h"
 
+#include "pch.h"
+#include "DirectXRender.h"
+#include "CCEGLView.h"
+using namespace DirectX;
 NS_CC_BEGIN
 
 static CCTouch* s_pTouches[CC_MAX_TOUCHES] = { NULL };
@@ -140,18 +144,35 @@ void CCEGLViewProtocol::setTouchDelegate(EGLTouchDelegate * pDelegate)
 
 void CCEGLViewProtocol::setViewPortInPoints(float x , float y , float w , float h)
 {
-    glViewport((GLint)(x * m_fScaleX + m_obViewPortRect.origin.x),
+    /*glViewport((GLint)(x * m_fScaleX + m_obViewPortRect.origin.x),
                (GLint)(y * m_fScaleY + m_obViewPortRect.origin.y),
                (GLsizei)(w * m_fScaleX),
                (GLsizei)(h * m_fScaleY));
+
+		float factor = m_fScreenScaleFactor / CC_CONTENT_SCALE_FACTOR();*/
+	
+    D3DViewport(
+		(int)((x * m_fScaleX + m_obViewPortRect.origin.x)),
+		(int)((y * m_fScaleY + m_obViewPortRect.origin.y)),
+		(int)(w * m_fScaleX),
+		(int)(h * m_fScaleY));
 }
 
 void CCEGLViewProtocol::setScissorInPoints(float x , float y , float w , float h)
 {
-    glScissor((GLint)(x * m_fScaleX + m_obViewPortRect.origin.x),
+    /*glScissor((GLint)(x * m_fScaleX + m_obViewPortRect.origin.x),
               (GLint)(y * m_fScaleY + m_obViewPortRect.origin.y),
               (GLsizei)(w * m_fScaleX),
-              (GLsizei)(h * m_fScaleY));
+              (GLsizei)(h * m_fScaleY));*/
+
+
+    // Switch coordinate system's origin from bottomleft(OpenGL) to topleft(DirectX)
+	y = m_obScreenSize.height - (y + h); 
+    D3DScissor(
+		(int)(x * m_fScaleX + m_obViewPortRect.origin.x),
+		(int)(y * m_fScaleY + m_obViewPortRect.origin.y),
+		(int)(w * m_fScaleX),
+		(int)(h * m_fScaleY));
 }
 
 void CCEGLViewProtocol::setViewName(const char* pszViewName)

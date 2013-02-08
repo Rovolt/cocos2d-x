@@ -24,7 +24,7 @@ THE SOFTWARE.
 
 #ifndef __CC_COMMON_H__
 #define __CC_COMMON_H__
-
+#include <string>
 #include "CCPlatformMacros.h"
 
 NS_CC_BEGIN
@@ -51,7 +51,7 @@ void CC_DLL CCLuaLog(const char * pszFormat);
 @brief Pop out a message box
 */
 void CC_DLL CCMessageBox(const char * pszMsg, const char * pszTitle);
-
+std::wstring CC_DLL CCUtf8ToUnicode(const char * pszUtf8Str, unsigned len = -1);
 /**
 @brief Enum the language type supported now
 */
