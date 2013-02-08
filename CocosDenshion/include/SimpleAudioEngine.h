@@ -79,7 +79,7 @@ public:
     @warning It must be called before the application exit, or a memroy leak will be casued.
     */
     static void end();
-
+	void render();
     /**
      @brief Preload background music
      @param pszFilePath The path of the background music file,or the FileName of T_SoundResInfo
