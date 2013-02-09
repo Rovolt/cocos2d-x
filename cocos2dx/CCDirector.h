@@ -325,7 +325,7 @@ public:
     /** CCAccelerometer associated with this director
      @since v2.0
      */
-    CC_PROPERTY(CCAccelerometer*, m_pAccelerometer, Accelerometer);
+    //CC_PROPERTY(CCAccelerometer*, m_pAccelerometer, Accelerometer);
 
     /** returns a shared instance of the director */
     static CCDirector* sharedDirector(void);

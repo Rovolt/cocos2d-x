@@ -26,7 +26,7 @@ THE SOFTWARE.
 #include "cocoa/CCArray.h"
 #include "script_support/CCScriptSupport.h"
 #include <string>
-
+#pragma warning(disable : 4996)
 using namespace std;
 
 NS_CC_BEGIN
@@ -122,10 +122,10 @@ void CCNotificationCenter::registerScriptObserver(int handler)
 
 void CCNotificationCenter::unregisterScriptObserver(void)
 {
-    if (m_scriptHandler)
+    /*if (m_scriptHandler)
     {
         CCScriptEngineManager::sharedManager()->getScriptEngine()->removeScriptHandler(m_scriptHandler);
-    }
+    }*/
     m_scriptHandler = 0;
 }
 
@@ -144,11 +144,11 @@ void CCNotificationCenter::postNotification(const char *name, CCObject *object)
             observer->performSelector(object);
     }
 
-    if (m_scriptHandler)
+    /*if (m_scriptHandler)
     {
         CCScriptEngineProtocol* engine = CCScriptEngineManager::sharedManager()->getScriptEngine();
         engine->executeNotificationEvent(this, name);
-    }
+    }*/
 }
 
 void CCNotificationCenter::postNotification(const char *name)

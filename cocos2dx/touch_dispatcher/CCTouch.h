@@ -65,7 +65,12 @@ public:
     {
         return m_nId;
     }
-
+	void SetTouchInfo(float x, float y)
+    {
+        m_prevPoint = m_point;
+        m_point.x   = x;
+        m_point.y   = y;
+    }
 private:
     int m_nId;
     CCPoint m_point;

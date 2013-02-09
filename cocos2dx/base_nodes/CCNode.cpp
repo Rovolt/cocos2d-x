@@ -38,7 +38,7 @@ THE SOFTWARE.
 #include "shaders/CCGLProgram.h"
 // externals
 #include "kazmath/GL/matrix.h"
-
+#include "CCEGLView.h"
 
 #if CC_NODE_RENDER_SUBPIXEL
 #define RENDER_IN_SUBPIXEL
@@ -786,12 +786,13 @@ void CCNode::visit()
     {
         return;
     }
-    kmGLPushMatrix();
+    //kmGLPushMatrix();
+	CCD3DCLASS->D3DPushMatrix();
 
-     if (m_pGrid && m_pGrid->isActive())
+     /*if (m_pGrid && m_pGrid->isActive())
      {
          m_pGrid->beforeDraw();
-     }
+     }*/
 
     this->transform();
 
@@ -836,12 +837,13 @@ void CCNode::visit()
     // reset for next frame
     m_uOrderOfArrival = 0;
 
-     if (m_pGrid && m_pGrid->isActive())
+     /*if (m_pGrid && m_pGrid->isActive())
      {
          m_pGrid->afterDraw(this);
-    }
+    }*/
  
-    kmGLPopMatrix();
+    //kmGLPopMatrix();
+	CCD3DCLASS->D3DPopMatrix();
 }
 
 void CCNode::transformAncestors()
@@ -855,32 +857,108 @@ void CCNode::transformAncestors()
 
 void CCNode::transform()
 {    
-    kmMat4 transfrom4x4;
+    //kmMat4 transfrom4x4;
 
-    // Convert 3x3 into 4x4 matrix
-    CCAffineTransform tmpAffine = this->nodeToParentTransform();
-    CGAffineToGL(&tmpAffine, transfrom4x4.mat);
+    //// Convert 3x3 into 4x4 matrix
+    //CCAffineTransform tmpAffine = this->nodeToParentTransform();
+    //CGAffineToGL(&tmpAffine, transfrom4x4.mat);
 
-    // Update Z vertex manually
-    transfrom4x4.mat[14] = m_fVertexZ;
+    //// Update Z vertex manually
+    //transfrom4x4.mat[14] = m_fVertexZ;
 
-    kmGLMultMatrix( &transfrom4x4 );
+    //kmGLMultMatrix( &transfrom4x4 );
 
 
-    // XXX: Expensive calls. Camera should be integrated into the cached affine matrix
-    if ( m_pCamera != NULL && !(m_pGrid != NULL && m_pGrid->isActive()) )
-    {
-        bool translate = (m_obAnchorPointInPoints.x != 0.0f || m_obAnchorPointInPoints.y != 0.0f);
+    //// XXX: Expensive calls. Camera should be integrated into the cached affine matrix
+    //if ( m_pCamera != NULL && !(m_pGrid != NULL && m_pGrid->isActive()) )
+    //{
+    //    bool translate = (m_obAnchorPointInPoints.x != 0.0f || m_obAnchorPointInPoints.y != 0.0f);
 
-        if( translate )
-            kmGLTranslatef(RENDER_IN_SUBPIXEL(m_obAnchorPointInPoints.x), RENDER_IN_SUBPIXEL(m_obAnchorPointInPoints.y), 0 );
+    //    if( translate )
+    //        kmGLTranslatef(RENDER_IN_SUBPIXEL(m_obAnchorPointInPoints.x), RENDER_IN_SUBPIXEL(m_obAnchorPointInPoints.y), 0 );
 
-        m_pCamera->locate();
+    //    m_pCamera->locate();
 
-        if( translate )
-            kmGLTranslatef(RENDER_IN_SUBPIXEL(-m_obAnchorPointInPoints.x), RENDER_IN_SUBPIXEL(-m_obAnchorPointInPoints.y), 0 );
-    }
+    //    if( translate )
+    //        kmGLTranslatef(RENDER_IN_SUBPIXEL(-m_obAnchorPointInPoints.x), RENDER_IN_SUBPIXEL(-m_obAnchorPointInPoints.y), 0 );
+    //}
+	// transformations
 
+//#if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+	// BEGIN alternative -- using cached transform
+	//
+	if( m_bTransformDirty ) {
+		CCAffineTransform t = this->nodeToParentTransform();
+		CGAffineToGL(&t, m_pTransformGL);
+		m_bTransformDirty = false;
+	}
+
+	CCD3DCLASS->D3DMultMatrix(m_pTransformGL);
+	if( m_fVertexZ )
+	{
+		CCD3DCLASS->D3DTranslate(0, 0, m_fVertexZ);
+	}
+
+	// XXX: Expensive calls. Camera should be integrated into the cached affine matrix
+	if (m_pCamera && !(m_pGrid && m_pGrid->isActive())) {
+		bool translate = (m_obAnchorPoint.x != 0.0f || m_obAnchorPoint.y != 0.0f);
+
+		if( translate )
+		{
+			CCD3DCLASS->D3DTranslate(RENDER_IN_SUBPIXEL(m_obAnchorPoint.x), RENDER_IN_SUBPIXEL(m_obAnchorPoint.y), 0);
+		}
+
+		m_pCamera->locate();
+
+		if( translate )
+		{
+			CCD3DCLASS->D3DTranslate(RENDER_IN_SUBPIXEL(-m_obAnchorPoint.x), RENDER_IN_SUBPIXEL(-m_obAnchorPoint.y), 0);
+		}
+	}
+
+
+	// END alternative
+
+//#else
+	// BEGIN original implementation
+	// 
+	// translate
+	/*
+	if ( m_bIsRelativeAnchorPoint && (m_tAnchorPointInPixels.x != 0 || m_tAnchorPointInPixels.y != 0 ) )
+		glTranslatef( RENDER_IN_SUBPIXEL(-m_tAnchorPointInPixels.x), RENDER_IN_SUBPIXEL(-m_tAnchorPointInPixels.y), 0);
+
+	if (m_tAnchorPointInPixels.x != 0 || m_tAnchorPointInPixels.y != 0)
+		glTranslatef( RENDER_IN_SUBPIXEL(m_tPositionInPixels.x + m_tAnchorPointInPixels.x), RENDER_IN_SUBPIXEL(m_tPositionInPixels.y + m_tAnchorPointInPixels.y), m_fVertexZ);
+	else if ( m_tPositionInPixels.x !=0 || m_tPositionInPixels.y !=0 || m_fVertexZ != 0)
+		glTranslatef( RENDER_IN_SUBPIXEL(m_tPositionInPixels.x), RENDER_IN_SUBPIXEL(m_tPositionInPixels.y), m_fVertexZ );
+
+	// rotate
+	if (m_fRotation != 0.0f )
+		glRotatef( -m_fRotation, 0.0f, 0.0f, 1.0f );
+
+	// skew
+	if ( (skewX_ != 0.0f) || (skewY_ != 0.0f) ) 
+	{
+		CCAffineTransform skewMatrix = CCAffineTransformMake( 1.0f, tanf(CC_DEGREES_TO_RADIANS(skewY_)), tanf(CC_DEGREES_TO_RADIANS(skewX_)), 1.0f, 0.0f, 0.0f );
+		CCfloat	glMatrix[16];
+		CCAffineToGL(&skewMatrix, glMatrix);															 
+		glMultMatrixf(glMatrix);
+	}
+
+	// scale
+	if (m_fScaleX != 1.0f || m_fScaleY != 1.0f)
+		glScalef( m_fScaleX, m_fScaleY, 1.0f );
+
+	if ( m_pCamera  && !(m_pGrid && m_pGrid->isActive()) )
+		m_pCamera->locate();
+
+	// restore and re-position point
+	if (m_tAnchorPointInPixels.x != 0.0f || m_tAnchorPointInPixels.y != 0.0f)
+		glTranslatef(RENDER_IN_SUBPIXEL(-m_tAnchorPointInPixels.x), RENDER_IN_SUBPIXEL(-m_tAnchorPointInPixels.y), 0);
+
+	*/
+	// END original implementation
+//#endif
 }
 
 

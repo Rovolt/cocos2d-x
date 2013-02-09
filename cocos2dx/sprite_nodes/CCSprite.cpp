@@ -85,7 +85,7 @@ CCSprite* CCSprite::createWithTexture(CCTexture2D *pTexture, const CCRect& rect)
     CC_SAFE_DELETE(pobSprite);
     return NULL;
 }
-
+CCDXSprite CCSprite::mDXSprite;
 CCSprite* CCSprite::create(const char *pszFileName)
 {
     CCSprite *pobSprite = new CCSprite();
@@ -157,7 +157,7 @@ bool CCSprite::initWithTexture(CCTexture2D *pTexture, const CCRect& rect, bool r
 {
     m_pobBatchNode = NULL;
     // shader program
-    setShaderProgram(CCShaderCache::sharedShaderCache()->programForKey(kCCShader_PositionTextureColor));
+    //setShaderProgram(CCShaderCache::sharedShaderCache()->programForKey(kCCShader_PositionTextureColor));
 
     m_bRecursiveDirty = false;
     setDirty(false);

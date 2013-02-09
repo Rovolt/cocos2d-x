@@ -105,6 +105,7 @@ public:
     /** sets a new texture. it will be retained*/
     virtual void setTexture(CCTexture2D *texture);
 
+	
 private :
     void calculateMaxItems();
     void updateBlendFunc();

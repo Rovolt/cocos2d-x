@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="b1ee2ff4-bd9c-48b3-9c8f-f4856abdfba1" Publisher="CN=cocos2d-x" Version="1.0.0.0" />
+  <Identity Name="b1ee2ff4-bd0c-48b3-9c8f-f4856abdfba1" Publisher="CN=cocos2d-x" Version="1.0.0.0" />
   <Properties>
-    <DisplayName>cocos2dmetro-HelloWorld</DisplayName>
+    <DisplayName>hellotest</DisplayName>
     <PublisherDisplayName>cocos2d-x</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
     <Description>FishingJoy_win8_metro</Description>
@@ -15,9 +15,9 @@
     <Resource Language="x-generate" />
   </Resources>
   <Applications>
-    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="cocos2dmetro-HelloWorld.App">
-      <VisualElements DisplayName="cocos2dmetro-HelloWorld" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="cocos2dmetro-HelloWorld" ForegroundText="dark" BackgroundColor="#FFFFFF">
-        <DefaultTile ShowName="wideLogoOnly" WideLogo="Assets\WideLogo.png" ShortName="helloworld" />
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="hellotest.App">
+      <VisualElements DisplayName="hellotest" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="cocos2dmetro-HelloWorld" ForegroundText="dark" BackgroundColor="#FFFFFF">
+        <DefaultTile ShowName="wideLogoOnly" WideLogo="Assets\WideLogo.png" ShortName="helloworld2" />
         <SplashScreen Image="Assets\SplashScreen.png" />
       </VisualElements>
     </Application>

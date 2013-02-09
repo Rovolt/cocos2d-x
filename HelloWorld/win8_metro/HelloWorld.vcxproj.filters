@@ -101,6 +101,9 @@
     <Filter Include="cocos2dx\support\image_support">
       <UniqueIdentifier>{bf357230-4cd0-47fa-9e83-c1c9d52a73f2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="cocos2dx\kazmath">
+      <UniqueIdentifier>{c8a0e890-a7c5-4da1-9d8e-5638e3b2172b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
@@ -119,6 +122,9 @@
     <None Include="Assets\Icon.png">
       <Filter>Resources</Filter>
     </None>
+    <None Include="..\..\cocos2dx\kazmath\src\ChangeLog">
+      <Filter>cocos2dx\kazmath</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -126,9 +132,6 @@
     </ClInclude>
     <ClInclude Include="..\..\cocos2dx\platform\win8_metro\CCApplication_win8_metro.h">
       <Filter>cocos2dx\platform\win8_metro</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\cocos2dx\platform\CCApplication_platform.h">
-      <Filter>cocos2dx\platform</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cocos2dx\platform\CCPlatformConfig.h">
       <Filter>cocos2dx\platform</Filter>
@@ -148,13 +151,7 @@
     <ClInclude Include="..\..\cocos2dx\platform\CCFileUtils.h">
       <Filter>cocos2dx\platform</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cocos2dx\platform\CCLibxml2.h">
-      <Filter>cocos2dx\platform</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\cocos2dx\platform\CCSAXParser.h">
-      <Filter>cocos2dx\platform</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\cocos2dx\platform\CCStdC.h">
       <Filter>cocos2dx\platform</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cocos2dx\exception\CCException.h">
@@ -206,9 +203,6 @@
       <Filter>cocos2dx\include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cocos2dx\include\CCAnimationCache.h">
-      <Filter>cocos2dx\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\cocos2dx\include\CCApplication.h">
       <Filter>cocos2dx\include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cocos2dx\include\CCArray.h">
@@ -463,9 +457,6 @@
     <ClInclude Include="..\..\cocos2dx\platform\platform.h">
       <Filter>cocos2dx\platform</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cocos2dx\platform\CCGL.h">
-      <Filter>cocos2dx\platform</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\CocosDenshion\include\Export.h">
       <Filter>CocosDenshion\include</Filter>
     </ClInclude>
@@ -516,6 +507,12 @@
     </ClInclude>
     <ClInclude Include="..\..\cocos2dx\script_support\CCScriptSupport.h">
       <Filter>cocos2dx\script_support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cocos2dx\cocoa\CCArray.h">
+      <Filter>cocos2dx\cocoa</Filter>
+    </ClInclude>
+    <ClInclude Include="AppMacro.h">
+      <Filter>Classes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -606,9 +603,6 @@
     <ClCompile Include="..\..\cocos2dx\actions\CCActionManager.cpp">
       <Filter>cocos2dx\actions</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cocos2dx\actions\CCActionProgressTimer.cpp">
-      <Filter>cocos2dx\actions</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\cocos2dx\keypad_dispatcher\CCKeypadDelegate.cpp">
       <Filter>cocos2dx\keypad_dispatcher</Filter>
     </ClCompile>
@@ -628,12 +622,6 @@
       <Filter>cocos2dx\layers_scenes_transitions_nodes</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cocos2dx\layers_scenes_transitions_nodes\CCScene.cpp">
-      <Filter>cocos2dx\layers_scenes_transitions_nodes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cocos2dx\layers_scenes_transitions_nodes\CCTransition.cpp">
-      <Filter>cocos2dx\layers_scenes_transitions_nodes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cocos2dx\layers_scenes_transitions_nodes\CCTransitionPageTurn.cpp">
       <Filter>cocos2dx\layers_scenes_transitions_nodes</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cocos2dx\menu_nodes\CCMenu.cpp">
@@ -678,13 +666,7 @@
     <ClCompile Include="..\..\cocos2dx\cocos2d.cpp">
       <Filter>cocos2dx</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cocos2dx\support\TransformUtils.cpp">
-      <Filter>cocos2dx\support</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\cocos2dx\platform\platform.cpp">
-      <Filter>cocos2dx\platform</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cocos2dx\platform\CCGL.cpp">
       <Filter>cocos2dx\platform</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cocos2dx\CCCamera.cpp">
@@ -756,14 +738,83 @@
     <ClCompile Include="..\..\cocos2dx\platform\CCEGLViewProtocol.cpp">
       <Filter>cocos2dx</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cocos2dx\CCImage_win8_metro.cpp">
-      <Filter>cocos2dx</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\cocos2dx\cocoa\CCDictionary.cpp">
       <Filter>cocos2dx\cocoa</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cocos2dx\cocoa\CCString.cpp">
       <Filter>cocos2dx\cocoa</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\CCFileUtils_win8_metro.cpp">
+      <Filter>cocos2dx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\kazmath\src\aabb.c">
+      <Filter>cocos2dx\kazmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\kazmath\src\mat3.c">
+      <Filter>cocos2dx\kazmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\kazmath\src\mat4.c">
+      <Filter>cocos2dx\kazmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\kazmath\src\neon_matrix_impl.c">
+      <Filter>cocos2dx\kazmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\kazmath\src\plane.c">
+      <Filter>cocos2dx\kazmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\kazmath\src\quaternion.c">
+      <Filter>cocos2dx\kazmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\kazmath\src\ray2.c">
+      <Filter>cocos2dx\kazmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\kazmath\src\utility.c">
+      <Filter>cocos2dx\kazmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\kazmath\src\vec2.c">
+      <Filter>cocos2dx\kazmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\kazmath\src\vec3.c">
+      <Filter>cocos2dx\kazmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\kazmath\src\vec4.c">
+      <Filter>cocos2dx\kazmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\kazmath\src\GL\mat4stack.c">
+      <Filter>cocos2dx\kazmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\kazmath\src\GL\matrix.c">
+      <Filter>cocos2dx\kazmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\support\CCNotificationCenter.cpp">
+      <Filter>cocos2dx\support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\support\CCUserDefault.cpp">
+      <Filter>cocos2dx\support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\support\CCVertex.cpp">
+      <Filter>cocos2dx\support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\support\zip_support\unzip.cpp">
+      <Filter>cocos2dx\support\zip_support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\support\zip_support\ioapi.cpp">
+      <Filter>cocos2dx\support\zip_support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\support\zip_support\ZipUtils.cpp">
+      <Filter>cocos2dx\support\zip_support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\support\TransformUtils.cpp">
+      <Filter>cocos2dx\support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\touch_dispatcher\CCTouch.cpp">
+      <Filter>cocos2dx\touch_dispatcher</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\platform\CCImage.cpp">
+      <Filter>cocos2dx\platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\platform\win8_metro\FontLoader.cpp">
+      <Filter>cocos2dx\platform\win8_metro</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -838,5 +889,10 @@
     <Image Include="Assets\WideLogo.png">
       <Filter>Resources</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\cocos2dx\kazmath\src\CMakeLists.txt">
+      <Filter>cocos2dx\kazmath</Filter>
+    </Text>
   </ItemGroup>
 </Project>

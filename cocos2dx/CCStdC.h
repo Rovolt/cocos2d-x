@@ -60,6 +60,24 @@ THE SOFTWARE.
     #include "./compat/stdint.h"
 #endif
 
+#include <Windows.h>
+
+struct timezone
+{
+    int tz_minuteswest;
+    int tz_dsttime;
+};
+
+#undef timeval
+struct timeval
+{
+ 	long tv_sec;		// seconds
+ 	long tv_usec;    // microSeconds
+};
+
+
+int CC_DLL gettimeofday(struct timeval *, struct timezone *);
+
 
 #endif  // __CC_STD_C_H__
 

@@ -107,6 +107,7 @@ protected:
     std::string m_obDirectory;
 };
 
+
 // end of platform group
 /// @}
 

@@ -90,16 +90,28 @@ CCImage::~CCImage()
 
 bool CCImage::initWithImageFile(const char * strPath, EImageFormat eImgFmt/* = eFmtPng*/)
 {
-    CC_UNUSED_PARAM(eImgFmt);
-    CCFileData data(CCFileUtils::fullPathFromRelativePath(strPath), "rb");
-    return initWithImageData(data.getBuffer(), data.getSize(), eImgFmt);
+    bool bRet = false;
+    unsigned long nSize = 0;
+    unsigned char* pBuffer = CCFileUtils::sharedFileUtils()->getFileData(CCFileUtils::sharedFileUtils()->fullPathFromRelativePath(strPath), "rb", &nSize);
+    if (pBuffer != NULL && nSize > 0)
+    {
+        bRet = initWithImageData(pBuffer, nSize, eImgFmt);
+    }
+    CC_SAFE_DELETE_ARRAY(pBuffer);
+    return bRet;
 }
 
 bool CCImage::initWithImageFileThreadSafe(const char *fullpath, EImageFormat imageType)
 {
-	CC_UNUSED_PARAM(imageType);
-    CCFileData data(fullpath, "rb");
-    return initWithImageData(data.getBuffer(), data.getSize(), imageType);
+	bool bRet = false;
+    unsigned long nSize = 0;
+    unsigned char *pBuffer = CCFileUtils::sharedFileUtils()->getFileData(fullpath, "rb", &nSize);
+    if (pBuffer != NULL && nSize > 0)
+    {
+        bRet = initWithImageData(pBuffer, nSize, imageType);
+    }
+    CC_SAFE_DELETE_ARRAY(pBuffer);
+    return bRet;
 }
 
 bool CCImage::initWithImageData(void * pData, 

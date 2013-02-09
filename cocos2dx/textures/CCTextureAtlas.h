@@ -202,6 +202,8 @@ public:
     /** listen the event that coming to foreground on Android
      */
     void listenBackToForeground(CCObject *obj);
+
+	void SetColor(UINT r,UINT g,UINT b,UINT a);
 private:
     void setupIndices();
     void mapBuffers();

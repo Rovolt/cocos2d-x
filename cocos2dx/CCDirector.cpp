@@ -150,7 +150,7 @@ bool CCDirector::init(void)
     m_pKeypadDispatcher = new CCKeypadDispatcher();
 
     // Accelerometer
-    m_pAccelerometer = new CCAccelerometer();
+    ////m_pAccelerometer = new CCAccelerometer();
 
     // create autorelease pool
     CCPoolManager::sharedPoolManager()->push();
@@ -173,7 +173,7 @@ CCDirector::~CCDirector(void)
     CC_SAFE_RELEASE(m_pActionManager);
     CC_SAFE_RELEASE(m_pTouchDispatcher);
     CC_SAFE_RELEASE(m_pKeypadDispatcher);
-    CC_SAFE_DELETE(m_pAccelerometer);
+    //CC_SAFE_DELETE(m_pAccelerometer);
 
     // pop the autorelease pool
     CCPoolManager::sharedPoolManager()->pop();
@@ -307,10 +307,10 @@ void CCDirector::setOpenGLView(CCEGLView *pobOpenGLView)
         
         createStatsLabel();
         
-        if (m_pobOpenGLView)
+        /*if (m_pobOpenGLView)
         {
             setGLDefaultValues();
-        }  
+        } */ 
         
         CHECK_GL_ERROR_DEBUG();
 
@@ -328,65 +328,133 @@ void CCDirector::setProjection(ccDirectorProjection kProjection)
 {
     CCSize size = m_obWinSizeInPoints;
 
-    if (m_pobOpenGLView)
-    {
-        m_pobOpenGLView->setViewPortInPoints(0, 0, size.width, size.height);
-    }
+    //if (m_pobOpenGLView)
+    //{
+    //    m_pobOpenGLView->setViewPortInPoints(0, 0, size.width, size.height);
+    //}
 
-    switch (kProjection)
-    {
-    case kCCDirectorProjection2D:
-        {
-            kmGLMatrixMode(KM_GL_PROJECTION);
-            kmGLLoadIdentity();
-            kmMat4 orthoMatrix;
-            kmMat4OrthographicProjection(&orthoMatrix, 0, size.width, 0, size.height, -1024, 1024 );
-            kmGLMultMatrix(&orthoMatrix);
-            kmGLMatrixMode(KM_GL_MODELVIEW);
-            kmGLLoadIdentity();
-        }
-        break;
+    //switch (kProjection)
+    //{
+    //case kCCDirectorProjection2D:
+    //    {
+    //        kmGLMatrixMode(KM_GL_PROJECTION);
+    //        kmGLLoadIdentity();
+    //        kmMat4 orthoMatrix;
+    //        kmMat4OrthographicProjection(&orthoMatrix, 0, size.width, 0, size.height, -1024, 1024 );
+    //        kmGLMultMatrix(&orthoMatrix);
+    //        kmGLMatrixMode(KM_GL_MODELVIEW);
+    //        kmGLLoadIdentity();
+    //    }
+    //    break;
 
-    case kCCDirectorProjection3D:
-        {
-            float zeye = this->getZEye();
+    //case kCCDirectorProjection3D:
+    //    {
+    //        float zeye = this->getZEye();
 
-            kmMat4 matrixPerspective, matrixLookup;
+    //        kmMat4 matrixPerspective, matrixLookup;
 
-            kmGLMatrixMode(KM_GL_PROJECTION);
-            kmGLLoadIdentity();
+    //        kmGLMatrixMode(KM_GL_PROJECTION);
+    //        kmGLLoadIdentity();
 
-            // issue #1334
-            kmMat4PerspectiveProjection( &matrixPerspective, 60, (GLfloat)size.width/size.height, 0.1f, zeye*2);
-            // kmMat4PerspectiveProjection( &matrixPerspective, 60, (GLfloat)size.width/size.height, 0.1f, 1500);
+    //        // issue #1334
+    //        kmMat4PerspectiveProjection( &matrixPerspective, 60, (GLfloat)size.width/size.height, 0.1f, zeye*2);
+    //        // kmMat4PerspectiveProjection( &matrixPerspective, 60, (GLfloat)size.width/size.height, 0.1f, 1500);
 
-            kmGLMultMatrix(&matrixPerspective);
+    //        kmGLMultMatrix(&matrixPerspective);
 
-            kmGLMatrixMode(KM_GL_MODELVIEW);
-            kmGLLoadIdentity();
-            kmVec3 eye, center, up;
-            kmVec3Fill( &eye, size.width/2, size.height/2, zeye );
-            kmVec3Fill( &center, size.width/2, size.height/2, 0.0f );
-            kmVec3Fill( &up, 0.0f, 1.0f, 0.0f);
-            kmMat4LookAt(&matrixLookup, &eye, &center, &up);
-            kmGLMultMatrix(&matrixLookup);
-        }
-        break;
-            
-    case kCCDirectorProjectionCustom:
-        if (m_pProjectionDelegate)
-        {
-            m_pProjectionDelegate->updateProjection();
-        }
-        break;
-            
-    default:
-        CCLOG("cocos2d: Director: unrecognized projection");
-        break;
-    }
+    //        kmGLMatrixMode(KM_GL_MODELVIEW);
+    //        kmGLLoadIdentity();
+    //        kmVec3 eye, center, up;
+    //        kmVec3Fill( &eye, size.width/2, size.height/2, zeye );
+    //        kmVec3Fill( &center, size.width/2, size.height/2, 0.0f );
+    //        kmVec3Fill( &up, 0.0f, 1.0f, 0.0f);
+    //        kmMat4LookAt(&matrixLookup, &eye, &center, &up);
+    //        kmGLMultMatrix(&matrixLookup);
+    //    }
+    //    break;
+    //        
+    //case kCCDirectorProjectionCustom:
+    //    if (m_pProjectionDelegate)
+    //    {
+    //        m_pProjectionDelegate->updateProjection();
+    //    }
+    //    break;
+    //        
+    //default:
+    //    CCLOG("cocos2d: Director: unrecognized projection");
+    //    break;
+    //}
 
-    m_eProjection = kProjection;
-    ccSetProjectionMatrixDirty();
+    //m_eProjection = kProjection;
+    //ccSetProjectionMatrixDirty();
+
+	float zeye = this->getZEye();
+	switch (kProjection)
+	{
+	case kCCDirectorProjection2D:
+		if (m_pobOpenGLView) 
+		{
+			m_pobOpenGLView->setViewPortInPoints(0, 0, size.width, size.height);
+		}
+		m_pobOpenGLView->D3DMatrixMode(CC_PROJECTION);
+		m_pobOpenGLView->D3DLoadIdentity();
+		m_pobOpenGLView->D3DOrtho(0, size.width, 0, size.height, -1024, 
+			1024);
+		m_pobOpenGLView->D3DMatrixMode(CC_MODELVIEW);
+		m_pobOpenGLView->D3DLoadIdentity();
+		break;
+
+	case kCCDirectorProjection3D:
+		if (m_pobOpenGLView) 
+		{
+			m_pobOpenGLView->setViewPortInPoints(0, 0, size.width, size.height);
+		}
+		m_pobOpenGLView->D3DMatrixMode(CC_PROJECTION);
+		m_pobOpenGLView->D3DLoadIdentity();
+		m_pobOpenGLView->D3DPerspective(60, (CCfloat)size.width/size.height, 0.1f, zeye*2);
+
+		m_pobOpenGLView->D3DMatrixMode(CC_MODELVIEW);	
+		m_pobOpenGLView->D3DLoadIdentity();
+		m_pobOpenGLView->D3DLookAt( size.width/2, size.height/2, zeye,
+			size.width/2, size.height/2, 0,
+			0.0f, 1.0f, 0.0f);	
+
+		//Kazmath part
+		kmMat4 matrixPerspective, matrixLookup;
+
+        kmGLMatrixMode(KM_GL_PROJECTION);
+        kmGLLoadIdentity();
+
+        // issue #1334
+        kmMat4PerspectiveProjection( &matrixPerspective, 60, (GLfloat)size.width/size.height, 0.1f, zeye*2);
+        // kmMat4PerspectiveProjection( &matrixPerspective, 60, (GLfloat)size.width/size.height, 0.1f, 1500);
+
+        kmGLMultMatrix(&matrixPerspective);
+
+        kmGLMatrixMode(KM_GL_MODELVIEW);
+        kmGLLoadIdentity();
+        kmVec3 eye, center, up;
+        kmVec3Fill( &eye, size.width/2, size.height/2, zeye );
+        kmVec3Fill( &center, size.width/2, size.height/2, 0.0f );
+        kmVec3Fill( &up, 0.0f, 1.0f, 0.0f);
+        kmMat4LookAt(&matrixLookup, &eye, &center, &up);
+        kmGLMultMatrix(&matrixLookup);
+
+		break;
+			
+	case kCCDirectorProjectionCustom:
+		if (m_pProjectionDelegate)
+		{
+			m_pProjectionDelegate->updateProjection();
+		}
+		break;
+			
+	default:
+		CCLOG("cocos2d: Director: unrecognized projecgtion");
+		break;
+	}
+
+	m_eProjection = kProjection;
 }
 
 void CCDirector::purgeCachedData(void)
@@ -407,15 +475,13 @@ float CCDirector::getZEye(void)
 void CCDirector::setAlphaBlending(bool bOn)
 {
     if (bOn)
-    {
-        ccGLBlendFunc(CC_BLEND_SRC, CC_BLEND_DST);
-    }
-    else
-    {
-        ccGLBlendFunc(GL_ONE, GL_ZERO);
-    }
-
-    CHECK_GL_ERROR_DEBUG();
+	{
+		m_pobOpenGLView->D3DBlendFunc(CC_BLEND_SRC, CC_BLEND_DST);
+	}
+	else
+	{
+		m_pobOpenGLView->D3DBlendFunc(-1, -1);
+	}
 }
 
 void CCDirector::setDepthTest(bool bOn)
@@ -639,24 +705,25 @@ void CCDirector::purgeDirector()
     CCAnimationCache::purgeSharedAnimationCache();
     CCSpriteFrameCache::purgeSharedSpriteFrameCache();
     CCTextureCache::purgeSharedTextureCache();
-    CCShaderCache::purgeSharedShaderCache();
+    //CCShaderCache::purgeSharedShaderCache();
     CCFileUtils::purgeFileUtils();
     CCConfiguration::purgeConfiguration();
 
     // cocos2d-x specific data structures
-    CCUserDefault::purgeSharedUserDefault();
+    //CCUserDefault::purgeSharedUserDefault();
     CCNotificationCenter::purgeNotificationCenter();
 
-    ccGLInvalidateStateCache();
+    //ccGLInvalidateStateCache();
     
     CHECK_GL_ERROR_DEBUG();
     
     // OpenGL view
     m_pobOpenGLView->end();
+	m_pobOpenGLView->release();
     m_pobOpenGLView = NULL;
 
     // delete CCDirector
-    release();
+    //release();
 }
 
 void CCDirector::setNextScene(void)
@@ -901,19 +968,20 @@ CCKeypadDispatcher* CCDirector::getKeypadDispatcher()
     return m_pKeypadDispatcher;
 }
 
-void CCDirector::setAccelerometer(CCAccelerometer* pAccelerometer)
-{
-    if (m_pAccelerometer != pAccelerometer)
-    {
-        CC_SAFE_DELETE(m_pAccelerometer);
-        m_pAccelerometer = pAccelerometer;
-    }
-}
-
-CCAccelerometer* CCDirector::getAccelerometer()
-{
-    return m_pAccelerometer;
-}
+//void CCDirector::setAccelerometer(CCAccelerometer* pAccelerometer)
+//{
+//    /*if (m_pAccelerometer != pAccelerometer)
+//    {
+//        CC_SAFE_DELETE(m_pAccelerometer);
+//        m_pAccelerometer = pAccelerometer;
+//    }*/
+//}
+//
+//CCAccelerometer* CCDirector::getAccelerometer()
+//{
+//    //return m_pAccelerometer;
+//	return 0;
+//}
 
 /***************************************************
 * implementation of DisplayLinkDirector
@@ -942,6 +1010,7 @@ void CCDisplayLinkDirector::mainLoop(void)
     }
     else if (! m_bInvalid)
      {
+		 m_pobOpenGLView->SetBackBufferRenderTarget();
          drawScene();
      
          // release the objects

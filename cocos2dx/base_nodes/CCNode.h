@@ -207,7 +207,7 @@ protected:
     // script handler
     int m_nScriptHandler;
     int m_nUpdateScriptHandler;
-
+	CCfloat	m_pTransformGL[16];
     // script type, lua or javascript
     //ccScriptType m_eScriptType;
 

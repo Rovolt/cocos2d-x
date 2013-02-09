@@ -58,7 +58,7 @@ CCTextureAtlas::CCTextureAtlas()
     ,m_pTexture(NULL)
     ,m_pQuads(NULL)
 {}
-
+CCDXTextureAtlas CCTextureAtlas::mDXTextureAtlas;
 CCTextureAtlas::~CCTextureAtlas()
 {
     CCLOGINFO("cocos2d: CCTextureAtlas deallocing %p.", this);
@@ -222,29 +222,38 @@ const char* CCTextureAtlas::description()
 
 void CCTextureAtlas::setupIndices()
 {
-    if (m_uCapacity == 0)
-        return;
+if (m_uCapacity == 0)
+		return;
 
-    for( unsigned int i=0; i < m_uCapacity; i++)
-    {
+	for( unsigned int i=0; i < m_uCapacity; i++)
+	{
 #if CC_TEXTURE_ATLAS_USE_TRIANGLE_STRIP
-        m_pIndices[i*6+0] = i*4+0;
-        m_pIndices[i*6+1] = i*4+0;
-        m_pIndices[i*6+2] = i*4+2;        
-        m_pIndices[i*6+3] = i*4+1;
-        m_pIndices[i*6+4] = i*4+3;
-        m_pIndices[i*6+5] = i*4+3;
+		m_pIndices[i*6+0] = i*4+0;
+		m_pIndices[i*6+1] = i*4+0;
+		m_pIndices[i*6+2] = i*4+2;		
+		m_pIndices[i*6+3] = i*4+1;
+		m_pIndices[i*6+4] = i*4+3;
+		m_pIndices[i*6+5] = i*4+3;
 #else
-        m_pIndices[i*6+0] = i*4+0;
-        m_pIndices[i*6+1] = i*4+1;
-        m_pIndices[i*6+2] = i*4+2;
+		m_pIndices[i*6+0] = (CCushort)(i*4+0);
+		m_pIndices[i*6+1] = (CCushort)(i*4+1);
+		m_pIndices[i*6+2] = (CCushort)(i*4+2);
 
-        // inverted index. issue #179
-        m_pIndices[i*6+3] = i*4+3;
-        m_pIndices[i*6+4] = i*4+2;
-        m_pIndices[i*6+5] = i*4+1;        
-#endif    
-    }
+		// inverted index. issue #179
+		//m_pIndices[i*6+3] = (CCushort)(i*4+3);
+		//m_pIndices[i*6+4] = (CCushort)(i*4+2);
+		//m_pIndices[i*6+5] = (CCushort)(i*4+1);		
+		//		m_pIndices[i*6+3] = i*4+2;
+		//		m_pIndices[i*6+4] = i*4+3;
+		//		m_pIndices[i*6+5] = i*4+1;
+
+		// !!!!!!dx!!!!!!!!
+		m_pIndices[i*6+3] = (CCushort)(i*4+0);
+		m_pIndices[i*6+4] = (CCushort)(i*4+2);
+		m_pIndices[i*6+5] = (CCushort)(i*4+3);
+#endif	
+	}
+
 }
 
 //TextureAtlas - VAO / VBO specific

@@ -12,7 +12,8 @@ public:
 
 	// there's no 'id' in cpp, so we recommand to return the exactly class pointer
 	static cocos2d::CCScene* scene();
-	
+	// a selector callback
+    void menuCloseCallback(CCObject* pSender);
 	// implement the "static node()" method manually
 	CREATE_FUNC(HelloWorld);
 

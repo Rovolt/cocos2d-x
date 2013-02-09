@@ -88,7 +88,7 @@ public:
     /**
     @brief	get the shared main open gl window
     */
-	static CCEGLView& sharedOpenGLView();
+	static CCEGLView* sharedOpenGLView();
 
     // metro only
     void OnWindowSizeChanged();
@@ -115,8 +115,8 @@ private:
 
     float               m_fWinScaleX;
     float               m_fWinScaleY;
-    int                 m_initWinWidth;
-    int                 m_initWinHeight;
+    //int                 m_initWinWidth;
+    //int                 m_initWinHeight;
 
     
 };

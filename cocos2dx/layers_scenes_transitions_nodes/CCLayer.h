@@ -172,57 +172,57 @@ All features from CCLayer are valid, plus the following new features:
 - opacity
 - RGB colors
 */
-class CC_DLL CCLayerColor : public CCLayer , public CCRGBAProtocol, public CCBlendProtocol
-{
-protected:
-    ccVertex2F m_pSquareVertices[4];
-    ccColor4F  m_pSquareColors[4];
-
-public:
-    CCLayerColor();
-    virtual ~CCLayerColor();
-
-    virtual void draw();
-    virtual void setContentSize(const CCSize & var);
-
-    //@deprecated: This interface will be deprecated sooner or later.
-    static CCLayerColor* node();
-    
-    static CCLayerColor* create();
-    
-    /** creates a CCLayer with color, width and height in Points */
-    static CCLayerColor * create(const ccColor4B& color, GLfloat width, GLfloat height);
-    /** creates a CCLayer with color. Width and height are the window size. */
-    static CCLayerColor * create(const ccColor4B& color);
-
-    virtual bool init();
-    /** initializes a CCLayer with color, width and height in Points */
-    virtual bool initWithColor(const ccColor4B& color, GLfloat width, GLfloat height);
-    /** initializes a CCLayer with color. Width and height are the window size. */
-    virtual bool initWithColor(const ccColor4B& color);
-
-    /** change width in Points*/
-    void changeWidth(GLfloat w);
-    /** change height in Points*/
-    void changeHeight(GLfloat h);
-    /** change width and height in Points
-    @since v0.8
-    */
-    void changeWidthAndHeight(GLfloat w ,GLfloat h);
-
-    /** Opacity: conforms to CCRGBAProtocol protocol */
-    CC_PROPERTY(GLubyte, m_cOpacity, Opacity)
-    /** Color: conforms to CCRGBAProtocol protocol */
-    CC_PROPERTY_PASS_BY_REF(ccColor3B, m_tColor, Color)
-    /** BlendFunction. Conforms to CCBlendProtocol protocol */
-    CC_PROPERTY(ccBlendFunc, m_tBlendFunc, BlendFunc)
-
-    virtual void setOpacityModifyRGB(bool bValue) {CC_UNUSED_PARAM(bValue);}
-    virtual bool isOpacityModifyRGB(void) { return false;}
-
-protected:
-    virtual void updateColor();
-};
+//class CC_DLL CCLayerColor : public CCLayer , public CCRGBAProtocol, public CCBlendProtocol
+//{
+//protected:
+//    ccVertex2F m_pSquareVertices[4];
+//    ccColor4F  m_pSquareColors[4];
+//
+//public:
+//    CCLayerColor();
+//    virtual ~CCLayerColor();
+//
+//    virtual void draw();
+//    virtual void setContentSize(const CCSize & var);
+//
+//    //@deprecated: This interface will be deprecated sooner or later.
+//    static CCLayerColor* node();
+//    
+//    static CCLayerColor* create();
+//    
+//    /** creates a CCLayer with color, width and height in Points */
+//    static CCLayerColor * create(const ccColor4B& color, GLfloat width, GLfloat height);
+//    /** creates a CCLayer with color. Width and height are the window size. */
+//    static CCLayerColor * create(const ccColor4B& color);
+//
+//    virtual bool init();
+//    /** initializes a CCLayer with color, width and height in Points */
+//    virtual bool initWithColor(const ccColor4B& color, GLfloat width, GLfloat height);
+//    /** initializes a CCLayer with color. Width and height are the window size. */
+//    virtual bool initWithColor(const ccColor4B& color);
+//
+//    /** change width in Points*/
+//    void changeWidth(GLfloat w);
+//    /** change height in Points*/
+//    void changeHeight(GLfloat h);
+//    /** change width and height in Points
+//    @since v0.8
+//    */
+//    void changeWidthAndHeight(GLfloat w ,GLfloat h);
+//
+//    /** Opacity: conforms to CCRGBAProtocol protocol */
+//    CC_PROPERTY(GLubyte, m_cOpacity, Opacity)
+//    /** Color: conforms to CCRGBAProtocol protocol */
+//    CC_PROPERTY_PASS_BY_REF(ccColor3B, m_tColor, Color)
+//    /** BlendFunction. Conforms to CCBlendProtocol protocol */
+//    CC_PROPERTY(ccBlendFunc, m_tBlendFunc, BlendFunc)
+//
+//    virtual void setOpacityModifyRGB(bool bValue) {CC_UNUSED_PARAM(bValue);}
+//    virtual bool isOpacityModifyRGB(void) { return false;}
+//
+//protected:
+//    virtual void updateColor();
+//};
 
 //
 // CCLayerGradient
@@ -246,46 +246,46 @@ If ' compressedInterpolation' is enabled (default mode) you will see both the st
 
 @since v0.99.5
 */
-class CC_DLL CCLayerGradient : public CCLayerColor
-{
-public:
-
-    /** Creates a full-screen CCLayer with a gradient between start and end. */
-    static CCLayerGradient* create(const ccColor4B& start, const ccColor4B& end);
-
-    /** Creates a full-screen CCLayer with a gradient between start and end in the direction of v. */
-    static CCLayerGradient* create(const ccColor4B& start, const ccColor4B& end, const CCPoint& v);
-
-    virtual bool init();
-    /** Initializes the CCLayer with a gradient between start and end. */
-    virtual bool initWithColor(const ccColor4B& start, const ccColor4B& end);
-
-    /** Initializes the CCLayer with a gradient between start and end in the direction of v. */
-    virtual bool initWithColor(const ccColor4B& start, const ccColor4B& end, const CCPoint& v);
-
-    CC_PROPERTY_PASS_BY_REF(ccColor3B, m_startColor, StartColor)
-    CC_PROPERTY_PASS_BY_REF(ccColor3B, m_endColor, EndColor)
-    CC_PROPERTY(GLubyte, m_cStartOpacity, StartOpacity)
-    CC_PROPERTY(GLubyte, m_cEndOpacity, EndOpacity)
-    CC_PROPERTY_PASS_BY_REF(CCPoint, m_AlongVector, Vector)
-
-    /** Whether or not the interpolation will be compressed in order to display all the colors of the gradient both in canonical and non canonical vectors
-    Default: YES
-    */
-protected:
-    bool m_bCompressedInterpolation;
-public:
-    virtual void setCompressedInterpolation(bool bCompressedInterpolation);
-    virtual bool isCompressedInterpolation();
-
-    //@deprecated: This interface will be deprecated sooner or later.
-    static CCLayerGradient* node();
-    
-    static CCLayerGradient* create();
-
-protected:
-    virtual void updateColor();
-};
+//class CC_DLL CCLayerGradient : public CCLayerColor
+//{
+//public:
+//
+//    /** Creates a full-screen CCLayer with a gradient between start and end. */
+//    static CCLayerGradient* create(const ccColor4B& start, const ccColor4B& end);
+//
+//    /** Creates a full-screen CCLayer with a gradient between start and end in the direction of v. */
+//    static CCLayerGradient* create(const ccColor4B& start, const ccColor4B& end, const CCPoint& v);
+//
+//    virtual bool init();
+//    /** Initializes the CCLayer with a gradient between start and end. */
+//    virtual bool initWithColor(const ccColor4B& start, const ccColor4B& end);
+//
+//    /** Initializes the CCLayer with a gradient between start and end in the direction of v. */
+//    virtual bool initWithColor(const ccColor4B& start, const ccColor4B& end, const CCPoint& v);
+//
+//    CC_PROPERTY_PASS_BY_REF(ccColor3B, m_startColor, StartColor)
+//    CC_PROPERTY_PASS_BY_REF(ccColor3B, m_endColor, EndColor)
+//    CC_PROPERTY(GLubyte, m_cStartOpacity, StartOpacity)
+//    CC_PROPERTY(GLubyte, m_cEndOpacity, EndOpacity)
+//    CC_PROPERTY_PASS_BY_REF(CCPoint, m_AlongVector, Vector)
+//
+//    /** Whether or not the interpolation will be compressed in order to display all the colors of the gradient both in canonical and non canonical vectors
+//    Default: YES
+//    */
+//protected:
+//    bool m_bCompressedInterpolation;
+//public:
+//    virtual void setCompressedInterpolation(bool bCompressedInterpolation);
+//    virtual bool isCompressedInterpolation();
+//
+//    //@deprecated: This interface will be deprecated sooner or later.
+//    static CCLayerGradient* node();
+//    
+//    static CCLayerGradient* create();
+//
+//protected:
+//    virtual void updateColor();
+//};
 
 
 /** @brief CCMultipleLayer is a CCLayer with the ability to multiplex it's children.

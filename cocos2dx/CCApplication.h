@@ -98,11 +98,22 @@ public:
     */
     static CCApplication* sharedApplication();
 
+	/* set the Resource root path */
+    void setResourceRootPath(const std::string& rootResDir);
+
+    /* get the Resource root path */
+    const std::string& getResourceRootPath(void)
+    {
+        return m_resourceRootPath;
+    }
+
     /**
     @brief Get current language config
     @return Current language config
     */
     virtual ccLanguageType getCurrentLanguage();
+private:
+	std::string         m_resourceRootPath;
 };
 
 NS_CC_END;

@@ -39,4 +39,13 @@ double CCTime::timersubCocos2d(struct cc_timeval *start, struct cc_timeval *end)
     return ((end->tv_sec*1000.0+end->tv_usec/1000.0) - (start->tv_sec*1000.0+start->tv_usec/1000.0));
 }
 
+int CCTime::gettimeofdayCocos2d(struct cc_timeval *tp, void *tzp)
+{
+    //CC_UNUSED_PARAM(tzp);
+    if (tp)
+    {
+        gettimeofday((struct timeval *)tp,  0);
+    }
+    return 0;
+}
 NS_CC_END

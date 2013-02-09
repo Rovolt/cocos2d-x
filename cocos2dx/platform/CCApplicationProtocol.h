@@ -59,7 +59,10 @@ public:
     /**
      @brief Get target platform
      */
-    virtual TargetPlatform getTargetPlatform();
+    virtual TargetPlatform getTargetPlatform()
+	{
+		return TargetPlatform(0);
+	}
 };
 
 // end of platform group

@@ -39,7 +39,7 @@ THE SOFTWARE.
 #include "support/CCProfiling.h"
 // external
 #include "kazmath/GL/matrix.h"
-
+#include "CCEGLView.h"
 NS_CC_BEGIN
 
 /*
@@ -93,7 +93,7 @@ bool CCSpriteBatchNode::initWithTexture(CCTexture2D *tex, unsigned int capacity)
     m_pobDescendants = new CCArray();
     m_pobDescendants->initWithCapacity(capacity);
 
-    setShaderProgram(CCShaderCache::sharedShaderCache()->programForKey(kCCShader_PositionTextureColor));
+    //setShaderProgram(CCShaderCache::sharedShaderCache()->programForKey(kCCShader_PositionTextureColor));
     return true;
 }
 
@@ -137,25 +137,27 @@ void CCSpriteBatchNode::visit(void)
         return;
     }
 
-    kmGLPushMatrix();
+	CCD3DCLASS->D3DPushMatrix();
+    //kmGLPushMatrix();
 
-    if (m_pGrid && m_pGrid->isActive())
+    /*if (m_pGrid && m_pGrid->isActive())
     {
         m_pGrid->beforeDraw();
         transformAncestors();
-    }
+    }*/
 
     sortAllChildren();
     transform();
 
     draw();
 
-    if (m_pGrid && m_pGrid->isActive())
+    /*if (m_pGrid && m_pGrid->isActive())
     {
         m_pGrid->afterDraw(this);
-    }
+    }*/
 
-    kmGLPopMatrix();
+    //kmGLPopMatrix();
+	CCD3DCLASS->D3DPopMatrix();
     setOrderOfArrival(0);
 
     CC_PROFILER_STOP_CATEGORY(kCCProfilerCategoryBatchSprite, "CCSpriteBatchNode - visit");
@@ -383,19 +385,49 @@ void CCSpriteBatchNode::draw(void)
 {
     CC_PROFILER_START("CCSpriteBatchNode - draw");
 
-    // Optimization: Fast Dispatch
-    if( m_pobTextureAtlas->getTotalQuads() == 0 )
-    {
-        return;
-    }
+    // Optimization: Fast Dispatch	
+		if (m_pobTextureAtlas->getTotalQuads() == 0)
+		{
+			return;
+		}
 
-    CC_NODE_DRAW_SETUP();
+		if (m_pobDescendants && m_pobDescendants->count() > 0)
+		{
+            CCObject* pObject = NULL;
+            CCARRAY_FOREACH(m_pobDescendants, pObject)
+            {
+                CCSprite* pChild = (CCSprite*) pObject;
+                if (pChild)
+                {
+                    // fast dispatch
+                    pChild->updateTransform();
 
-    arrayMakeObjectsPerformSelector(m_pChildren, updateTransform, CCSprite*);
 
-    ccGLBlendFunc( m_blendFunc.src, m_blendFunc.dst );
+#if CC_SPRITEBATCHNODE_DEBUG_DRAW
+                    // issue #528
+                    CCRect rect = pChild->boundingBox();
+                    CCPoint vertices[4]={
+                        ccp(rect.origin.x,rect.origin.y),
+                        ccp(rect.origin.x+rect.size.width,rect.origin.y),
+                        ccp(rect.origin.x+rect.size.width,rect.origin.y+rect.size.height),
+                        ccp(rect.origin.x,rect.origin.y+rect.size.height),
+                    };
+                    ccDrawPoly(vertices, 4, true);
+#endif // CC_SPRITEBATCHNODE_DEBUG_DRAW
+                }
+            }
+		}
 
-    m_pobTextureAtlas->drawQuads();
+		bool newBlend = m_blendFunc.src != CC_BLEND_SRC || m_blendFunc.dst != CC_BLEND_DST;
+		if (newBlend)
+		{
+			CCD3DCLASS->D3DBlendFunc(m_blendFunc.src, m_blendFunc.dst);
+		}
+		m_pobTextureAtlas->drawQuads();
+		if (newBlend)
+		{
+			CCD3DCLASS->D3DBlendFunc(CC_BLEND_SRC, CC_BLEND_DST);
+		}
 
     CC_PROFILER_STOP("CCSpriteBatchNode - draw");
 }

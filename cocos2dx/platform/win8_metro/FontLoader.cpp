@@ -43,12 +43,14 @@ void FontLoader::LoadFont(std::wstring pszFileName)
 		}
 	}
 	m_fontNameList.push_back(pszFileName);
-
-	 CCFileData tmpData(cocos2d::CCUnicodeToUtf8(pszFileName.c_str()).c_str(),"r+b");
-	 if (nullptr != tmpData.getBuffer())
+	unsigned long size = 0;
+	unsigned char* buffer = 0;
+	buffer = CCFileUtils::sharedFileUtils()->getFileData(cocos2d::CCUnicodeToUtf8(pszFileName.c_str()).c_str(), "r+b", &size);
+	 //CCFileData tmpData(cocos2d::CCUnicodeToUtf8(pszFileName.c_str()).c_str(),"r+b");
+	 if (nullptr != buffer)
 	 {
 		 m_fontFileCount++;
-		 Platform::Array<byte>^ fileData = ref new Platform::Array<byte>(tmpData.getBuffer(),tmpData.getSize());
+		 Platform::Array<byte>^ fileData = ref new Platform::Array<byte>(buffer,size);
 
 		 ComPtr<FontFileStream> fontFileStream(new FontFileStream(fileData));
 		 m_fontFileStreams.push_back(fontFileStream);

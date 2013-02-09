@@ -222,7 +222,7 @@ bool CCLayer::isAccelerometerEnabled()
 /// isAccelerometerEnabled setter
 void CCLayer::setAccelerometerEnabled(bool enabled)
 {
-    if (enabled != m_bAccelerometerEnabled)
+    /*if (enabled != m_bAccelerometerEnabled)
     {
         m_bAccelerometerEnabled = enabled;
 
@@ -238,7 +238,7 @@ void CCLayer::setAccelerometerEnabled(bool enabled)
                 pDirector->getAccelerometer()->setDelegate(NULL);
             }
         }
-    }
+    }*/
 }
 
 
@@ -345,10 +345,10 @@ void CCLayer::onEnter()
     CCNode::onEnter();
 
     // add this layer to concern the Accelerometer Sensor
-    if (m_bAccelerometerEnabled)
+    /*if (m_bAccelerometerEnabled)
     {
         pDirector->getAccelerometer()->setDelegate(this);
-    }
+    }*/
 
     // add this layer to concern the keypad msg
     if (m_bKeypadEnabled)
@@ -368,10 +368,10 @@ void CCLayer::onExit()
     }
 
     // remove this layer from the delegates who concern Accelerometer Sensor
-    if (m_bAccelerometerEnabled)
+   /* if (m_bAccelerometerEnabled)
     {
         pDirector->getAccelerometer()->setDelegate(NULL);
-    }
+    }*/
 
     // remove this layer from the delegates who concern the keypad msg
     if (m_bKeypadEnabled)
@@ -384,11 +384,11 @@ void CCLayer::onExit()
 
 void CCLayer::onEnterTransitionDidFinish()
 {
-    if (m_bAccelerometerEnabled)
+    /*if (m_bAccelerometerEnabled)
     {
         CCDirector* pDirector = CCDirector::sharedDirector();
         pDirector->getAccelerometer()->setDelegate(this);
-    }
+    }*/
     
     CCNode::onEnterTransitionDidFinish();
 }
@@ -492,175 +492,175 @@ void CCLayer::ccTouchesCancelled(CCSet *pTouches, CCEvent *pEvent)
 
 /// ColorLayer
 
-CCLayerColor::CCLayerColor()
-: m_cOpacity(0)
-, m_tColor( ccc3(0,0,0) )
-{
-    // default blend function
-    m_tBlendFunc.src = CC_BLEND_SRC;
-    m_tBlendFunc.dst = CC_BLEND_DST;
-}
-    
-CCLayerColor::~CCLayerColor()
-{
-}
-
-// Opacity and RGB color protocol
-/// opacity getter
-GLubyte CCLayerColor::getOpacity()
-{
-    return m_cOpacity;
-}
-/// opacity setter
-void CCLayerColor::setOpacity(GLubyte var)
-{
-    m_cOpacity = var;
-    updateColor();
-}
-
-/// color getter
-ccColor3B CCLayerColor::getColor()
-{
-    return m_tColor;
-}
-
-/// color setter
-void CCLayerColor::setColor(const ccColor3B& var)
-{
-    m_tColor = var;
-    updateColor();
-}
-
-
-/// blendFunc getter
-ccBlendFunc CCLayerColor::getBlendFunc()
-{
-    return m_tBlendFunc;
-}
-/// blendFunc setter
-void CCLayerColor::setBlendFunc(ccBlendFunc var)
-{
-    m_tBlendFunc = var;
-}
-
-CCLayerColor* CCLayerColor::node()
-{
-    return CCLayerColor::create();
-}
-
-CCLayerColor* CCLayerColor::create()
-{
-    CCLayerColor* pRet = new CCLayerColor();
-    if (pRet && pRet->init())
-    {
-        pRet->autorelease();
-    }
-    else
-    {
-        CC_SAFE_DELETE(pRet);
-    }
-    return pRet;
-}
-
-CCLayerColor * CCLayerColor::create(const ccColor4B& color, GLfloat width, GLfloat height)
-{
-    CCLayerColor * pLayer = new CCLayerColor();
-    if( pLayer && pLayer->initWithColor(color,width,height))
-    {
-        pLayer->autorelease();
-        return pLayer;
-    }
-    CC_SAFE_DELETE(pLayer);
-    return NULL;
-}
-
-CCLayerColor * CCLayerColor::create(const ccColor4B& color)
-{
-    CCLayerColor * pLayer = new CCLayerColor();
-    if(pLayer && pLayer->initWithColor(color))
-    {
-        pLayer->autorelease();
-        return pLayer;
-    }
-    CC_SAFE_DELETE(pLayer);
-    return NULL;
-}
-
-bool CCLayerColor::init()
-{
-    CCSize s = CCDirector::sharedDirector()->getWinSize();
-    return initWithColor(ccc4(0,0,0,0), s.width, s.height);
-}
-
-bool CCLayerColor::initWithColor(const ccColor4B& color, GLfloat w, GLfloat h)
-{
-    if( CCLayer::init() ) {
-
-        // default blend function
-        m_tBlendFunc.src = GL_SRC_ALPHA;
-        m_tBlendFunc.dst = GL_ONE_MINUS_SRC_ALPHA;
-
-        m_tColor.r = color.r;
-        m_tColor.g = color.g;
-        m_tColor.b = color.b;
-        m_cOpacity = color.a;
-
-        for (int i = 0; i<sizeof(m_pSquareVertices) / sizeof( m_pSquareVertices[0]); i++ ) {
-            m_pSquareVertices[i].x = 0.0f;
-            m_pSquareVertices[i].y = 0.0f;
-        }
-
-        updateColor();
-        setContentSize(CCSizeMake(w, h));
-
-        setShaderProgram(CCShaderCache::sharedShaderCache()->programForKey(kCCShader_PositionColor));
-    }
-    return true;
-}
-
-bool CCLayerColor::initWithColor(const ccColor4B& color)
-{
-    CCSize s = CCDirector::sharedDirector()->getWinSize();
-    this->initWithColor(color, s.width, s.height);
-    return true;
-}
-
-/// override contentSize
-void CCLayerColor::setContentSize(const CCSize & size)
-{
-    m_pSquareVertices[1].x = size.width;
-    m_pSquareVertices[2].y = size.height;
-    m_pSquareVertices[3].x = size.width;
-    m_pSquareVertices[3].y = size.height;
-
-    CCLayer::setContentSize(size);
-}
-
-void CCLayerColor::changeWidthAndHeight(GLfloat w ,GLfloat h)
-{
-    this->setContentSize(CCSizeMake(w, h));
-}
-
-void CCLayerColor::changeWidth(GLfloat w)
-{
-    this->setContentSize(CCSizeMake(w, m_obContentSize.height));
-}
-
-void CCLayerColor::changeHeight(GLfloat h)
-{
-    this->setContentSize(CCSizeMake(m_obContentSize.width, h));
-}
-
-void CCLayerColor::updateColor()
-{
-    for( unsigned int i=0; i < 4; i++ )
-    {
-        m_pSquareColors[i].r = m_tColor.r / 255.0f;
-        m_pSquareColors[i].g = m_tColor.g / 255.0f;
-        m_pSquareColors[i].b = m_tColor.b / 255.0f;
-        m_pSquareColors[i].a = m_cOpacity / 255.0f;
-    }
-}
+//CCLayerColor::CCLayerColor()
+//: m_cOpacity(0)
+//, m_tColor( ccc3(0,0,0) )
+//{
+//    // default blend function
+//    m_tBlendFunc.src = CC_BLEND_SRC;
+//    m_tBlendFunc.dst = CC_BLEND_DST;
+//}
+//    
+//CCLayerColor::~CCLayerColor()
+//{
+//}
+//
+//// Opacity and RGB color protocol
+///// opacity getter
+//GLubyte CCLayerColor::getOpacity()
+//{
+//    return m_cOpacity;
+//}
+///// opacity setter
+//void CCLayerColor::setOpacity(GLubyte var)
+//{
+//    m_cOpacity = var;
+//    updateColor();
+//}
+//
+///// color getter
+//ccColor3B CCLayerColor::getColor()
+//{
+//    return m_tColor;
+//}
+//
+///// color setter
+//void CCLayerColor::setColor(const ccColor3B& var)
+//{
+//    m_tColor = var;
+//    updateColor();
+//}
+//
+//
+///// blendFunc getter
+//ccBlendFunc CCLayerColor::getBlendFunc()
+//{
+//    return m_tBlendFunc;
+//}
+///// blendFunc setter
+//void CCLayerColor::setBlendFunc(ccBlendFunc var)
+//{
+//    m_tBlendFunc = var;
+//}
+//
+//CCLayerColor* CCLayerColor::node()
+//{
+//    return CCLayerColor::create();
+//}
+//
+//CCLayerColor* CCLayerColor::create()
+//{
+//    CCLayerColor* pRet = new CCLayerColor();
+//    if (pRet && pRet->init())
+//    {
+//        pRet->autorelease();
+//    }
+//    else
+//    {
+//        CC_SAFE_DELETE(pRet);
+//    }
+//    return pRet;
+//}
+//
+//CCLayerColor * CCLayerColor::create(const ccColor4B& color, GLfloat width, GLfloat height)
+//{
+//    CCLayerColor * pLayer = new CCLayerColor();
+//    if( pLayer && pLayer->initWithColor(color,width,height))
+//    {
+//        pLayer->autorelease();
+//        return pLayer;
+//    }
+//    CC_SAFE_DELETE(pLayer);
+//    return NULL;
+//}
+//
+//CCLayerColor * CCLayerColor::create(const ccColor4B& color)
+//{
+//    CCLayerColor * pLayer = new CCLayerColor();
+//    if(pLayer && pLayer->initWithColor(color))
+//    {
+//        pLayer->autorelease();
+//        return pLayer;
+//    }
+//    CC_SAFE_DELETE(pLayer);
+//    return NULL;
+//}
+//
+//bool CCLayerColor::init()
+//{
+//    CCSize s = CCDirector::sharedDirector()->getWinSize();
+//    return initWithColor(ccc4(0,0,0,0), s.width, s.height);
+//}
+//
+//bool CCLayerColor::initWithColor(const ccColor4B& color, GLfloat w, GLfloat h)
+//{
+//    if( CCLayer::init() ) {
+//
+//        // default blend function
+//        m_tBlendFunc.src = GL_SRC_ALPHA;
+//        m_tBlendFunc.dst = GL_ONE_MINUS_SRC_ALPHA;
+//
+//        m_tColor.r = color.r;
+//        m_tColor.g = color.g;
+//        m_tColor.b = color.b;
+//        m_cOpacity = color.a;
+//
+//        for (int i = 0; i<sizeof(m_pSquareVertices) / sizeof( m_pSquareVertices[0]); i++ ) {
+//            m_pSquareVertices[i].x = 0.0f;
+//            m_pSquareVertices[i].y = 0.0f;
+//        }
+//
+//        updateColor();
+//        setContentSize(CCSizeMake(w, h));
+//
+//        setShaderProgram(CCShaderCache::sharedShaderCache()->programForKey(kCCShader_PositionColor));
+//    }
+//    return true;
+//}
+//
+//bool CCLayerColor::initWithColor(const ccColor4B& color)
+//{
+//    CCSize s = CCDirector::sharedDirector()->getWinSize();
+//    this->initWithColor(color, s.width, s.height);
+//    return true;
+//}
+//
+///// override contentSize
+//void CCLayerColor::setContentSize(const CCSize & size)
+//{
+//    m_pSquareVertices[1].x = size.width;
+//    m_pSquareVertices[2].y = size.height;
+//    m_pSquareVertices[3].x = size.width;
+//    m_pSquareVertices[3].y = size.height;
+//
+//    CCLayer::setContentSize(size);
+//}
+//
+//void CCLayerColor::changeWidthAndHeight(GLfloat w ,GLfloat h)
+//{
+//    this->setContentSize(CCSizeMake(w, h));
+//}
+//
+//void CCLayerColor::changeWidth(GLfloat w)
+//{
+//    this->setContentSize(CCSizeMake(w, m_obContentSize.height));
+//}
+//
+//void CCLayerColor::changeHeight(GLfloat h)
+//{
+//    this->setContentSize(CCSizeMake(m_obContentSize.width, h));
+//}
+//
+//void CCLayerColor::updateColor()
+//{
+//    for( unsigned int i=0; i < 4; i++ )
+//    {
+//        m_pSquareColors[i].r = m_tColor.r / 255.0f;
+//        m_pSquareColors[i].g = m_tColor.g / 255.0f;
+//        m_pSquareColors[i].b = m_tColor.b / 255.0f;
+//        m_pSquareColors[i].a = m_cOpacity / 255.0f;
+//    }
+//}
 
 //void CCLayerColor::draw()
 //{
@@ -718,194 +718,194 @@ void CCLayerColor::updateColor()
 // CCLayerGradient
 // 
 
-CCLayerGradient* CCLayerGradient::create(const ccColor4B& start, const ccColor4B& end)
-{
-    CCLayerGradient * pLayer = new CCLayerGradient();
-    if( pLayer && pLayer->initWithColor(start, end))
-    {
-        pLayer->autorelease();
-        return pLayer;
-    }
-    CC_SAFE_DELETE(pLayer);
-    return NULL;
-}
-
-CCLayerGradient* CCLayerGradient::create(const ccColor4B& start, const ccColor4B& end, const CCPoint& v)
-{
-    CCLayerGradient * pLayer = new CCLayerGradient();
-    if( pLayer && pLayer->initWithColor(start, end, v))
-    {
-        pLayer->autorelease();
-        return pLayer;
-    }
-    CC_SAFE_DELETE(pLayer);
-    return NULL;
-}
-
-CCLayerGradient* CCLayerGradient::node()
-{
-    return CCLayerGradient::create();
-}
-
-CCLayerGradient* CCLayerGradient::create()
-{
-    CCLayerGradient* pRet = new CCLayerGradient();
-    if (pRet && pRet->init())
-    {
-        pRet->autorelease();
-    }
-    else
-    {
-        CC_SAFE_DELETE(pRet);
-    }
-    return pRet;
-}
-
-bool CCLayerGradient::init()
-{
-	return initWithColor(ccc4(0, 0, 0, 255), ccc4(0, 0, 0, 255));
-}
-
-bool CCLayerGradient::initWithColor(const ccColor4B& start, const ccColor4B& end)
-{
-    return initWithColor(start, end, ccp(0, -1));
-}
-
-bool CCLayerGradient::initWithColor(const ccColor4B& start, const ccColor4B& end, const CCPoint& v)
-{
-    m_endColor.r  = end.r;
-    m_endColor.g  = end.g;
-    m_endColor.b  = end.b;
-
-    m_cEndOpacity   = end.a;
-    m_cStartOpacity    = start.a;
-    m_AlongVector   = v;
-
-    m_bCompressedInterpolation = true;
-
-    return CCLayerColor::initWithColor(ccc4(start.r, start.g, start.b, 255));
-}
-
-void CCLayerGradient::updateColor()
-{
-    CCLayerColor::updateColor();
-
-    float h = ccpLength(m_AlongVector);
-    if (h == 0)
-        return;
-
-    float c = sqrtf(2.0f);
-    CCPoint u = ccp(m_AlongVector.x / h, m_AlongVector.y / h);
-
-    // Compressed Interpolation mode
-    if (m_bCompressedInterpolation)
-    {
-        float h2 = 1 / ( fabsf(u.x) + fabsf(u.y) );
-        u = ccpMult(u, h2 * (float)c);
-    }
-
-    float opacityf = (float)m_cOpacity / 255.0f;
-
-    ccColor4F S = {
-        m_tColor.r / 255.0f,
-        m_tColor.g / 255.0f,
-        m_tColor.b / 255.0f,
-        m_cStartOpacity * opacityf / 255.0f
-    };
-
-    ccColor4F E = {
-        m_endColor.r / 255.0f,
-        m_endColor.g / 255.0f,
-        m_endColor.b / 255.0f,
-        m_cEndOpacity * opacityf / 255.0f
-    };
-
-    // (-1, -1)
-    m_pSquareColors[0].r = E.r + (S.r - E.r) * ((c + u.x + u.y) / (2.0f * c));
-    m_pSquareColors[0].g = E.g + (S.g - E.g) * ((c + u.x + u.y) / (2.0f * c));
-    m_pSquareColors[0].b = E.b + (S.b - E.b) * ((c + u.x + u.y) / (2.0f * c));
-    m_pSquareColors[0].a = E.a + (S.a - E.a) * ((c + u.x + u.y) / (2.0f * c));
-    // (1, -1)
-    m_pSquareColors[1].r = E.r + (S.r - E.r) * ((c - u.x + u.y) / (2.0f * c));
-    m_pSquareColors[1].g = E.g + (S.g - E.g) * ((c - u.x + u.y) / (2.0f * c));
-    m_pSquareColors[1].b = E.b + (S.b - E.b) * ((c - u.x + u.y) / (2.0f * c));
-    m_pSquareColors[1].a = E.a + (S.a - E.a) * ((c - u.x + u.y) / (2.0f * c));
-    // (-1, 1)
-    m_pSquareColors[2].r = E.r + (S.r - E.r) * ((c + u.x - u.y) / (2.0f * c));
-    m_pSquareColors[2].g = E.g + (S.g - E.g) * ((c + u.x - u.y) / (2.0f * c));
-    m_pSquareColors[2].b = E.b + (S.b - E.b) * ((c + u.x - u.y) / (2.0f * c));
-    m_pSquareColors[2].a = E.a + (S.a - E.a) * ((c + u.x - u.y) / (2.0f * c));
-    // (1, 1)
-    m_pSquareColors[3].r = E.r + (S.r - E.r) * ((c - u.x - u.y) / (2.0f * c));
-    m_pSquareColors[3].g = E.g + (S.g - E.g) * ((c - u.x - u.y) / (2.0f * c));
-    m_pSquareColors[3].b = E.b + (S.b - E.b) * ((c - u.x - u.y) / (2.0f * c));
-    m_pSquareColors[3].a = E.a + (S.a - E.a) * ((c - u.x - u.y) / (2.0f * c));
-}
-
-ccColor3B CCLayerGradient::getStartColor()
-{
-    return m_tColor;
-}
-
-void CCLayerGradient::setStartColor(const ccColor3B& color)
-{
-    setColor(color);
-}
-
-void CCLayerGradient::setEndColor(const ccColor3B& color)
-{
-    m_endColor = color;
-    updateColor();
-}
-
-ccColor3B CCLayerGradient::getEndColor()
-{
-    return m_endColor;
-}
-
-void CCLayerGradient::setStartOpacity(GLubyte o)
-{
-    m_cStartOpacity = o;
-    updateColor();
-}
-
-GLubyte CCLayerGradient::getStartOpacity()
-{
-    return m_cStartOpacity;
-}
-
-void CCLayerGradient::setEndOpacity(GLubyte o)
-{
-    m_cEndOpacity = o;
-    updateColor();
-}
-
-GLubyte CCLayerGradient::getEndOpacity()
-{
-    return m_cEndOpacity;
-}
-
-void CCLayerGradient::setVector(const CCPoint& var)
-{
-    m_AlongVector = var;
-    updateColor();
-}
-
-CCPoint CCLayerGradient::getVector()
-{
-    return m_AlongVector;
-}
-
-bool CCLayerGradient::isCompressedInterpolation()
-{
-    return m_bCompressedInterpolation;
-}
-
-void CCLayerGradient::setCompressedInterpolation(bool compress)
-{
-    m_bCompressedInterpolation = compress;
-    updateColor();
-}
+//CCLayerGradient* CCLayerGradient::create(const ccColor4B& start, const ccColor4B& end)
+//{
+//    CCLayerGradient * pLayer = new CCLayerGradient();
+//    if( pLayer && pLayer->initWithColor(start, end))
+//    {
+//        pLayer->autorelease();
+//        return pLayer;
+//    }
+//    CC_SAFE_DELETE(pLayer);
+//    return NULL;
+//}
+//
+//CCLayerGradient* CCLayerGradient::create(const ccColor4B& start, const ccColor4B& end, const CCPoint& v)
+//{
+//    CCLayerGradient * pLayer = new CCLayerGradient();
+//    if( pLayer && pLayer->initWithColor(start, end, v))
+//    {
+//        pLayer->autorelease();
+//        return pLayer;
+//    }
+//    CC_SAFE_DELETE(pLayer);
+//    return NULL;
+//}
+//
+//CCLayerGradient* CCLayerGradient::node()
+//{
+//    return CCLayerGradient::create();
+//}
+//
+//CCLayerGradient* CCLayerGradient::create()
+//{
+//    CCLayerGradient* pRet = new CCLayerGradient();
+//    if (pRet && pRet->init())
+//    {
+//        pRet->autorelease();
+//    }
+//    else
+//    {
+//        CC_SAFE_DELETE(pRet);
+//    }
+//    return pRet;
+//}
+//
+//bool CCLayerGradient::init()
+//{
+//	return initWithColor(ccc4(0, 0, 0, 255), ccc4(0, 0, 0, 255));
+//}
+//
+//bool CCLayerGradient::initWithColor(const ccColor4B& start, const ccColor4B& end)
+//{
+//    return initWithColor(start, end, ccp(0, -1));
+//}
+//
+//bool CCLayerGradient::initWithColor(const ccColor4B& start, const ccColor4B& end, const CCPoint& v)
+//{
+//    m_endColor.r  = end.r;
+//    m_endColor.g  = end.g;
+//    m_endColor.b  = end.b;
+//
+//    m_cEndOpacity   = end.a;
+//    m_cStartOpacity    = start.a;
+//    m_AlongVector   = v;
+//
+//    m_bCompressedInterpolation = true;
+//
+//    return CCLayerColor::initWithColor(ccc4(start.r, start.g, start.b, 255));
+//}
+//
+//void CCLayerGradient::updateColor()
+//{
+//    CCLayerColor::updateColor();
+//
+//    float h = ccpLength(m_AlongVector);
+//    if (h == 0)
+//        return;
+//
+//    float c = sqrtf(2.0f);
+//    CCPoint u = ccp(m_AlongVector.x / h, m_AlongVector.y / h);
+//
+//    // Compressed Interpolation mode
+//    if (m_bCompressedInterpolation)
+//    {
+//        float h2 = 1 / ( fabsf(u.x) + fabsf(u.y) );
+//        u = ccpMult(u, h2 * (float)c);
+//    }
+//
+//    float opacityf = (float)m_cOpacity / 255.0f;
+//
+//    ccColor4F S = {
+//        m_tColor.r / 255.0f,
+//        m_tColor.g / 255.0f,
+//        m_tColor.b / 255.0f,
+//        m_cStartOpacity * opacityf / 255.0f
+//    };
+//
+//    ccColor4F E = {
+//        m_endColor.r / 255.0f,
+//        m_endColor.g / 255.0f,
+//        m_endColor.b / 255.0f,
+//        m_cEndOpacity * opacityf / 255.0f
+//    };
+//
+//    // (-1, -1)
+//    m_pSquareColors[0].r = E.r + (S.r - E.r) * ((c + u.x + u.y) / (2.0f * c));
+//    m_pSquareColors[0].g = E.g + (S.g - E.g) * ((c + u.x + u.y) / (2.0f * c));
+//    m_pSquareColors[0].b = E.b + (S.b - E.b) * ((c + u.x + u.y) / (2.0f * c));
+//    m_pSquareColors[0].a = E.a + (S.a - E.a) * ((c + u.x + u.y) / (2.0f * c));
+//    // (1, -1)
+//    m_pSquareColors[1].r = E.r + (S.r - E.r) * ((c - u.x + u.y) / (2.0f * c));
+//    m_pSquareColors[1].g = E.g + (S.g - E.g) * ((c - u.x + u.y) / (2.0f * c));
+//    m_pSquareColors[1].b = E.b + (S.b - E.b) * ((c - u.x + u.y) / (2.0f * c));
+//    m_pSquareColors[1].a = E.a + (S.a - E.a) * ((c - u.x + u.y) / (2.0f * c));
+//    // (-1, 1)
+//    m_pSquareColors[2].r = E.r + (S.r - E.r) * ((c + u.x - u.y) / (2.0f * c));
+//    m_pSquareColors[2].g = E.g + (S.g - E.g) * ((c + u.x - u.y) / (2.0f * c));
+//    m_pSquareColors[2].b = E.b + (S.b - E.b) * ((c + u.x - u.y) / (2.0f * c));
+//    m_pSquareColors[2].a = E.a + (S.a - E.a) * ((c + u.x - u.y) / (2.0f * c));
+//    // (1, 1)
+//    m_pSquareColors[3].r = E.r + (S.r - E.r) * ((c - u.x - u.y) / (2.0f * c));
+//    m_pSquareColors[3].g = E.g + (S.g - E.g) * ((c - u.x - u.y) / (2.0f * c));
+//    m_pSquareColors[3].b = E.b + (S.b - E.b) * ((c - u.x - u.y) / (2.0f * c));
+//    m_pSquareColors[3].a = E.a + (S.a - E.a) * ((c - u.x - u.y) / (2.0f * c));
+//}
+//
+//ccColor3B CCLayerGradient::getStartColor()
+//{
+//    return m_tColor;
+//}
+//
+//void CCLayerGradient::setStartColor(const ccColor3B& color)
+//{
+//    setColor(color);
+//}
+//
+//void CCLayerGradient::setEndColor(const ccColor3B& color)
+//{
+//    m_endColor = color;
+//    updateColor();
+//}
+//
+//ccColor3B CCLayerGradient::getEndColor()
+//{
+//    return m_endColor;
+//}
+//
+//void CCLayerGradient::setStartOpacity(GLubyte o)
+//{
+//    m_cStartOpacity = o;
+//    updateColor();
+//}
+//
+//GLubyte CCLayerGradient::getStartOpacity()
+//{
+//    return m_cStartOpacity;
+//}
+//
+//void CCLayerGradient::setEndOpacity(GLubyte o)
+//{
+//    m_cEndOpacity = o;
+//    updateColor();
+//}
+//
+//GLubyte CCLayerGradient::getEndOpacity()
+//{
+//    return m_cEndOpacity;
+//}
+//
+//void CCLayerGradient::setVector(const CCPoint& var)
+//{
+//    m_AlongVector = var;
+//    updateColor();
+//}
+//
+//CCPoint CCLayerGradient::getVector()
+//{
+//    return m_AlongVector;
+//}
+//
+//bool CCLayerGradient::isCompressedInterpolation()
+//{
+//    return m_bCompressedInterpolation;
+//}
+//
+//void CCLayerGradient::setCompressedInterpolation(bool compress)
+//{
+//    m_bCompressedInterpolation = compress;
+//    updateColor();
+//}
 
 /// MultiplexLayer
 

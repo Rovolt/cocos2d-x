@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "shaders/ccGLStateCache.h"
 #include "CCDirector.h"
 #include "support/TransformUtils.h"
-
+#include "CCEGLView.h"
 // external
 #include "kazmath/GL/matrix.h"
 
@@ -128,17 +128,57 @@ void CCAtlasNode::updateAtlasValues()
     CCAssert(false, "CCAtlasNode:Abstract updateAtlasValue not overridden");
 }
 
+void CCTextureAtlas::SetColor(UINT r,UINT g,UINT b,UINT a)
+{
+	for ( int i=0; i<m_uCapacity; i++ )
+	{
+		m_pQuads[i].tl.colors.r = r;
+		m_pQuads[i].tl.colors.g = g;
+		m_pQuads[i].tl.colors.b = b;
+		m_pQuads[i].tl.colors.a = a;
+
+		m_pQuads[i].tr.colors.r = r;
+		m_pQuads[i].tr.colors.g = g;
+		m_pQuads[i].tr.colors.b = b;
+		m_pQuads[i].tr.colors.a = a;
+
+		m_pQuads[i].br.colors.r = r;
+		m_pQuads[i].br.colors.g = g;
+		m_pQuads[i].br.colors.b = b;
+		m_pQuads[i].br.colors.a = a;
+
+		m_pQuads[i].bl.colors.r = r;
+		m_pQuads[i].bl.colors.g = g;
+		m_pQuads[i].bl.colors.b = b;
+		m_pQuads[i].bl.colors.a = a;
+	}
+}
+
 // CCAtlasNode - draw
 void CCAtlasNode::draw(void)
 {
-    CC_NODE_DRAW_SETUP();
+    /*CC_NODE_DRAW_SETUP();
 
     ccGLBlendFunc( m_tBlendFunc.src, m_tBlendFunc.dst );
 
     GLfloat colors[4] = {m_tColor.r / 255.0f, m_tColor.g / 255.0f, m_tColor.b / 255.0f, m_cOpacity / 255.0f};
     getShaderProgram()->setUniformLocationWith4fv(m_nUniformColor, colors, 1);
 
-    m_pTextureAtlas->drawNumberOfQuads(m_uQuadsToDraw, 0);
+    m_pTextureAtlas->drawNumberOfQuads(m_uQuadsToDraw, 0);*/
+
+	m_pTextureAtlas->SetColor(m_tColor.r,m_tColor.g,m_tColor.b,m_cOpacity);
+	bool newBlend = m_tBlendFunc.src != CC_BLEND_SRC || m_tBlendFunc.dst != CC_BLEND_DST;
+	if(newBlend) 
+	{
+		CCD3DCLASS->D3DBlendFunc( m_tBlendFunc.src, m_tBlendFunc.dst );
+	}
+
+	m_pTextureAtlas->drawNumberOfQuads(m_uQuadsToDraw, 0);
+
+	if( newBlend )
+	{
+		CCD3DCLASS->D3DBlendFunc(CC_BLEND_SRC, CC_BLEND_DST);
+	}
 }
 
 // CCAtlasNode - RGBA protocol

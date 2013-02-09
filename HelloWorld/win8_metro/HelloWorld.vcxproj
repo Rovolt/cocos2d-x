@@ -112,6 +112,7 @@
     <ClInclude Include="..\..\cocos2dx\CCDirector.h" />
     <ClInclude Include="..\..\cocos2dx\CCEGLView.h" />
     <ClInclude Include="..\..\cocos2dx\CCGL.h" />
+    <ClInclude Include="..\..\cocos2dx\cocoa\CCArray.h" />
     <ClInclude Include="..\..\cocos2dx\script_support\CCScriptSupport.h" />
     <ClInclude Include="..\..\cocos2dx\support\image_support\TGAlib.h" />
     <ClInclude Include="..\..\cocos2dx\CCConfiguration.h" />
@@ -135,7 +136,6 @@
     <ClInclude Include="..\..\cocos2dx\include\CCAffineTransform.h" />
     <ClInclude Include="..\..\cocos2dx\include\CCAnimation.h" />
     <ClInclude Include="..\..\cocos2dx\include\CCAnimationCache.h" />
-    <ClInclude Include="..\..\cocos2dx\include\CCApplication.h" />
     <ClInclude Include="..\..\cocos2dx\include\CCArray.h" />
     <ClInclude Include="..\..\cocos2dx\include\CCAtlasNode.h" />
     <ClInclude Include="..\..\cocos2dx\include\CCAutoreleasePool.h" />
@@ -204,16 +204,12 @@
     <ClInclude Include="..\..\cocos2dx\include\CCZone.h" />
     <ClInclude Include="..\..\cocos2dx\include\cocos2d.h" />
     <ClInclude Include="..\..\cocos2dx\include\selector_protocol.h" />
-    <ClInclude Include="..\..\cocos2dx\platform\CCApplication_platform.h" />
     <ClInclude Include="..\..\cocos2dx\platform\CCCommon.h" />
     <ClInclude Include="..\..\cocos2dx\platform\CCFileUtils.h" />
-    <ClInclude Include="..\..\cocos2dx\platform\CCGL.h" />
     <ClInclude Include="..\..\cocos2dx\platform\CCImage.h" />
-    <ClInclude Include="..\..\cocos2dx\platform\CCLibxml2.h" />
     <ClInclude Include="..\..\cocos2dx\platform\CCPlatformConfig.h" />
     <ClInclude Include="..\..\cocos2dx\platform\CCPlatformMacros.h" />
     <ClInclude Include="..\..\cocos2dx\platform\CCSAXParser.h" />
-    <ClInclude Include="..\..\cocos2dx\platform\CCStdC.h" />
     <ClInclude Include="..\..\cocos2dx\platform\platform.h" />
     <ClInclude Include="..\..\cocos2dx\platform\win8_metro\BasicLoader.h" />
     <ClInclude Include="..\..\cocos2dx\platform\win8_metro\BasicReaderWriter.h" />
@@ -240,23 +236,73 @@
     <ClInclude Include="..\..\CocosDenshion\win8_metro\MediaStreamer.h" />
     <ClInclude Include="..\AppDelegate.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
+    <ClInclude Include="AppMacro.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\cocos2dx\CCImage_win8_metro.cpp" />
+    <ClCompile Include="..\..\cocos2dx\CCFileUtils_win8_metro.cpp" />
     <ClCompile Include="..\..\cocos2dx\cocoa\CCArray.cpp" />
     <ClCompile Include="..\..\cocos2dx\cocoa\CCDictionary.cpp" />
     <ClCompile Include="..\..\cocos2dx\cocoa\CCString.cpp" />
     <ClCompile Include="..\..\cocos2dx\draw_nodes\CCDrawingPrimitives.cpp" />
+    <ClCompile Include="..\..\cocos2dx\kazmath\src\aabb.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\kazmath\src\GL\mat4stack.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\kazmath\src\GL\matrix.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\kazmath\src\mat3.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\kazmath\src\mat4.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\kazmath\src\neon_matrix_impl.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\kazmath\src\plane.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\kazmath\src\quaternion.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\kazmath\src\ray2.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\kazmath\src\utility.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\kazmath\src\vec2.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\kazmath\src\vec3.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\..\cocos2dx\kazmath\src\vec4.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+    </ClCompile>
     <ClCompile Include="..\..\cocos2dx\platform\CCEGLViewProtocol.cpp" />
+    <ClCompile Include="..\..\cocos2dx\platform\CCImage.cpp" />
+    <ClCompile Include="..\..\cocos2dx\platform\win8_metro\FontLoader.cpp" />
+    <ClCompile Include="..\..\cocos2dx\support\CCNotificationCenter.cpp" />
+    <ClCompile Include="..\..\cocos2dx\support\CCUserDefault.cpp" />
+    <ClCompile Include="..\..\cocos2dx\support\CCVertex.cpp" />
     <ClCompile Include="..\..\cocos2dx\support\data_support\ccCArray.cpp" />
     <ClCompile Include="..\..\cocos2dx\support\image_support\TGAlib.cpp" />
+    <ClCompile Include="..\..\cocos2dx\support\TransformUtils.cpp" />
+    <ClCompile Include="..\..\cocos2dx\support\zip_support\ioapi.cpp" />
+    <ClCompile Include="..\..\cocos2dx\support\zip_support\unzip.cpp" />
+    <ClCompile Include="..\..\cocos2dx\support\zip_support\ZipUtils.cpp" />
     <ClCompile Include="..\..\cocos2dx\tileMap_parallax_nodes\CCParallaxNode.cpp" />
     <ClCompile Include="..\..\cocos2dx\tileMap_parallax_nodes\CCTileMapAtlas.cpp" />
     <ClCompile Include="..\..\cocos2dx\tileMap_parallax_nodes\CCTMXLayer.cpp" />
     <ClCompile Include="..\..\cocos2dx\tileMap_parallax_nodes\CCTMXObjectGroup.cpp" />
     <ClCompile Include="..\..\cocos2dx\tileMap_parallax_nodes\CCTMXTiledMap.cpp" />
     <ClCompile Include="..\..\cocos2dx\tileMap_parallax_nodes\CCTMXXMLParser.cpp" />
+    <ClCompile Include="..\..\cocos2dx\touch_dispatcher\CCTouch.cpp" />
     <ClCompile Include="..\..\CocosDenshion\win8_metro\Audio.cpp" />
     <ClCompile Include="..\..\cocos2dx\actions\CCAction.cpp" />
     <ClCompile Include="..\..\cocos2dx\actions\CCActionCamera.cpp" />
@@ -264,7 +310,6 @@
     <ClCompile Include="..\..\cocos2dx\actions\CCActionInstant.cpp" />
     <ClCompile Include="..\..\cocos2dx\actions\CCActionInterval.cpp" />
     <ClCompile Include="..\..\cocos2dx\actions\CCActionManager.cpp" />
-    <ClCompile Include="..\..\cocos2dx\actions\CCActionProgressTimer.cpp" />
     <ClCompile Include="..\..\cocos2dx\base_nodes\CCAtlasNode.cpp" />
     <ClCompile Include="..\..\cocos2dx\base_nodes\CCNode.cpp" />
     <ClCompile Include="..\..\cocos2dx\CCCamera.cpp" />
@@ -286,12 +331,9 @@
     <ClCompile Include="..\..\cocos2dx\label_nodes\CCLabelTTF.cpp" />
     <ClCompile Include="..\..\cocos2dx\layers_scenes_transitions_nodes\CCLayer.cpp" />
     <ClCompile Include="..\..\cocos2dx\layers_scenes_transitions_nodes\CCScene.cpp" />
-    <ClCompile Include="..\..\cocos2dx\layers_scenes_transitions_nodes\CCTransition.cpp" />
-    <ClCompile Include="..\..\cocos2dx\layers_scenes_transitions_nodes\CCTransitionPageTurn.cpp" />
     <ClCompile Include="..\..\cocos2dx\menu_nodes\CCMenu.cpp" />
     <ClCompile Include="..\..\cocos2dx\menu_nodes\CCMenuItem.cpp" />
     <ClCompile Include="..\..\cocos2dx\platform\CCCommon.cpp" />
-    <ClCompile Include="..\..\cocos2dx\platform\CCGL.cpp" />
     <ClCompile Include="..\..\cocos2dx\platform\CCStdC.cpp" />
     <ClCompile Include="..\..\cocos2dx\platform\platform.cpp" />
     <ClCompile Include="..\..\cocos2dx\platform\win8_metro\BasicLoader.cpp" />
@@ -311,7 +353,6 @@
     <ClCompile Include="..\..\cocos2dx\support\CCPointExtension.cpp" />
     <ClCompile Include="..\..\cocos2dx\support\CCProfiling.cpp" />
     <ClCompile Include="..\..\cocos2dx\support\ccUtils.cpp" />
-    <ClCompile Include="..\..\cocos2dx\support\TransformUtils.cpp" />
     <ClCompile Include="..\..\cocos2dx\textures\CCTexture2D.cpp" />
     <ClCompile Include="..\..\cocos2dx\textures\CCTextureAtlas.cpp" />
     <ClCompile Include="..\..\cocos2dx\textures\CCTextureCache.cpp" />
@@ -334,6 +375,7 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\cocos2dx\kazmath\src\ChangeLog" />
     <None Include="HelloWorld_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
@@ -432,6 +474,9 @@
     <Image Include="Assets\SplashScreen.png" />
     <Image Include="Assets\StoreLogo.png" />
     <Image Include="Assets\WideLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\cocos2dx\kazmath\src\CMakeLists.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

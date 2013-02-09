@@ -52,6 +52,7 @@ void CC_DLL CCLuaLog(const char * pszFormat);
 */
 void CC_DLL CCMessageBox(const char * pszMsg, const char * pszTitle);
 std::wstring CC_DLL CCUtf8ToUnicode(const char * pszUtf8Str, unsigned len = -1);
+std::string CC_DLL CCUnicodeToUtf8(const wchar_t* pwszStr);
 /**
 @brief Enum the language type supported now
 */

@@ -24,13 +24,14 @@ THE SOFTWARE.
 
 //#include "CCDirector.h"
 #include <ppltasks.h>
-
+#include "CCFileUtils.h"
 #include "CCCommon.h"
-#include "CCString.h"
-
+#include "CCPlatformMacros.h"
+#include "cocoa/CCString.h"
+#include "CCFileUtilsCommon_cpp.h"
 #include <wrl.h>
 #include <wincodec.h>
-
+#include "CCApplication.h"
 #include <mmreg.h>
 #include <mfidl.h>
 #include <mfapi.h>
@@ -63,16 +64,25 @@ void _CheckPath()
 		strcpy_s(s_pszResourcePath, pathStr.c_str());
 	}
 }
-
-void CCFileUtils::setResourcePath(const char *pszResourcePath)
+static CCFileUtils* s_pFileUtils = NULL;
+CCFileUtils* CCFileUtils::sharedFileUtils()
 {
-    CCAssert(pszResourcePath != NULL, "[FileUtils setResourcePath] -- wrong resource path");
-    CCAssert(strlen(pszResourcePath) <= MAX_PATH, "[FileUtils setResourcePath] -- resource path too long");
-
-    strcpy_s(s_pszResourcePath, pszResourcePath);
+    if (s_pFileUtils == NULL)
+    {
+        s_pFileUtils = new CCFileUtils();
+        _CheckPath();
+    }
+    return s_pFileUtils;
 }
+//void CCFileUtils::setResourceDirectory(const char *pszResourcePath)
+//{
+//    assert(pszResourcePath != NULL/*, "[FileUtils setResourcePath] -- wrong resource path"*/);
+//    assert(strlen(pszResourcePath) <= MAX_PATH/*, "[FileUtils setResourcePath] -- resource path too long"*/);
+//
+//    strcpy_s(s_pszResourcePath, pszResourcePath);
+//}
 
-bool CCFileUtils::isFileExist(const char * resPath)
+/*bool CCFileUtils::isFileExist(const char * resPath)
 {
     _CheckPath();
     bool ret = false;
@@ -83,20 +93,28 @@ bool CCFileUtils::isFileExist(const char * resPath)
         fclose(pf);
     }
     return ret;
-}
+}*/
 
+void CCFileUtils::purgeFileUtils()
+{
+    if (s_pFileUtils != NULL)
+    {
+        s_pFileUtils->purgeCachedEntries();
+    }
+
+    CC_SAFE_DELETE(s_pFileUtils);
+}
+void CCFileUtils::purgeCachedEntries()
+{
+
+}
 const char* CCFileUtils::fullPathFromRelativePath(const char *pszRelativePath)
 {
-    ccResolutionType ignore;
-    return fullPathFromRelativePath(pszRelativePath, &ignore);
-}
-
-const char* CCFileUtils::fullPathFromRelativePath(const char *pszRelativePath, ccResolutionType *pResolutionType)
-{
 	_CheckPath();
-
+	const char* resDir = m_obDirectory.c_str();
     CCString * pRet = new CCString();
     pRet->autorelease();
+	const std::string& resourceRootPath = CCApplication::sharedApplication()->getResourceRootPath();
     if ((strlen(pszRelativePath) > 1 && pszRelativePath[1] == ':'))
     {
         // path start with "x:", is absolute path
@@ -110,9 +128,16 @@ const char* CCFileUtils::fullPathFromRelativePath(const char *pszRelativePath, c
         pRet->m_sString = szDriver;
         pRet->m_sString += pszRelativePath;
     }
+    else if (resourceRootPath.length() > 0)
+    {
+        pRet->m_sString = resourceRootPath.c_str();
+        pRet->m_sString += m_obDirectory.c_str();
+        pRet->m_sString += pszRelativePath;
+    }
     else
     {
         pRet->m_sString = s_pszResourcePath;
+        pRet->m_sString += resDir;
         pRet->m_sString += pszRelativePath;
     }
 //#if (CC_IS_RETINA_DISPLAY_SUPPORTED)
@@ -138,10 +163,10 @@ const char* CCFileUtils::fullPathFromRelativePath(const char *pszRelativePath, c
 //        }
 //    }
 //#endif
-	if (pResolutionType)
+	/*if (pResolutionType)
 	{
 		*pResolutionType = kCCResolutioniPhone;
-	}
+	}*/
 	return pRet->m_sString.c_str();
 }
 
@@ -157,7 +182,9 @@ const char *CCFileUtils::fullPathFromRelativeFile(const char *pszFilename, const
 	return pRet->m_sString.c_str();
 }
 
-unsigned char* CCFileUtils::getFileDataPlatform(const char* pszFileName, const char* pszMode, unsigned long * pSize)
+
+
+unsigned char* CCFileUtils::getFileData(const char* pszFileName, const char* pszMode, unsigned long * pSize)
 {
     const char *pszPath = fullPathFromRelativePath(pszFileName);
 
@@ -213,7 +240,7 @@ unsigned char* CCFileUtils::getFileDataPlatform(const char* pszFileName, const c
 
 	} while (0);
 
-	if (! pBuffer && getIsPopupNotify())
+	if (! pBuffer && isPopupNotify())
 	{
 		std::string title = "Notification";
 		std::string msg = "Get data from file(";
@@ -229,11 +256,11 @@ unsigned char* CCFileUtils::getFileDataPlatform(const char* pszFileName, const c
 	return pBuffer;
 }
 
-void CCFileUtils::setResource(const char* pszZipFileName)
-{
-    CC_UNUSED_PARAM(pszZipFileName);
-    CCAssert(0, "Have not implement!");
-}
+//void CCFileUtils::setResource(const char* pszZipFileName)
+//{
+//    CC_UNUSED_PARAM(pszZipFileName);
+//    CCAssert(0, "Have not implement!");
+//}
 
 string CCFileUtils::getWriteablePath()
 {
