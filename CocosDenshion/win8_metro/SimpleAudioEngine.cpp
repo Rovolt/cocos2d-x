@@ -63,7 +63,7 @@ void SimpleAudioEngine::playBackgroundMusic(const char* pszFilePath, bool bLoop)
         return;
     }
 
-    sharedAudioController()->PlayBackgroundMusic(pszFilePath, bLoop);
+    //sharedAudioController()->PlayBackgroundMusic(pszFilePath, bLoop);
 }
 
 void SimpleAudioEngine::stopBackgroundMusic(bool bReleaseData)

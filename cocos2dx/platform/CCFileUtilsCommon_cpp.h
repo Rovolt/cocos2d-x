@@ -316,12 +316,7 @@ typedef enum
 //    }
 //};
 
-CCDictionary* ccFileUtils_dictionaryWithContentsOfFileThreadSafe(const char *pFileName)
-{
-    //CCDictMaker tMaker;
-    //return tMaker.dictionaryWithContentsOfFile(pFileName);
-	return 0;
-}
+
 
 CCArray* ccFileUtils_arrayWithContentsOfFileThreadSafe(const char* pFileName)
 {
