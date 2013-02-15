@@ -1,31 +1,35 @@
-cocos2d-x 
+cocos2d-x 2.1 Win8 Metro Unofficial Port 
 ==================
+
+This is the cocos2d-x Win8 port for version cocos2d-2.1beta3. It is based on [cocos2d-x][8] and [cocos2dx-win8][9]. It is kind of dirty clone as
+only part of classes was ported (We were porting our game so only that classes which we use were changed). If somebody has an intent to finish the work, than 
+your are welcome. 
+ 
+Visual Studio 2012 Windows 8 is needed.
+
+This version passes Application Certification Kit. Instead of libxml the winRT XML classes are used. Moreover it is checked to compile on ARM.
+
+Which is not supported and will be fixed
+-------------
+	* Audio is disabled, I am working on it.
+	* CCTextureCache::addImageAsync() as it was not supported in older port
+	* WinPhone 8 version
+	
+Which is not supported
+-------------
+	* All javascript and LUA bindings were disabled as I didn't new what to do with them.
+	* Particle systems was turned off as it is still a lot of work to be done
+	* CCUserDefaults also are turned off.
+	* Trasitional effects are also turned off.
 
 [cocos2d-x][1] is a multi-platform 2D game engine in C++, based on [cocos2d-iphone][2] and licensed under MIT.
 Now this engine has been expanded to iOS, Android, Bada, BlackBerry, Marmalade and desktop operating systems like Linux, WindowsXP & Windows7. 
 
 Multi Platform
 -------------
-   * iOS:  stable, well tested on iOS 4.x ~ 5.x SDK.
-   * Android: stable, well tested on 2.0~4.0, based on ndk r5 ~ r8.
-   * Windows 8 Metro & Windows Phone 8: stable, it's in another repo http://github.com/cocos2d-x/cocos2dx-win8. We will merge it back sooner or later
-   * Bada: stable on Bada SDK 1.0 & 2.0
-   * BlackBerry Playbook & BB10: stable, contribued by engineers working at RIM
-   * Marmalade: stable since cocos2d-x-0.11.0
-   * Windows: stable, tested on WinXP, Vista, Win7. Please upgrde the drive of your video card if you meet problems on OpenGL functions
-   * Linux: usable.
+	* Windows 8 Metro
+	* Other platforms avaliable in the main repo https://github.com/cocos2d/cocos2d-x
 
-Document
-------------------
-   * Website: [www.cocos2d-x.org][3]
-   * [Online API References][4] 
-	
-Contact us
-------------------
-   * Forum: [http://forum.cocos2d-x.org][5]
-   * Twitter: [http://www.twitter.com/cocos2dx][6]
-   * Sina mini-blog: [http://t.sina.com.cn/cocos2dx][7]
-   
 [1]: http://www.cocos2d-x.org "cocos2d-x"
 [2]: http://www.cocos2d-iphone.org "cocos2d for iPhone"
 [3]: http://www.cocos2d-x.org "www.cocos2d-x.org"
@@ -33,3 +37,5 @@ Contact us
 [5]: http://forum.cocos2d-x.org "http://forum.cocos2d-x.org"
 [6]: http://www.twitter.com/cocos2dx "http://www.twitter.com/cocos2dx"
 [7]: http://t.sina.com.cn/cocos2dx "http://t.sina.com.cn/cocos2dx"
+[8]: https://github.com/cocos2d/cocos2d-x/tree/cocos2d-2.1beta3-x-2.1.0 "https://github.com/cocos2d/cocos2d-x/tree/cocos2d-2.1beta3-x-2.1.0"
+[9]: https://github.com/cocos2d-x/cocos2dx-win8 "https://github.com/cocos2d-x/cocos2dx-win8"

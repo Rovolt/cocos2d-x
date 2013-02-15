@@ -32,7 +32,7 @@ Developers:
         add korean language support
         fix getDeviceModel bug in android CocosDenshion
 
-    Horcruxes
+    Horcruxes 
         fix the bug that CCArray::createWithContentsOfFile() may not read file data on iOS
 
     Hu Kaiou
@@ -171,6 +171,9 @@ Developers:
 	
     Jozef Prídavok (jpridavok)
 	Adding CCEditBox implementation for Mac OSX.
+	
+	Andriy Chaika (seagullua)
+	Win8 2.1beta3 port
 
 Retired Core Developers:
     WenSheng Yang
