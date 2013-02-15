@@ -39,7 +39,7 @@ THE SOFTWARE.
 #include <stdlib.h>
 #include "DirectXHelper.h"
 
-#include <fstream>
+//#include <fstream>
 #include "BasicLoader.h"
 #include "CCEGLView.h"
 #include "CCDirector.h"
@@ -827,7 +827,7 @@ void CCDXTextureAtlas::OutputShaderErrorMessage(ID3D10Blob* errorMessage, HWND h
 {
 	char* compileErrors;
 	unsigned long bufferSize, i;
-	ofstream fout;
+	//ofstream fout;
 
 
 	// Get a pointer to the error message text buffer.
@@ -837,16 +837,16 @@ void CCDXTextureAtlas::OutputShaderErrorMessage(ID3D10Blob* errorMessage, HWND h
 	bufferSize = errorMessage->GetBufferSize();
 
 	// Open a file to write the error message to.
-	fout.open("shader-error.txt");
+	//fout.open("shader-error.txt");
 
 	// Write out the error message.
 	for(i=0; i<bufferSize; i++)
 	{
-		fout << compileErrors[i];
+		//fout << compileErrors[i];
 	}
 
 	// Close the file.
-	fout.close();
+	//fout.close();
 
 	// Release the error message.
 	errorMessage->Release();

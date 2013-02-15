@@ -477,12 +477,14 @@ const char* CCFileUtils::fullPathFromRelativePath(const char *pszRelativePath)
 	}
 	WIN32_FILE_ATTRIBUTE_DATA  fileInfo;
 	// If file or directory doesn't exist, try to find it in the root path.
-	if (!GetFileAttributesExA(pRet->m_sString.c_str(), GetFileExInfoStandard, &fileInfo))
+	std::wstring file_w = CCUtf8ToUnicode(pRet->m_sString.c_str(), pRet->m_sString.size());
+	if (!GetFileAttributesEx(file_w.c_str(), GetFileExInfoStandard, &fileInfo))
 	{
 		pRet->m_sString = s_pszResourcePath;
 		pRet->m_sString += pszRelativePath;
 
-		if (!GetFileAttributesExA(pRet->m_sString.c_str(), GetFileExInfoStandard, &fileInfo))
+		file_w = CCUtf8ToUnicode(pRet->m_sString.c_str(), pRet->m_sString.size());
+		if (!GetFileAttributesEx(file_w.c_str(), GetFileExInfoStandard, &fileInfo))
 		{
 			bFileExist = false;
 		}
