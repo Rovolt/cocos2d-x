@@ -24,7 +24,7 @@ void  _stdcall AudioEngineCallbacks::OnCriticalError(HRESULT Error)
 };
 
 Audio::Audio() :
-    m_backgroundID(0)
+	m_backgroundID(0), m_soundEffctVolume(1), m_backgroundMusicVolume(1)
 {
 }
 
