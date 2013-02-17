@@ -62,6 +62,7 @@ protected:
 private:
     /// todo: void addImageWithAsyncObject(CCAsyncObject* async);
     void addImageAsyncCallBack(float dt);
+	
 
 public:
 

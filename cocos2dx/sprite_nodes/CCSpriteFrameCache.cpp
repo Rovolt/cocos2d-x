@@ -203,7 +203,8 @@ void CCSpriteFrameCache::addSpriteFramesWithDictionary(CCDictionary* dictionary,
 
 void CCSpriteFrameCache::addSpriteFramesWithFile(const char *pszPlist, CCTexture2D *pobTexture)
 {
-    const char *pszPath = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath(pszPlist);
+	std::string pszPath_str = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath(pszPlist);
+	const char *pszPath = pszPath_str.c_str();
     CCDictionary *dict = CCDictionary::createWithContentsOfFileThreadSafe(pszPath);
 
     addSpriteFramesWithDictionary(dict, pobTexture);
@@ -232,8 +233,9 @@ void CCSpriteFrameCache::addSpriteFramesWithFile(const char *pszPlist)
 
     if (m_pLoadedFileNames->find(pszPlist) == m_pLoadedFileNames->end())
     {
-        const char *pszPath = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath(pszPlist);
-        CCDictionary *dict = CCDictionary::createWithContentsOfFileThreadSafe(pszPath);
+        std::string pszPath_str(CCFileUtils::sharedFileUtils()->fullPathFromRelativePath(pszPlist));
+		const char * pszPath = pszPath_str.c_str();
+		CCDictionary *dict = CCDictionary::createWithContentsOfFileThreadSafe(pszPath_str.c_str());
 
         string texturePath("");
 
@@ -343,7 +345,8 @@ void CCSpriteFrameCache::removeSpriteFrameByName(const char *pszName)
 
 void CCSpriteFrameCache::removeSpriteFramesFromFile(const char* plist)
 {
-    const char* path = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath(plist);
+	std::string path_str = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath(plist);
+	const char* path = path_str.c_str();
     CCDictionary* dict = CCDictionary::createWithContentsOfFileThreadSafe(path);
 
     removeSpriteFramesFromDictionary((CCDictionary*)dict);

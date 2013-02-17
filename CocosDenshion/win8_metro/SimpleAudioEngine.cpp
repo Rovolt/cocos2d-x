@@ -145,7 +145,7 @@ void SimpleAudioEngine::stopAllEffects()
 
 void SimpleAudioEngine::preloadBackgroundMusic(const char* pszFilePath)
 {
-
+	sharedAudioController()->PreloadSoundEffect(pszFilePath, true);
 }
 
 void SimpleAudioEngine::unloadEffect(const char* pszFilePath)

@@ -172,8 +172,8 @@ void Audio::PlayBackgroundMusic(const char* pszFilePath, bool bLoop)
     }
 
     // 把背景音乐当作普通音效播放
-    StopBackgroundMusic(true);
-    PlaySoundEffect(pszFilePath, bLoop, m_backgroundID, true);
+    StopBackgroundMusic(false);
+    PlaySoundEffect(pszFilePath, bLoop, m_backgroundID, true); 
 }
 
 void Audio::StopBackgroundMusic(bool bReleaseData)

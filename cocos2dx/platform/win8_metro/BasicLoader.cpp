@@ -252,7 +252,7 @@ void BasicLoader::LoadShader(
 		DX::ThrowIfFailed(
 			m_d3dDevice->CreateVertexShader(
 			bytecode->Data,
-			bytecode->Length,
+			uint32_t(bytecode->Length),
 			nullptr,
 			shader
 			)

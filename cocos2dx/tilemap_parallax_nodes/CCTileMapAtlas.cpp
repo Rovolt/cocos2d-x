@@ -116,7 +116,8 @@ void CCTileMapAtlas::loadTGAfile(const char *file)
 {
     CCAssert( file != NULL, "file must be non-nil");
 
-    const char* pPath = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath(file);
+	std::string pPath_str = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath(file);
+	const char* pPath = pPath_str.c_str();
 
     //    //Find the path of the file
     //    NSBundle *mainBndl = [CCDirector sharedDirector].loadingBundle;

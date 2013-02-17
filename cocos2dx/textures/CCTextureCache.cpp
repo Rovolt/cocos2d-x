@@ -41,6 +41,8 @@ THE SOFTWARE.
 #include <cctype>
 #include <queue>
 #include <list>
+#include <ppltasks.h>
+using namespace concurrency;
 //#include <pthread.h>
 //#include <semaphore.h>
 #include "CCThread.h"
@@ -88,6 +90,7 @@ static bool need_quit = false;
 
 static std::queue<AsyncStruct*>* s_pAsyncStructQueue = NULL;
 static std::queue<ImageInfo*>*   s_pImageQueue = NULL;
+static critical_section s_image_load_lock;
 
 static CCImage::EImageFormat computeImageFormatType(string& filename)
 {
@@ -252,55 +255,53 @@ void CCTextureCache::addImageAsync(const char *path, CCObject *target, SEL_CallF
 {
     CCAssert(path != NULL, "TextureCache: fileimage MUST not be NULL");    
 
-//    CCTexture2D *texture = NULL;
-//
-//    // optimization
-//
-//    std::string pathKey = path;
-//
-//    pathKey = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath(pathKey.c_str());
-//    texture = (CCTexture2D*)m_pTextures->objectForKey(pathKey.c_str());
-//
-//    std::string fullpath = pathKey;
-//    if (texture != NULL)
-//    {
-//        if (target && selector)
-//        {
-//            (target->*selector)(texture);
-//        }
-//        
-//        return;
-//    }
-//
-//    // lazy init
-//    if (s_pSem == NULL)
-//    {             
-//#if CC_ASYNC_TEXTURE_CACHE_USE_NAMED_SEMAPHORE
-//        s_pSem = sem_open(CC_ASYNC_TEXTURE_CACHE_SEMAPHORE, O_CREAT, 0644, 0);
-//        if( s_pSem == SEM_FAILED )
-//        {
-//            CCLOG( "CCTextureCache async thread semaphore init error: %s\n", strerror( errno ) );
-//            s_pSem = NULL;
-//            return;
-//        }
-//#else
-//        int semInitRet = sem_init(&s_sem, 0, 0);
-//        if( semInitRet < 0 )
-//        {
-//            CCLOG( "CCTextureCache async thread semaphore init error: %s\n", strerror( errno ) );
-//            return;
-//        }
-//        s_pSem = &s_sem;
-//#endif
-//        s_pAsyncStructQueue = new queue<AsyncStruct*>();
-//        s_pImageQueue = new queue<ImageInfo*>();        
-//        
-//        pthread_mutex_init(&s_asyncStructQueueMutex, NULL);
-//        pthread_mutex_init(&s_ImageInfoMutex, NULL);
-//        pthread_create(&s_loadingThread, NULL, loadImage, NULL);
-//
-//        need_quit = false;
-//    }
+ //  CCTexture2D *texture = NULL;
+
+ //   // optimization
+
+ //   std::string pathKey = path;
+
+ //   pathKey = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath(pathKey.c_str());
+ //   texture = (CCTexture2D*)m_pTextures->objectForKey(pathKey.c_str());
+
+ //   std::string fullpath = pathKey;
+ //   if (texture != NULL)
+ //   {
+ //       if (target && selector)
+ //       {
+ //           (target->*selector)(texture);
+ //       }
+ //       
+ //       return;
+ //   }
+
+	//create_task(create_async([this, path](){
+	//	this->addImage(path);
+
+	//})).then([target, selector](){
+	//	(target->*selector)(0);	
+	//});
+    // lazy init
+    /*if (s_pAsyncStructQueue == NULL)
+    {             
+		s_pSem = CreateSemaphoreEx(NULL, 0, 10000, NULL, 0, SYNCHRONIZE);
+       
+        if( s_pSem == NULL )
+        {
+            CCLOG( "CCTextureCache async thread semaphore init error: %s\n", strerror( errno ) );
+            return;
+        }
+
+        s_pAsyncStructQueue = new queue<AsyncStruct*>();
+        s_pImageQueue = new queue<ImageInfo*>();        
+        
+		s_asyncStructQueueMutex = CreateMutexEx(NULL, NULL, 0, SYNCHRONIZE);
+		s_ImageInfoMutex = CreateMutexEx(NULL, NULL, 0, SYNCHRONIZE);
+
+        s_loadingThread = pthread_create(&s_loadingThread, NULL, loadImage, NULL);
+
+        need_quit = false;
+    }*/
 //
 //    if (0 == s_nAsyncRefCount)
 //    {
@@ -397,7 +398,7 @@ CCTexture2D * CCTextureCache::addImage(const char * path)
     // Needed since addImageAsync calls this method from a different thread
     
     //pthread_mutex_lock(m_pDictLock);
-
+	//s_image_load_lock.lock();
     // remove possible -HD suffix to prevent caching the same image twice (issue #1040)
     std::string pathKey = path;
 
@@ -467,6 +468,7 @@ CCTexture2D * CCTextureCache::addImage(const char * path)
 
     CC_SAFE_RELEASE(pImage);
 
+	//s_image_load_lock.unlock();
     //pthread_mutex_unlock(m_pDictLock);
     return texture;
 }

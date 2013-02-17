@@ -437,18 +437,19 @@ public:
 
 CCDictionary* ccFileUtils_dictionaryWithContentsOfFileThreadSafe(const char *pFileName)
 {
+	//std::string f_name(pFileName);
 	CCDictMaker tMaker;
 	return tMaker.dictionaryWithContentsOfFile(pFileName);
 	return 0;
 }
 
-const char* CCFileUtils::fullPathFromRelativePath(const char *pszRelativePath)
+std::string CCFileUtils::fullPathFromRelativePath(const char *pszRelativePath)
 {
 	bool bFileExist = true;
 	_CheckPath();
 	const char* resDir = m_obDirectory.c_str();
 	CCString * pRet = new CCString();
-	pRet->autorelease();
+	//pRet->autorelease();
 	const std::string& resourceRootPath = CCApplication::sharedApplication()->getResourceRootPath();
 	if ((strlen(pszRelativePath) > 1 && pszRelativePath[1] == ':'))
 	{
@@ -495,8 +496,9 @@ const char* CCFileUtils::fullPathFromRelativePath(const char *pszRelativePath)
 		pRet->m_sString = pszRelativePath;
 	}
 
-
-	return pRet->m_sString.c_str();
+	std::string res_str = pRet->m_sString;
+	delete pRet;
+	return res_str;
 }
 
 const char *CCFileUtils::fullPathFromRelativeFile(const char *pszFilename, const char *pszRelativeFile)
@@ -515,7 +517,8 @@ const char *CCFileUtils::fullPathFromRelativeFile(const char *pszFilename, const
 
 unsigned char* CCFileUtils::getFileData(const char* pszFileName, const char* pszMode, unsigned long * pSize)
 {
-	const char *pszPath = fullPathFromRelativePath(pszFileName);
+	std::string pszPath_str = fullPathFromRelativePath(pszFileName);
+	const char *pszPath = pszPath_str.c_str();
 
 	FILE_STANDARD_INFO fileStandardInfo = { 0 };
 	HANDLE hFile;
@@ -523,7 +526,7 @@ unsigned char* CCFileUtils::getFileData(const char* pszFileName, const char* psz
 	uint32 dwFileSize = 0;
 	BYTE* pBuffer = 0;
 
-	std::wstring path = CCUtf8ToUnicode(pszPath);
+	std::wstring path = CCUtf8ToUnicode(pszPath, pszPath_str.size());
 
 
 	do 
@@ -541,7 +544,7 @@ unsigned char* CCFileUtils::getFileData(const char* pszFileName, const char* psz
 		if (INVALID_HANDLE_VALUE == hFile)
 		{
 			break;
-		}
+		} 
 
 
 		BOOL result = ::GetFileInformationByHandleEx(

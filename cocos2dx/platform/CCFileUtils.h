@@ -70,7 +70,7 @@ public:
     If you have not set the ResourcePath, the function appends "/NEWPLUS/TDA_DATA/UserData/" by default.
     You can set ResourcePath with void setResourcePath(const char *pszResourcePath);
     */
-    const char* fullPathFromRelativePath(const char *pszRelativePath);
+    std::string fullPathFromRelativePath(const char *pszRelativePath);
 
     /// @cond
     const char* fullPathFromRelativeFile(const char *pszFilename, const char *pszRelativeFile);
