@@ -19,32 +19,34 @@ The option Precompiled Header should be switched to
 2. Project -> Properties -> Configuration Properties -> C/C++ -> Preprocessor
 Preprocessor Definitions should contain: (I know this looks ugly).
 
-	_CRT_SECURE_NO_WARNINGS
-	%(PreprocessorDefinitions)
-	TIXML_USE_STL
-	CC_DLL=/**/
-	NULL=0
-	MIN=min
-	MAX=max
+		_CRT_SECURE_NO_WARNINGS
+		%(PreprocessorDefinitions)
+		TIXML_USE_STL
+		CC_DLL=/**/
+		NULL=0
+		MIN=min
+		MAX=max
 
 3. For each file in folder "cocos2dx/hlsl/" which ends on *PixelShader.hlsl you should right click on it 
 and choose Properties -> HLSL Compiler -> General -> Shader type should be
 
-	Pixel Shader
+		Pixel Shader
+		
 4. For each file in folder "cocos2dx/hlsl/" which ends on *VertexShader.hlsl you should right click on it 
 and choose Properties -> HLSL Compiler -> General -> Shader type should be
 
-	Vertex Shader
+		Vertex Shader
+		
 5. For each file in folder "cocos2dx/kazmath" with *.c extensions also go to the 
 Properties -> C/C++ -> General -> Consume Windows Runtime Extension should be switched to
 
-	No
+		No
 
 If you have linking errors
 1. Project -> Properties -> Configuration Properties -> Linker -> General -> Additional Library Directories 
 and add
 
-	cocos2dx\platform\third_party\win8_metro\libraries\x86 
+		cocos2dx\platform\third_party\win8_metro\libraries\x86 
 
 (or x64 or ARM depending on which platform your are building. While it compiles well x64 version has some problems with shaders).
 2. Project -> Properties -> Configuration Properties -> Linker -> Input -> Additional Dependencies
