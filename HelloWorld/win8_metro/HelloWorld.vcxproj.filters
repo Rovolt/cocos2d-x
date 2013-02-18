@@ -110,18 +110,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="HelloWorld_TemporaryKey.pfx" />
-    <None Include="Assets\CloseNormal.png">
-      <Filter>Resources</Filter>
-    </None>
-    <None Include="Assets\CloseSelected.png">
-      <Filter>Resources</Filter>
-    </None>
-    <None Include="Assets\HelloWorld.png">
-      <Filter>Resources</Filter>
-    </None>
-    <None Include="Assets\Icon.png">
-      <Filter>Resources</Filter>
-    </None>
     <None Include="..\..\cocos2dx\kazmath\src\ChangeLog">
       <Filter>cocos2dx\kazmath</Filter>
     </None>

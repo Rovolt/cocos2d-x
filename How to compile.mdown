@@ -1,0 +1,72 @@
+1. The example of project is in the HelloWorld folder (I fixed this solution in last commit to compile well in Debug Win32). 
+I advice you to include your code just inside this solution. (Visual Studio 2012 Windows 8 is needed).
+
+!Important, the visual studio takes resources from Assets folder. Although, the bat file to copy them from ../Resourses to Assets is written the VC will only
+that which are included to project. I haven't managed do it by GUI, so you should open HelloWorld.vcxproj by text editor
+and add manually all Assets you would like to include in project. This section is in the end of file 456 line. You will see:
+
+    <Image Include="Assets\Logo.png" />
+    <Image Include="Assets\SmallLogo.png" />
+	
+To make life esier run build_assets_to_file.bat and it will generate code for each image in file assets.txt, you will only need to copy paste it into HelloWorld.vcxproj
+
+If you have compile errors I have written short checklist. (This should be done for each target platform I mean Release, Debug etc.)
+1. Project -> Properties -> Configuration Properties -> C/C++ -> Precompiled Headers
+The option Precompiled Header should be switched to 
+
+	Not Using Precompiled Headers
+
+2. Project -> Properties -> Configuration Properties -> C/C++ -> Preprocessor
+Preprocessor Definitions should contain: (I know this looks ugly).
+
+	_CRT_SECURE_NO_WARNINGS
+	%(PreprocessorDefinitions)
+	TIXML_USE_STL
+	CC_DLL=/**/
+	NULL=0
+	MIN=min
+	MAX=max
+
+3. For each file in folder "cocos2dx/hlsl/" which ends on *PixelShader.hlsl you should right click on it 
+and choose Properties -> HLSL Compiler -> General -> Shader type should be
+
+	Pixel Shader
+4. For each file in folder "cocos2dx/hlsl/" which ends on *VertexShader.hlsl you should right click on it 
+and choose Properties -> HLSL Compiler -> General -> Shader type should be
+
+	Vertex Shader
+5. For each file in folder "cocos2dx/kazmath" with *.c extensions also go to the 
+Properties -> C/C++ -> General -> Consume Windows Runtime Extension should be switched to
+
+	No
+
+If you have linking errors
+1. Project -> Properties -> Configuration Properties -> Linker -> General -> Additional Library Directories 
+and add
+
+	cocos2dx\platform\third_party\win8_metro\libraries\x86 
+
+(or x64 or ARM depending on which platform your are building. While it compiles well x64 version has some problems with shaders).
+2. Project -> Properties -> Configuration Properties -> Linker -> Input -> Additional Dependencies
+if should be:
+
+	d2d1.lib
+	d3d11.lib
+	dxgi.lib
+	dwrite.lib
+	dxguid.lib
+	xaudio2.lib
+	xinput.lib
+	mfcore.lib
+	mfplat.lib
+	mfreadwrite.lib
+	mfuuid.lib
+	libpng.lib
+	jpeglib.lib
+	zlib.lib
+	windowscodecs.lib
+	shcore.lib
+
+
+	
+I hope that is solution for all problems. In other way tell me at andriy+en@chaika.in.ua

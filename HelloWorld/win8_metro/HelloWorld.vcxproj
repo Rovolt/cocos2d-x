@@ -74,9 +74,9 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Link>
-      <AdditionalDependencies>d2d1.lib;d3d11.lib;dxgi.lib;dwrite.lib;dxguid.lib;xaudio2.lib;xinput.lib;mfcore.lib;mfplat.lib;mfreadwrite.lib;mfuuid.lib;libpng.lib;libjpeg.lib;zlib.lib;windowscodecs.lib;shcore.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d2d1.lib;d3d11.lib;dxgi.lib;dwrite.lib;dxguid.lib;xaudio2.lib;xinput.lib;mfcore.lib;mfplat.lib;mfreadwrite.lib;mfuuid.lib;libpng.lib;jpeglib.lib;zlib.lib;windowscodecs.lib;shcore.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
-      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)..\..\cocos2dx\platform\third_party\win8_metro\libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">F:\GitHub\cocos2d-x\cocos2dx\platform\third_party\win8_metro\libraries\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)..\..\cocos2dx\platform\third_party\win8_metro\libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <ClCompile>
@@ -453,27 +453,21 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\CloseNormal.png">
-      <FileType>Document</FileType>
-      <DeploymentContent>true</DeploymentContent>
-    </None>
-    <None Include="Assets\CloseSelected.png">
-      <FileType>Document</FileType>
-      <DeploymentContent>true</DeploymentContent>
-    </None>
-    <None Include="Assets\HelloWorld.png">
-      <FileType>Document</FileType>
-      <DeploymentContent>true</DeploymentContent>
-    </None>
-    <None Include="Assets\Icon.png">
-      <FileType>Document</FileType>
-      <DeploymentContent>true</DeploymentContent>
-    </None>
     <Image Include="Assets\Logo.png" />
     <Image Include="Assets\SmallLogo.png" />
     <Image Include="Assets\SplashScreen.png" />
     <Image Include="Assets\StoreLogo.png" />
     <Image Include="Assets\WideLogo.png" />
+	<Image Include="Assets\fonts\Marker Felt.ttf" />
+<Image Include="Assets\ipad\CloseNormal.png" />
+<Image Include="Assets\ipad\CloseSelected.png" />
+<Image Include="Assets\ipad\HelloWorld.png" />
+<Image Include="Assets\ipadhd\CloseNormal.png" />
+<Image Include="Assets\ipadhd\CloseSelected.png" />
+<Image Include="Assets\ipadhd\HelloWorld.png" />
+<Image Include="Assets\iphone\CloseNormal.png" />
+<Image Include="Assets\iphone\CloseSelected.png" />
+<Image Include="Assets\iphone\HelloWorld.png" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\cocos2dx\kazmath\src\CMakeLists.txt" />

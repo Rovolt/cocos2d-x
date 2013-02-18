@@ -339,8 +339,33 @@ void DirectXRender::CreateWindowSizeDependentResources()
     // Cache the rendertarget dimensions in our helper class for convenient use.
     D3D11_TEXTURE2D_DESC backBufferDesc = {0};
     backBuffer->GetDesc(&backBufferDesc);
-    m_renderTargetSize.Width  = static_cast<float>(backBufferDesc.Width);
-    m_renderTargetSize.Height = static_cast<float>(backBufferDesc.Height);
+	static bool first_time = true;
+	static float initial_width = 0;
+	static float initial_height = 0;
+
+	float scale = 1;
+	//if(first_time)
+	//{
+	//	first_time = false;
+	//	
+		
+		m_renderTargetSize.Width  = static_cast<float>(backBufferDesc.Width);
+		m_renderTargetSize.Height = static_cast<float>(backBufferDesc.Height);
+		initial_width = m_renderTargetSize.Width;
+		initial_height = m_renderTargetSize.Height;
+	//}
+	//else
+	//{
+	//	float new_screen_width = static_cast<float>(backBufferDesc.Width);
+	//	float new_screen_height = static_cast<float>(backBufferDesc.Height);
+
+	//	float scale_x = new_screen_width / initial_width;
+	//	float scale_y = new_screen_height / initial_height;
+
+	//	scale = MIN(scale_x, scale_y);
+	//	//backBufferDesc.Width = initial_width;
+	//	//backBufferDesc.Height = initial_height;
+	//}
 
     // Create a descriptor for the depth/stencil buffer.
     CD3D11_TEXTURE2D_DESC depthStencilDesc(
@@ -375,8 +400,8 @@ void DirectXRender::CreateWindowSizeDependentResources()
     CD3D11_VIEWPORT viewport(
         0.0f,
         0.0f,
-        static_cast<float>(backBufferDesc.Width),
-        static_cast<float>(backBufferDesc.Height)
+        static_cast<float>(backBufferDesc.Width)*scale,
+        static_cast<float>(backBufferDesc.Height)*scale
         );
 
     // Set the current viewport using the descriptor.

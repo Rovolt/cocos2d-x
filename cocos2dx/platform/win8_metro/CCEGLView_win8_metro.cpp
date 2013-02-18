@@ -651,18 +651,25 @@ CCEGLView* CCEGLView::sharedOpenGLView()
 void CCEGLView::OnWindowSizeChanged()
 {
     m_renderTargetView = DirectXRender::SharedDXRender()->m_renderTargetView.Get();
-    //m_depthStencilView = DirectXRender::SharedDXRender()->m_depthStencilView.Get();
+    m_depthStencilView = DirectXRender::SharedDXRender()->m_depthStencilView.Get();
 
     //// 重新确定 viewPort
-    //DirectXRender^ render = DirectXRender::SharedDXRender();
-    //float winWidth = render->m_window->Bounds.Width;
-    //float winHeight = render->m_window->Bounds.Height;
+    DirectXRender^ render = DirectXRender::SharedDXRender();
+    float winWidth = render->m_window->Bounds.Width;
+    float winHeight = render->m_window->Bounds.Height;
 
-    //m_fWinScaleX = (float)winWidth / m_initWinWidth;
-    //m_fWinScaleY = (float)winHeight / m_initWinHeight;
-
-    //CCDirector::sharedDirector()->reshapeProjection(getSize());
-
+	
+	//m_fScaleX = ;
+	//m_fScaleY = ;
+	float scale = MIN((float)winWidth / m_obScreenSize.width, (float)winHeight / m_obScreenSize.height);
+	m_fScaleX *= scale;
+	m_fScaleY *= scale;
+	//m_fScaleX = scale;
+	//m_fScaleY = scale;
+	//m_fScaleX *= 0.5;
+	//m_fScaleY *= 0.5;
+	CCDirector::sharedDirector()->setProjection(kCCDirectorProjection3D);
+	//CCDirector::sharedDirector()->setContentScaleFactor(scale);
     //int newState = int(Windows::UI::ViewManagement::ApplicationView::Value);
     //CCApplication::sharedApplication()->applicationViewStateChanged(newState, m_oldViewState);
     //m_oldViewState = newState;
