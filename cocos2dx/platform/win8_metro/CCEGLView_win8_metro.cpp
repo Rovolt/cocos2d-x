@@ -661,9 +661,9 @@ void CCEGLView::OnWindowSizeChanged()
 	
 	//m_fScaleX = ;
 	//m_fScaleY = ;
-	float scale = MIN((float)winWidth / m_obScreenSize.width, (float)winHeight / m_obScreenSize.height);
-	m_fScaleX *= scale;
-	m_fScaleY *= scale;
+	//float scale = MIN((float)winWidth / m_obScreenSize.width, (float)winHeight / m_obScreenSize.height);
+	//m_fScaleX *= scale;
+	//m_fScaleY *= scale;
 	//m_fScaleX = scale;
 	//m_fScaleY = scale;
 	//m_fScaleX *= 0.5;
