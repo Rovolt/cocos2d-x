@@ -26,7 +26,11 @@ THE SOFTWARE.
 
 #include "DirectXRender.h"
 #include "CCDirector.h"
+#ifndef CC_WIN8_PHONE
 #include "CocosDenshion/include/SimpleAudioEngine.h"
+#else
+#include "SimpleAudioEngine.h"
+#endif
 #include <cassert>
 NS_CC_BEGIN;
 

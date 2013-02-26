@@ -30,12 +30,16 @@ THE SOFTWARE.
 #include "cocoa/CCString.h"
 #include "CCFileUtilsCommon_cpp.h"
 #include <wrl.h>
+#ifndef CC_WIN8_PHONE
 #include <wincodec.h>
+#endif
 #include "CCApplication.h"
 #include <mmreg.h>
 #include <mfidl.h>
 #include <mfapi.h>
+#ifndef CC_WIN8_PHONE
 #include <mfreadwrite.h>
+#endif
 #include <mfmediaengine.h>
 #include <Windows.h>
 using namespace Windows::Storage;
@@ -110,7 +114,9 @@ void CCFileUtils::purgeCachedEntries()
 {
 
 }
+#ifndef CC_WIN8_PHONE
 using namespace Windows::Data::Xml::Dom;
+#endif
 class CCDictMaker// : public CCSAXDelegator
 {
 public:
@@ -127,7 +133,7 @@ public:
 	std::stack<CCArray*> m_tArrayStack;
 	std::stack<CCSAXState>  m_tStateStack;
 private:
-
+#ifndef CC_WIN8_PHONE
 	void emulateSAX_processNodes(XmlNodeList^ node_list)
 	{
 		for(auto it = node_list->First(); it->HasCurrent; it->MoveNext())
@@ -190,6 +196,7 @@ private:
 		emulateSAX_processNodeList(doc->ChildNodes);*/
 		
 	}
+#endif
 public:
 	CCDictMaker()        
 		: m_eResultType(SAX_RESULT_NONE),
@@ -217,7 +224,9 @@ public:
 		//parser.setDelegator(this);
 
 		//parser.parse(pFileName);
+#ifndef CC_WIN8_PHONE
 		emulateSAX(pFileName);
+#endif
 		return m_pRootDict;
 	}
 
@@ -233,7 +242,9 @@ public:
 		//parser.setDelegator(this);
 
 		//parser.parse(pFileName);
+#ifndef CC_WIN8_PHONE
 		emulateSAX(pFileName);
+#endif
 		return m_pArray;
 	}
 
@@ -479,13 +490,13 @@ std::string CCFileUtils::fullPathFromRelativePath(const char *pszRelativePath)
 	WIN32_FILE_ATTRIBUTE_DATA  fileInfo;
 	// If file or directory doesn't exist, try to find it in the root path.
 	std::wstring file_w = CCUtf8ToUnicode(pRet->m_sString.c_str(), pRet->m_sString.size());
-	if (!GetFileAttributesEx(file_w.c_str(), GetFileExInfoStandard, &fileInfo))
+	if (!GetFileAttributesExW(file_w.c_str(), GetFileExInfoStandard, &fileInfo))
 	{
 		pRet->m_sString = s_pszResourcePath;
 		pRet->m_sString += pszRelativePath;
 
 		file_w = CCUtf8ToUnicode(pRet->m_sString.c_str(), pRet->m_sString.size());
-		if (!GetFileAttributesEx(file_w.c_str(), GetFileExInfoStandard, &fileInfo))
+		if (!GetFileAttributesExW(file_w.c_str(), GetFileExInfoStandard, &fileInfo))
 		{
 			bFileExist = false;
 		}
@@ -579,7 +590,7 @@ unsigned char* CCFileUtils::getFileData(const char* pszFileName, const char* psz
 		msg.append(pszPath).append(") failed!");
 
 		//CCMessageBox(msg.c_str(), title.c_str());
-		OutputDebugString(L"CCFileUtils_win8_metro.cpp: Get data from file failed!\n");
+		OutputDebugStringW(L"CCFileUtils_win8_metro.cpp: Get data from file failed!\n");
 	}
 
 	if (hFile != INVALID_HANDLE_VALUE)

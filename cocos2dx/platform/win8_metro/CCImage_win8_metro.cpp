@@ -23,7 +23,11 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "DirectXRender.h"
-
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+typedef FTTextPainter TextPainter;
+#else
+typedef DXTextPainter TextPainter;
+#endif
 NS_CC_BEGIN;
 
 bool CCImage::initWithString(
@@ -41,7 +45,7 @@ bool CCImage::initWithString(
 		CC_BREAK_IF(! pText);  
 
 		//D2DWraper& wraper = sharedD2DWraper();
-		DXTextPainter^ painter = DirectXRender::SharedDXRender()->m_textPainter;
+		TextPainter^ painter = DirectXRender::SharedDXRender()->m_textPainter;
 		std::wstring wStrFontName = CCUtf8ToUnicode(pFontName);
 		bool isSuccess = painter->SetFont(ref new Platform::String(wStrFontName.c_str()), nSize);
 		if (! isSuccess)

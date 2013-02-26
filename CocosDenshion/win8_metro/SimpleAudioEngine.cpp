@@ -1,4 +1,8 @@
+#ifndef CC_WIN8_PHONE
 #include "CocosDenshion/include/SimpleAudioEngine.h"
+#else
+#include "SimpleAudioEngine.h"
+#endif
 #include "Audio.h"
 
 #include <map>

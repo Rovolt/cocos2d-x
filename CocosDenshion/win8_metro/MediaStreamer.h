@@ -7,7 +7,7 @@
 
 #pragma once
 #include "pch.h"
-
+#ifndef CC_WIN8_PHONE
 class MediaStreamer
 {
 private:
@@ -39,3 +39,41 @@ public:
     void ReadAll(uint8* buffer, uint32 maxBufferSize, uint32* bufferLength); 
     void Restart();
 };
+#else
+#include <vector>
+
+ref class MediaStreamer
+{
+private:
+    WAVEFORMATEX      m_waveFormat;
+    uint32            m_maxStreamLengthInBytes;
+    std::vector<byte> m_data;
+    UINT32            m_offset;
+	Platform::Array<byte>^ ReadData(
+    _In_ Platform::String^ filename
+    );
+internal:
+    Windows::Storage::StorageFolder^ m_location;
+    Platform::String^ m_locationPath;
+
+public:
+    virtual ~MediaStreamer();
+
+internal:
+    MediaStreamer();
+
+    WAVEFORMATEX& GetOutputWaveFormatEx()
+    {
+        return m_waveFormat;
+    }
+
+    UINT32 GetMaxStreamLengthInBytes()
+    {
+		return m_data.size();
+    }
+
+    void Initialize(_In_ const WCHAR* url); 
+    void ReadAll(uint8* buffer, uint32 maxBufferSize, uint32* bufferLength); 
+    void Restart();
+};
+#endif

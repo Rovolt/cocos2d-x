@@ -106,7 +106,11 @@ bool CCEGLView::Create()
 		m_obScreenSize.height = (int)render->m_window->Bounds.Height;
         setDesignResolution(m_obScreenSize.width, m_obScreenSize.height);
         SetBackBufferRenderTarget();
+#ifndef CC_WIN8_PHONE
         m_oldViewState = int(Windows::UI::ViewManagement::ApplicationView::Value);
+#else
+		m_oldViewState = 0;
+#endif
 		s_pMainWindow = this;
 		bRet = true;
 	} while (0);

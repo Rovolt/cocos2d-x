@@ -98,6 +98,7 @@ inline void BasicLoader::SetDebugName(
     _In_ Platform::String^ name
     )
 {
+#ifndef CC_WIN8_PHONE
 #if defined(_DEBUG)
     // Only assign debug names in debug builds.
 
@@ -134,6 +135,7 @@ inline void BasicLoader::SetDebugName(
                 )
             );
     }
+#endif
 #endif
 }
 

@@ -27,9 +27,13 @@ THE SOFTWARE.
 #include <dxgi.h>
 #include <d3dcommon.h>
 #include <d3d11_1.h>
+#ifndef CC_WIN8_PHONE
 #include <d2d1.h>
+#endif
 #include <directxmath.h>
+#ifndef CC_WIN8_PHONE
 #include <d3dcompiler.h>
+#endif
 #include "CCCommon.h"
 #include "cocoa/CCGeometry.h"
 #include <stack>

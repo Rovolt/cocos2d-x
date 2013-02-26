@@ -350,16 +350,19 @@ void CCLog(const char * pszFormat, ...)
 
 void CCMessageBox(const char * pszMsg, const char * pszTitle)
 {
+
     // Create the message dialog and set its content
     Platform::String^ message = ref new Platform::String(CCUtf8ToUnicode(pszMsg).c_str());
     Platform::String^ title = ref new Platform::String(CCUtf8ToUnicode(pszTitle).c_str());
-    Windows::UI::Popups::MessageDialog^ msg = ref new Windows::UI::Popups::MessageDialog(message, title);
+#ifndef CC_WIN8_PHONE
+	Windows::UI::Popups::MessageDialog^ msg = ref new Windows::UI::Popups::MessageDialog(message, title);
 
     // Set the command to be invoked when a user presses 'ESC'
     msg->CancelCommandIndex = 1;
 
     // Show the message dialog
     msg->ShowAsync();
+#endif
 }
 
 std::wstring CCUtf8ToUnicode(const char * pszUtf8Str, unsigned len/* = -1*/)

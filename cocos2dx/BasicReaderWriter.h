@@ -6,7 +6,7 @@
 //// Copyright (c) Microsoft Corporation. All rights reserved
 
 #pragma once
-
+#ifndef CC_WIN8_PHONE
 // Define the arguments for the async callbacks.
 delegate void ReadDataAsyncCallback(Platform::Array<byte>^, Windows::Foundation::AsyncStatus);
 delegate void WriteDataAsyncCallback(Windows::Foundation::AsyncStatus);
@@ -45,3 +45,37 @@ public:
         _In_ WriteDataAsyncCallback^ callback
         );
 };
+#else
+#include <ppltasks.h>
+
+ref class BasicReaderWriter
+{
+private:
+    Windows::Storage::StorageFolder^ m_location;
+    Platform::String^ m_locationPath;
+
+internal:
+    BasicReaderWriter();
+    BasicReaderWriter(
+        _In_ Windows::Storage::StorageFolder^ folder
+        );
+
+    Platform::Array<byte>^ ReadData(
+        _In_ Platform::String^ filename
+        );
+
+    concurrency::task<Platform::Array<byte>^> ReadDataAsync(
+        _In_ Platform::String^ filename
+        );
+
+    uint32 WriteData(
+        _In_ Platform::String^ filename,
+        _In_ const Platform::Array<byte>^ fileData
+        );
+
+    concurrency::task<void> WriteDataAsync(
+        _In_ Platform::String^ filename,
+        _In_ const Platform::Array<byte>^ fileData
+        );
+};
+#endif
