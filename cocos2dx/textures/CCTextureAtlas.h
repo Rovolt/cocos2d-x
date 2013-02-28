@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "cocoa/CCObject.h"
 #include "ccConfig.h"
 #include <string>
-
+#include <vector>
 NS_CC_BEGIN
 
 class CCTexture2D;
@@ -53,6 +53,53 @@ Supported features:
 The quads are rendered using an OpenGL ES VBO.
 To render the quads using an interleaved vertex array list, you should modify the ccConfig.h file 
 */
+class CC_DLL CCDXTextureAtlas
+{
+	//We do not need to recreate each time
+	struct StaticPart
+	{
+		StaticPart();
+		~StaticPart();
+		ID3D11VertexShader* m_vertexShader;
+		ID3D11PixelShader* m_pixelShader;
+		ID3D11InputLayout* m_layout;
+		ID3D11Buffer* m_matrixBuffer;
+
+		bool mIsInit;
+	};
+	static StaticPart m_st;
+	struct VertexType
+	{
+		DirectX::XMFLOAT3 position;
+		DirectX::XMFLOAT4 color;
+		DirectX::XMFLOAT2 texture;
+	};
+public:
+	ID3D11Buffer *m_vertexBuffer;
+	ID3D11Buffer* m_indexBuffer;
+	unsigned int m_last_capacity;
+	std::vector<VertexType> m_verticesTmp;
+	CCDXTextureAtlas();
+	~CCDXTextureAtlas();
+	void FreeBuffer();
+	//void setIsInit(bool isInit);
+	void initVertexBuffer(unsigned short* indices,unsigned int capacity);
+	void RenderVertexBuffer(ccV3F_C4B_T2F_Quad* quads,unsigned int capacity);
+	void OutputShaderErrorMessage(ID3D10Blob* errorMessage, HWND hwnd, WCHAR* shaderFilename);
+	bool InitializeShader();
+	bool SetShaderParameters( DirectX::XMMATRIX &viewMatrix, DirectX::XMMATRIX &projectionMatrix, ID3D11ShaderResourceView* texture);
+	void RenderShader(CCTexture2D* texture,unsigned int n, unsigned int start);
+	void Render(ccV3F_C4B_T2F_Quad* quads,unsigned short* indices,unsigned int capacity,CCTexture2D* texture,unsigned int n, unsigned int start);
+private:
+	struct MatrixBufferType
+	{
+		DirectX::XMMATRIX view;
+		DirectX::XMMATRIX projection;
+	};
+	
+	
+};
+
 class CC_DLL CCTextureAtlas : public CCObject 
 {
 protected:
@@ -213,43 +260,9 @@ private:
     void setupVBO();
 #endif
 
-	static CCDXTextureAtlas mDXTextureAtlas;
+	CCDXTextureAtlas mDXTextureAtlas;
 };
-class CC_DLL CCDXTextureAtlas
-{
-public:
-	ID3D11Buffer *m_vertexBuffer;
-	ID3D11Buffer* m_indexBuffer;
-	ID3D11VertexShader* m_vertexShader;
-	ID3D11PixelShader* m_pixelShader;
-	ID3D11InputLayout* m_layout;
-	ID3D11Buffer* m_matrixBuffer;
 
-	CCDXTextureAtlas();
-	~CCDXTextureAtlas();
-	void FreeBuffer();
-	void setIsInit(bool isInit);
-	void initVertexBuffer(unsigned short* indices,unsigned int capacity);
-	void RenderVertexBuffer(ccV3F_C4B_T2F_Quad* quads,unsigned int capacity);
-	void OutputShaderErrorMessage(ID3D10Blob* errorMessage, HWND hwnd, WCHAR* shaderFilename);
-	bool InitializeShader();
-	bool SetShaderParameters( DirectX::XMMATRIX &viewMatrix, DirectX::XMMATRIX &projectionMatrix, ID3D11ShaderResourceView* texture);
-	void RenderShader(CCTexture2D* texture,unsigned int n, unsigned int start);
-	void Render(ccV3F_C4B_T2F_Quad* quads,unsigned short* indices,unsigned int capacity,CCTexture2D* texture,unsigned int n, unsigned int start);
-private:
-	struct MatrixBufferType
-	{
-		DirectX::XMMATRIX view;
-		DirectX::XMMATRIX projection;
-	};
-	struct VertexType
-	{
-		DirectX::XMFLOAT3 position;
-		DirectX::XMFLOAT4 color;
-		DirectX::XMFLOAT2 texture;
-	};
-	bool mIsInit;
-};
 // end of textures group
 /// @}
 
