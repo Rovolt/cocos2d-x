@@ -78,6 +78,7 @@ public:
 	ID3D11Buffer *m_vertexBuffer;
 	ID3D11Buffer* m_indexBuffer;
 	unsigned int m_last_capacity;
+	bool m_dirty;
 	std::vector<VertexType> m_verticesTmp;
 	CCDXTextureAtlas();
 	~CCDXTextureAtlas();

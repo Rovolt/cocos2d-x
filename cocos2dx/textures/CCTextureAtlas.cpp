@@ -102,6 +102,7 @@ ccV3F_C4B_T2F_Quad* CCTextureAtlas::getQuads()
 {
 	//if someone accesses the quads directly, presume that changes will be made
 	m_bDirty = true;
+	mDXTextureAtlas.m_dirty = true;
 	return m_pQuads;
 }
 
@@ -198,7 +199,7 @@ bool CCTextureAtlas::initWithTexture(CCTexture2D *texture, unsigned int capacity
 #endif
 
 	m_bDirty = true;
-
+	mDXTextureAtlas.m_dirty = true;
 	return true;
 }
 
@@ -212,6 +213,7 @@ void CCTextureAtlas::listenBackToForeground(CCObject *obj)
 
 	// set m_bDirty to true to force it rebinding buffer
 	m_bDirty = true;
+	mDXTextureAtlas.m_dirty = true;
 }
 
 const char* CCTextureAtlas::description()
@@ -330,6 +332,7 @@ void CCTextureAtlas::updateQuad(ccV3F_C4B_T2F_Quad *quad, unsigned int index)
 
 
 	m_bDirty = true;
+	mDXTextureAtlas.m_dirty = true;
 
 }
 
@@ -354,6 +357,7 @@ void CCTextureAtlas::insertQuad(ccV3F_C4B_T2F_Quad *quad, unsigned int index)
 
 
 	m_bDirty = true;
+	mDXTextureAtlas.m_dirty = true;
 
 }
 
@@ -386,6 +390,7 @@ void CCTextureAtlas::insertQuads(ccV3F_C4B_T2F_Quad* quads, unsigned int index, 
 	}
 
 	m_bDirty = true;
+	mDXTextureAtlas.m_dirty = true;
 }
 
 void CCTextureAtlas::insertQuadFromIndex(unsigned int oldIndex, unsigned int newIndex)
@@ -415,6 +420,7 @@ void CCTextureAtlas::insertQuadFromIndex(unsigned int oldIndex, unsigned int new
 
 
 	m_bDirty = true;
+	mDXTextureAtlas.m_dirty = true;
 
 }
 
@@ -436,6 +442,7 @@ void CCTextureAtlas::removeQuadAtIndex(unsigned int index)
 
 
 	m_bDirty = true;
+	mDXTextureAtlas.m_dirty = true;
 
 }
 
@@ -453,6 +460,7 @@ void CCTextureAtlas::removeQuadsAtIndex(unsigned int index, unsigned int amount)
 	}
 
 	m_bDirty = true;
+	mDXTextureAtlas.m_dirty = true;
 }
 
 void CCTextureAtlas::removeAllQuads()
@@ -530,6 +538,7 @@ bool CCTextureAtlas::resizeCapacity(unsigned int newCapacity)
 	mapBuffers();
 
 	m_bDirty = true;
+	mDXTextureAtlas.m_dirty = true;
 
 	return true;
 }
@@ -568,6 +577,7 @@ void CCTextureAtlas::moveQuadsFromIndex(unsigned int oldIndex, unsigned int amou
 	free(tempQuads);
 
 	m_bDirty = true;
+	mDXTextureAtlas.m_dirty = true;
 }
 
 void CCTextureAtlas::moveQuadsFromIndex(unsigned int index, unsigned int newIndex)
@@ -671,7 +681,7 @@ CCDXTextureAtlas::StaticPart::~StaticPart()
 	CC_SAFE_RELEASE_NULL_DX(m_vertexShader);
 }
 CCDXTextureAtlas::CCDXTextureAtlas()
-	: m_last_capacity(0)
+	: m_last_capacity(0), m_dirty(false)
 {
 
 	m_indexBuffer = 0;
@@ -696,38 +706,41 @@ void CCDXTextureAtlas::FreeBuffer()
 
 void CCDXTextureAtlas::RenderVertexBuffer(ccV3F_C4B_T2F_Quad* quads,unsigned int capacity)
 {
-	//VertexType* m_verticesTmp = new VertexType[4*capacity];
-	m_verticesTmp.resize(4*capacity);
-	/*if(!m_verticesTmp)
+	if(m_dirty)
 	{
+		//VertexType* m_verticesTmp = new VertexType[4*capacity];
+		m_verticesTmp.resize(4*capacity);
+		/*if(!m_verticesTmp)
+		{
 		return ;
-	}*/
+		}*/
 
-	for ( int i=0; i<capacity; i++ )
-	{
-		m_verticesTmp[4*i+0].position = XMFLOAT3(quads[i].tl.vertices.x, quads[i].tl.vertices.y, quads[i].tl.vertices.z);
-		m_verticesTmp[4*i+1].position = XMFLOAT3(quads[i].tr.vertices.x, quads[i].tr.vertices.y, quads[i].tr.vertices.z);
-		m_verticesTmp[4*i+2].position = XMFLOAT3(quads[i].br.vertices.x, quads[i].br.vertices.y, quads[i].br.vertices.z);
-		m_verticesTmp[4*i+3].position = XMFLOAT3(quads[i].bl.vertices.x, quads[i].bl.vertices.y, quads[i].bl.vertices.z);
+		for ( int i=0; i<capacity; i++ )
+		{
+			m_verticesTmp[4*i+0].position = XMFLOAT3(quads[i].tl.vertices.x, quads[i].tl.vertices.y, quads[i].tl.vertices.z);
+			m_verticesTmp[4*i+1].position = XMFLOAT3(quads[i].tr.vertices.x, quads[i].tr.vertices.y, quads[i].tr.vertices.z);
+			m_verticesTmp[4*i+2].position = XMFLOAT3(quads[i].br.vertices.x, quads[i].br.vertices.y, quads[i].br.vertices.z);
+			m_verticesTmp[4*i+3].position = XMFLOAT3(quads[i].bl.vertices.x, quads[i].bl.vertices.y, quads[i].bl.vertices.z);
 
-		m_verticesTmp[4*i+0].texture = XMFLOAT2(quads[i].tl.texCoords.u, quads[i].tl.texCoords.v);
-		m_verticesTmp[4*i+1].texture = XMFLOAT2(quads[i].tr.texCoords.u, quads[i].tr.texCoords.v);
-		m_verticesTmp[4*i+2].texture = XMFLOAT2(quads[i].br.texCoords.u, quads[i].br.texCoords.v);
-		m_verticesTmp[4*i+3].texture = XMFLOAT2(quads[i].bl.texCoords.u, quads[i].bl.texCoords.v);
+			m_verticesTmp[4*i+0].texture = XMFLOAT2(quads[i].tl.texCoords.u, quads[i].tl.texCoords.v);
+			m_verticesTmp[4*i+1].texture = XMFLOAT2(quads[i].tr.texCoords.u, quads[i].tr.texCoords.v);
+			m_verticesTmp[4*i+2].texture = XMFLOAT2(quads[i].br.texCoords.u, quads[i].br.texCoords.v);
+			m_verticesTmp[4*i+3].texture = XMFLOAT2(quads[i].bl.texCoords.u, quads[i].bl.texCoords.v);
 
-		m_verticesTmp[4*i+0].color = XMFLOAT4(quads[i].tl.colors.r/255.f, quads[i].tl.colors.g/255.f, quads[i].tl.colors.b/255.f, quads[i].tl.colors.a/255.f);
-		m_verticesTmp[4*i+1].color = XMFLOAT4(quads[i].tr.colors.r/255.f, quads[i].tr.colors.g/255.f, quads[i].tr.colors.b/255.f, quads[i].tr.colors.a/255.f);
-		m_verticesTmp[4*i+2].color = XMFLOAT4(quads[i].br.colors.r/255.f, quads[i].br.colors.g/255.f, quads[i].br.colors.b/255.f, quads[i].br.colors.a/255.f);
-		m_verticesTmp[4*i+3].color = XMFLOAT4(quads[i].bl.colors.r/255.f, quads[i].bl.colors.g/255.f, quads[i].bl.colors.b/255.f, quads[i].bl.colors.a/255.f);
+			m_verticesTmp[4*i+0].color = XMFLOAT4(quads[i].tl.colors.r/255.f, quads[i].tl.colors.g/255.f, quads[i].tl.colors.b/255.f, quads[i].tl.colors.a/255.f);
+			m_verticesTmp[4*i+1].color = XMFLOAT4(quads[i].tr.colors.r/255.f, quads[i].tr.colors.g/255.f, quads[i].tr.colors.b/255.f, quads[i].tr.colors.a/255.f);
+			m_verticesTmp[4*i+2].color = XMFLOAT4(quads[i].br.colors.r/255.f, quads[i].br.colors.g/255.f, quads[i].br.colors.b/255.f, quads[i].br.colors.a/255.f);
+			m_verticesTmp[4*i+3].color = XMFLOAT4(quads[i].bl.colors.r/255.f, quads[i].bl.colors.g/255.f, quads[i].bl.colors.b/255.f, quads[i].bl.colors.a/255.f);
+		}
+
+		D3D11_MAPPED_SUBRESOURCE mappedResourceVertex;
+		VertexType* verticesPtr;
+		if(FAILED(CCID3D11DeviceContext->Map(m_vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResourceVertex))){return ;}
+		verticesPtr = (VertexType*)mappedResourceVertex.pData;
+		memcpy(verticesPtr, (void*)&m_verticesTmp[0], (sizeof(VertexType) * 4 * capacity));
+		CCID3D11DeviceContext->Unmap(m_vertexBuffer, 0);
+		m_dirty = false;
 	}
-
-	D3D11_MAPPED_SUBRESOURCE mappedResourceVertex;
-	VertexType* verticesPtr;
-	if(FAILED(CCID3D11DeviceContext->Map(m_vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResourceVertex))){return ;}
-	verticesPtr = (VertexType*)mappedResourceVertex.pData;
-	memcpy(verticesPtr, (void*)&m_verticesTmp[0], (sizeof(VertexType) * 4 * capacity));
-	CCID3D11DeviceContext->Unmap(m_vertexBuffer, 0);
-
 	//if ( m_verticesTmp )
 	//{
 	//	delete[] m_verticesTmp;
