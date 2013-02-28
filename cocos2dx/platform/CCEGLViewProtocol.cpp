@@ -69,7 +69,11 @@ void CCEGLViewProtocol::setDesignResolutionSize(float width, float height, Resol
     }
 
     m_obDesignResolutionSize.setSize(width, height);
-    
+#ifdef CC_WIN8_PHONE
+	float tmp = m_obScreenSize.width;
+	m_obScreenSize.width = m_obScreenSize.height;
+	m_obScreenSize.height = tmp;
+#endif
     m_fScaleX = (float)m_obScreenSize.width / m_obDesignResolutionSize.width;
     m_fScaleY = (float)m_obScreenSize.height / m_obDesignResolutionSize.height;
     
@@ -167,12 +171,22 @@ void CCEGLViewProtocol::setScissorInPoints(float x , float y , float w , float h
 
 
     // Switch coordinate system's origin from bottomleft(OpenGL) to topleft(DirectX)
+#ifndef CC_WIN8_PHONE
 	y = m_obScreenSize.height - (y + h); 
-    D3DScissor(
+	D3DScissor(
 		(int)(x * m_fScaleX + m_obViewPortRect.origin.x),
 		(int)(y * m_fScaleY + m_obViewPortRect.origin.y),
 		(int)(w * m_fScaleX),
 		(int)(h * m_fScaleY));
+#else
+	y = m_obScreenSize.height - (y + h); 
+	D3DScissor(
+		(int)(x * m_fScaleX + m_obViewPortRect.origin.x),
+		(int)(y * m_fScaleY + m_obViewPortRect.origin.y),
+		(int)(w * m_fScaleX),
+		(int)(h * m_fScaleY));
+#endif
+
 }
 
 void CCEGLViewProtocol::setViewName(const char* pszViewName)

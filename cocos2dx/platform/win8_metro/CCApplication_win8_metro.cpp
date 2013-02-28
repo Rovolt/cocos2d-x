@@ -21,7 +21,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-
+#ifdef CC_WIN8_PHONE
+#include <agile.h>
+using namespace Windows::UI::Core;
+#endif
 #include "CCApplication.h"
 
 #include "DirectXRender.h"
@@ -70,7 +73,7 @@ public:
     void OnLogicalDpiChanged(
         _In_ Platform::Object^ sender
         );
-
+#ifndef CC_WIN8_PHONE
 	void OnVisibilityChanged(
 		_In_ Windows::UI::Core::CoreWindow^ sender,
 		_In_ Windows::UI::Core::VisibilityChangedEventArgs^ args
@@ -80,11 +83,16 @@ public:
     _In_ Windows::UI::Core::CoreWindow^ sender,
     _In_ Windows::UI::Core::CoreWindowEventArgs^ args
     );
+#endif
 
 private:
     DirectXRender^ m_renderer;
+#ifndef CC_WIN8_PHONE
 	bool m_windowVisible;
 	bool m_windowClosed;
+#else
+	Platform::Agile<Windows::UI::Core::CoreWindow> m_window;
+#endif
 };
 
 using namespace Windows::ApplicationModel;
@@ -97,8 +105,10 @@ using namespace Windows::Graphics::Display;
 using namespace Windows::UI::ViewManagement;
 
 CCFrameworkView::CCFrameworkView()
+#ifndef CC_WIN8_PHONE
 	:m_windowVisible(false)
 	,m_windowClosed(false)
+#endif
 {
     CCLog("CCFrameworkView::+CCFrameworkView()");
     CCLog("CCFrameworkView::-CCFrameworkView()");
@@ -126,8 +136,11 @@ void CCFrameworkView::SetWindow(
     _In_ CoreWindow^ window
     )
 {
+	#ifndef CC_WIN8_PHONE
 	CCLog("CCFrameworkView::+SetWindow()");
+
 	window->PointerCursor = ref new CoreCursor(CoreCursorType::Arrow, 0);
+
 	window->VisibilityChanged +=
 		ref new TypedEventHandler<CoreWindow^, VisibilityChangedEventArgs^>(this, &CCFrameworkView::OnVisibilityChanged);
 
@@ -136,10 +149,25 @@ void CCFrameworkView::SetWindow(
 
 	DisplayProperties::LogicalDpiChanged +=
 		ref new DisplayPropertiesEventHandler(this, &CCFrameworkView::OnLogicalDpiChanged);
-
+//#ifdef CC_WIN8_PHONE
+//	DisplayProperties::AutoRotationPreferences = Windows::Graphics::Display::DisplayOrientations::Landscape;
+//	//Windows::Graphics::Display::DisplayOrientations test = DisplayProperties::CurrentOrientation;// = Windows::Graphics::Display::DisplayOrientations::Landscape;
+//#endif
 	m_renderer->Initialize(window, DisplayProperties::LogicalDpi);
 	CCApplication::sharedApplication()->initInstance();
 	CCLog("CCFrameworkView::-SetWindow()");
+#else
+	CCLog("CCFrameworkView::+SetWindow()");
+	m_window = window;
+    //window->PointerCursor = ref new CoreCursor(CoreCursorType::Arrow, 0);
+
+    DisplayProperties::LogicalDpiChanged +=
+        ref new DisplayPropertiesEventHandler(this, &CCFrameworkView::OnLogicalDpiChanged);
+
+    m_renderer->Initialize(window, DisplayProperties::LogicalDpi);
+    CCApplication::sharedApplication()->initInstance();
+    CCLog("CCFrameworkView::-SetWindow()");
+#endif
 }
 
 void CCFrameworkView::Load(
@@ -152,6 +180,7 @@ void CCFrameworkView::Load(
 
 void CCFrameworkView::Run()
 {
+#ifndef CC_WIN8_PHONE
     CCLog("CCFrameworkView::+Run()");
 
     // if applicationDidFinishLaunching return false, exist.
@@ -172,6 +201,43 @@ void CCFrameworkView::Run()
     }
 //    m_renderer->OnSuspending();  // the app is exiting so do the same thing as would if app was being suspended.
     CCLog("CCFrameworkView::-Run()");
+#else
+	CCLog("CCFrameworkView::+Run()");
+
+    // if applicationDidFinishLaunching return false, exist.
+    bool inited = false;
+
+    while (1)
+    {
+		if (nullptr == m_window)
+		{
+			// sleep
+			continue;
+		}
+
+		if (false == inited)
+		{
+			inited = (CCApplication::sharedApplication()->applicationDidFinishLaunching());
+			if (false == inited)
+			{
+				// init falied
+				break;
+			}
+		}
+
+        // if windows closed exit app
+        if (true == m_renderer->GetWindowsClosedState())
+        {
+            break;
+        }
+
+        CoreWindow::GetForCurrentThread()->Dispatcher->ProcessEvents(CoreProcessEventsOption::ProcessAllIfPresent);
+
+        CCDirector::sharedDirector()->mainLoop();
+    }
+//    m_renderer->OnSuspending();  // the app is exiting so do the same thing as would if app was being suspended.
+    CCLog("CCFrameworkView::-Run()");
+#endif
 }
 
 void CCFrameworkView::Uninitialize()
@@ -190,7 +256,9 @@ void CCFrameworkView::OnActivated(
     CoreWindow::GetForCurrentThread()->Activated += 
         ref new TypedEventHandler<CoreWindow^, WindowActivatedEventArgs^>(this, &CCFrameworkView::OnWindowActivationChanged);
     CoreWindow::GetForCurrentThread()->Activate();
+#ifndef CC_WIN8_PHONE
 	m_windowVisible = true;
+#endif
     CCLog("CCFrameworkView::-OnActivated()");
 }
 
@@ -249,7 +317,7 @@ void CCFrameworkView::OnLogicalDpiChanged(
     m_renderer->SetDpi(DisplayProperties::LogicalDpi);
     CCLog("CCFrameworkView::-OnLogicalDpiChanged()");
 }
-
+#ifndef CC_WIN8_PHONE
 void CCFrameworkView::OnVisibilityChanged(
     _In_ CoreWindow^ sender,
     _In_ VisibilityChangedEventArgs^ args
@@ -274,7 +342,7 @@ void CCFrameworkView::OnWindowClosed(
     m_windowClosed = true;
 	CCLog("CCFrameworkView::OnWindowClosed");
 }
-
+#endif
 
 Windows::ApplicationModel::Core::IFrameworkView^ getSharedCCApplicationFrameworkView()
 {

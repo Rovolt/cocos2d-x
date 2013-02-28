@@ -184,12 +184,22 @@ void CCEGLView::setScissorInPoints(float x, float y, float w, float h)
 {
     float factor = m_fScreenScaleFactor * CC_CONTENT_SCALE_FACTOR();
     // Switch coordinate system's origin from bottomleft(OpenGL) to topleft(DirectX)
+#ifndef CC_WIN8_PHONE
     y = m_sizeInPoints.height - (y + h) * m_fScaleY; 
     D3DScissor(
 		(int)(x * m_fScaleX + m_obViewPortRect.origin.x),
 		(int)(y + m_obViewPortRect.origin.y),
 		(int)(w * m_fScaleX),
 		(int)(h * m_fScaleY));
+#else
+	//y = m_sizeInPoints.width - (y + h) * m_fScaleY; 
+	//x = m_sizeInPoints.height - (x + w) * m_fScaleX;
+    D3DScissor(
+		(int)(y + m_obViewPortRect.origin.y),
+		(int)(x * m_fScaleX + m_obViewPortRect.origin.y),
+		(int)(h * m_fScaleY),
+		(int)(w * m_fScaleX));
+#endif
 
 	/*glScissor((GLint)(x * m_fScaleX + m_obViewPortRect.origin.x),
               (GLint)(y * m_fScaleY + m_obViewPortRect.origin.y),
@@ -325,8 +335,14 @@ void CCEGLViewProtocol::D3DViewport(int x, int y, int width, int height)
 	D3D11_VIEWPORT viewport;
 
 	// Setup the viewport for rendering.
+//#ifndef CC_WIN8_PHONE
 	viewport.Width = (float)width;
 	viewport.Height = (float)height;
+//#else
+//	//To make the view landscape
+//	viewport.Width = (float)height;
+//	viewport.Height = (float)width;
+//#endif
 	viewport.MinDepth = 0.0f;
 	viewport.MaxDepth = 1.0f;
 	viewport.TopLeftX = (float)x;
@@ -339,11 +355,17 @@ void CCEGLViewProtocol::D3DViewport(int x, int y, int width, int height)
 void CCEGLViewProtocol::D3DScissor(int x,int y,int w,int h)
 {
 	D3D11_RECT scissorRects;
-
+#ifndef CC_WIN8_PHONE
 	scissorRects.top = y;
 	scissorRects.left = x;
 	scissorRects.right = x+w;
 	scissorRects.bottom = y+h;
+#else
+	scissorRects.top = y;
+	scissorRects.left = x;
+	scissorRects.right = x+w;
+	scissorRects.bottom = y+h;
+#endif
 
 	m_d3dContext->RSSetScissorRects(1,&scissorRects);
 }
@@ -758,9 +780,13 @@ void CCEGLView::OnPointerPressed(int id, const CCPoint& point)
 
     if (! pTouch || ! pSet)
         return;
-
+#ifndef CC_WIN8_PHONE
     float x = point.x;
     float y = point.y;
+#else
+	float x = point.y;
+    float y = point.x;
+#endif
     ConvertPointerCoords(x, y);
     pTouch->SetTouchInfo(x, y);
     pSet->addObject(pTouch);
@@ -776,8 +802,13 @@ void CCEGLView::OnPointerReleased(int id, const CCPoint& point)
     if (! pTouch || ! pSet)
         return;
 
+#ifndef CC_WIN8_PHONE
     float x = point.x;
     float y = point.y;
+#else
+	float x = point.y;
+    float y = point.x;
+#endif
     ConvertPointerCoords(x, y);
     pTouch->SetTouchInfo(x, y);
 
@@ -796,8 +827,13 @@ void CCEGLView::OnPointerMoved(int id, const CCPoint& point)
     if (! pTouch || ! pSet)
         return;
 
+#ifndef CC_WIN8_PHONE
     float x = point.x;
     float y = point.y;
+#else
+	float x = point.y;
+    float y = point.x;
+#endif
     ConvertPointerCoords(x, y);
     pTouch->SetTouchInfo(x, y);
 

@@ -149,7 +149,9 @@ void SimpleAudioEngine::stopAllEffects()
 
 void SimpleAudioEngine::preloadBackgroundMusic(const char* pszFilePath)
 {
+#ifndef CC_WIN8_PHONE
 	sharedAudioController()->PreloadSoundEffect(pszFilePath, true);
+#endif
 }
 
 void SimpleAudioEngine::unloadEffect(const char* pszFilePath)

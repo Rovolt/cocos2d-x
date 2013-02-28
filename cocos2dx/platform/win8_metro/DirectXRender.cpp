@@ -610,6 +610,7 @@ void DirectXRender::CreateWindowSizeDependentResources()
 		swapChainDesc.BufferCount = 1;                               // use double buffering to enable flip
 		swapChainDesc.Scaling = DXGI_SCALING_STRETCH;
 		swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD; // all Metro style apps must use this SwapEffect
+		//swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
 		swapChainDesc.Flags = 0;
 #else
 		DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {0};
@@ -691,6 +692,8 @@ void DirectXRender::CreateWindowSizeDependentResources()
 	// Cache the rendertarget dimensions in our helper class for convenient use.
 	D3D11_TEXTURE2D_DESC backBufferDesc;
 	backBuffer->GetDesc(&backBufferDesc);
+	
+
 	m_renderTargetSize.Width  = static_cast<float>(backBufferDesc.Width);
 	m_renderTargetSize.Height = static_cast<float>(backBufferDesc.Height);
 
@@ -779,6 +782,7 @@ void DirectXRender::Render()
 // Method to deliver the final image to the display.
 void DirectXRender::Present()
 {
+#ifndef CC_WIN8_PHONE
     // The application may optionally specify "dirty" or "scroll" rects to improve efficiency
     // in certain scenarios.  In this sample, however, we do not utilize those features.
     DXGI_PRESENT_PARAMETERS parameters = {0};
@@ -802,6 +806,29 @@ void DirectXRender::Present()
     {
         DX::ThrowIfFailed(hr);
     }
+#else
+		//int r = rand() % 255;
+	//int g = rand() % 255;
+	//int b = rand() % 255;
+
+
+	// The first argument instructs DXGI to block until VSync, putting the application
+	// to sleep until the next VSync. This ensures we don't waste any cycles rendering
+	// frames that will never be displayed to the screen.
+	// We 
+	HRESULT hr = m_swapChain->Present(1, 0);
+
+	// If the device was removed either by a disconnect or a driver upgrade, we 
+	// must completely reinitialize the renderer.
+	if (hr == DXGI_ERROR_DEVICE_REMOVED || hr == DXGI_ERROR_DEVICE_RESET)
+	{
+		Initialize(m_window.Get(), m_dpi);
+	}
+	else
+	{
+		DX::ThrowIfFailed(hr);
+	}
+#endif
 }
 #ifdef CC_WIN8_PHONE
 bool DirectXRender::GetWindowsClosedState()

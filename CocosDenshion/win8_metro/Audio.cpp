@@ -436,6 +436,7 @@ bool Audio::IsSoundEffectStarted(unsigned int sound)
 
 void Audio::PreloadSoundEffect(const char* pszFilePath, bool isMusic)
 {
+#ifndef CC_WIN8_PHONE
     if (m_engineExperiencedCriticalError) {
         return;
     }
@@ -492,6 +493,7 @@ void Audio::PreloadSoundEffect(const char* pszFilePath, bool isMusic)
 	m_soundEffects[sound].m_audioBuffer.pContext = &m_soundEffects[sound];
 	m_soundEffects[sound].m_audioBuffer.Flags = XAUDIO2_END_OF_STREAM;
     m_soundEffects[sound].m_audioBuffer.LoopCount = 0;
+#endif
 }
 
 void Audio::UnloadSoundEffect(const char* pszFilePath)

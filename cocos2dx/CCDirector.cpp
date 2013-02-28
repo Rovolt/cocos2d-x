@@ -327,7 +327,12 @@ void CCDirector::setNextDeltaTimeZero(bool bNextDeltaTimeZero)
 void CCDirector::setProjection(ccDirectorProjection kProjection)
 {
     CCSize size = m_obWinSizeInPoints;
-
+#ifdef CC_WIN8_PHONE
+	////Make landscape
+	float tmp = size.height;
+	size.height = size.width;
+	size.width = tmp;
+#endif
     //if (m_pobOpenGLView)
     //{
     //    m_pobOpenGLView->setViewPortInPoints(0, 0, size.width, size.height);
@@ -407,7 +412,11 @@ void CCDirector::setProjection(ccDirectorProjection kProjection)
 	case kCCDirectorProjection3D:
 		if (m_pobOpenGLView) 
 		{
+#ifndef CC_WIN8_PHONE
 			m_pobOpenGLView->setViewPortInPoints(0, 0, size.width, size.height);
+#else
+			m_pobOpenGLView->setViewPortInPoints(0, 0, size.width, size.height);
+#endif
 		}
 		m_pobOpenGLView->D3DMatrixMode(CC_PROJECTION);
 		m_pobOpenGLView->D3DLoadIdentity();
@@ -417,7 +426,15 @@ void CCDirector::setProjection(ccDirectorProjection kProjection)
 		m_pobOpenGLView->D3DLoadIdentity();
 		m_pobOpenGLView->D3DLookAt( size.width/2, size.height/2, zeye,
 			size.width/2, size.height/2, 0,
-			0.0f, 1.0f, 0.0f);	
+			0.0f, 1.0, 0.0f);
+#ifndef CC_WIN8_PHONE
+#else
+
+		m_pobOpenGLView->D3DTranslate(size.width/2,size.height/2,0);
+		m_pobOpenGLView->D3DRotate(CC_DEGREES_TO_RADIANS(-90), 0,0,1);
+		m_pobOpenGLView->D3DTranslate(-size.height/2,-size.width/2,0);
+		
+#endif
 
 		//Kazmath part
 		kmMat4 matrixPerspective, matrixLookup;
@@ -438,6 +455,12 @@ void CCDirector::setProjection(ccDirectorProjection kProjection)
         kmVec3Fill( &center, size.width/2, size.height/2, 0.0f );
         kmVec3Fill( &up, 0.0f, 1.0f, 0.0f);
         kmMat4LookAt(&matrixLookup, &eye, &center, &up);
+#ifdef CC_WIN8_PHONE
+
+		/*kmMat4Translation(&matrixLookup,size.width/2,size.height/2,0);
+		kmMat4RotationZ(&matrixLookup, CC_DEGREES_TO_RADIANS(-90));
+		kmMat4Translation(&matrixLookup,-size.height/2,-size.width/2,0);*/
+#endif
         kmGLMultMatrix(&matrixLookup);
 
 		break;
@@ -469,7 +492,11 @@ void CCDirector::purgeCachedData(void)
 
 float CCDirector::getZEye(void)
 {
+#ifndef CC_WIN8_PHONE
     return (m_obWinSizeInPoints.height / 1.1566f);
+#else
+	return (m_obWinSizeInPoints.width / 1.1566f);
+#endif
 }
 
 void CCDirector::setAlphaBlending(bool bOn)
@@ -515,6 +542,7 @@ GLToClipTransform(kmMat4 *transformOut)
 
 CCPoint CCDirector::convertToGL(const CCPoint& uiPoint)
 {
+#ifndef CC_WIN8_PHONE
     kmMat4 transform;
 	GLToClipTransform(&transform);
 	
@@ -531,6 +559,9 @@ CCPoint CCDirector::convertToGL(const CCPoint& uiPoint)
 	kmVec3TransformCoord(&glCoord, &clipCoord, &transformInv);
 	
 	return ccp(glCoord.x, glCoord.y);
+#else
+	return uiPoint;
+#endif
 }
 
 CCPoint CCDirector::convertToUI(const CCPoint& glPoint)
