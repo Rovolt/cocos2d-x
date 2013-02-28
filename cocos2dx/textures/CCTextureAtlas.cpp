@@ -798,7 +798,7 @@ void CCDXTextureAtlas::initVertexBuffer(unsigned short* indices,unsigned int cap
 		iinitData.pSysMem = indices;
 		CCID3D11Device->CreateBuffer(&indexBufferDesc, &iinitData, &m_indexBuffer);
 	}
-	else
+	else if(m_dirty)
 	{
 		D3D11_MAPPED_SUBRESOURCE resource;
 		if(FAILED(CCID3D11DeviceContext->Map(m_indexBuffer, 0,
