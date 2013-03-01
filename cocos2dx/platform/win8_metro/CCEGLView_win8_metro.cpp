@@ -95,15 +95,27 @@ ID3D11DepthStencilView* CCEGLView::GetDepthStencilView()
 {
     return m_depthStencilView;
 }
-
+#ifdef CC_WIN8_PHONE
+inline float DIP2Pixels(float DIP, float dpi)
+{
+	return DIP * dpi / 96;
+}
+#endif
 bool CCEGLView::Create()
 {
 	bool bRet = false;
 	do 
 	{
         DirectXRender^ render = DirectXRender::SharedDXRender();
+
+#ifndef CC_WIN8_PHONE
 		m_obScreenSize.width = (int)render->m_window->Bounds.Width;
 		m_obScreenSize.height = (int)render->m_window->Bounds.Height;
+#else
+		float dpi = render->GetDpi();
+		m_obScreenSize.width = DIP2Pixels(render->m_window->Bounds.Width, dpi);
+		m_obScreenSize.height = DIP2Pixels(render->m_window->Bounds.Height, dpi);
+#endif
         setDesignResolution(m_obScreenSize.width, m_obScreenSize.height);
         SetBackBufferRenderTarget();
 #ifndef CC_WIN8_PHONE
@@ -169,11 +181,19 @@ void CCEGLView::setViewPortInPoints(float x, float y, float w, float h)
 	/*float factor = m_fScreenScaleFactor * CC_CONTENT_SCALE_FACTOR();
 	
     */
+#ifndef CC_WIN8_PHONE
 	D3DViewport(
 		(int)(x * m_fScaleX + m_obViewPortRect.origin.x),
 		(int)(y * m_fScaleY + m_obViewPortRect.origin.y),
 		(int)(w * m_fScaleX),
 		(int)(h * m_fScaleY));
+#else
+	D3DViewport(
+		(int)(x * m_fScaleX + m_obViewPortRect.origin.y),
+		(int)(y * m_fScaleY + m_obViewPortRect.origin.x),
+		(int)(w * m_fScaleX),
+		(int)(h * m_fScaleY));
+#endif
 	/*glViewport((GLint)(x * m_fScaleX + m_obViewPortRect.origin.x),
                (GLint)(y * m_fScaleY + m_obViewPortRect.origin.y),
                (GLsizei)(w * m_fScaleX),
@@ -245,8 +265,16 @@ void CCEGLView::setDesignResolution(int dx, int dy)
     m_sizeInPoints.height = (float)dy;
     
     DirectXRender^ render = DirectXRender::SharedDXRender();
-    float winWidth = render->m_window->Bounds.Width;
+#ifndef CC_WIN8_PHONE
+	float winWidth = render->m_window->Bounds.Width;
     float winHeight = render->m_window->Bounds.Height;
+#else
+	float dpi = render->GetDpi();
+	float winWidth = DIP2Pixels(render->m_window->Bounds.Width, dpi);
+    float winHeight = DIP2Pixels(render->m_window->Bounds.Height, dpi);
+		
+#endif
+    
 
     // m_window size might be less than its real size due to ResolutionScale
     winWidth *= GetResolutionScale();
@@ -747,6 +775,11 @@ void CCEGLView::OnCharacterReceived(unsigned int keyCode)
 
 void CCEGLView::ConvertPointerCoords(float &x, float &y)
 {
+#ifdef CC_WIN8_PHONE
+	static float dpi = DirectXRender::SharedDXRender()->GetDpi();
+	x = DIP2Pixels(x, dpi);
+	y = DIP2Pixels(y, dpi);
+#endif
 	x=(x - m_obViewPortRect.origin.x) / m_fScaleX;
 	y=(y - m_obViewPortRect.origin.y) / m_fScaleY;
 	//float factor = CC_CONTENT_SCALE_FACTOR()/m_fScreenScaleFactor;

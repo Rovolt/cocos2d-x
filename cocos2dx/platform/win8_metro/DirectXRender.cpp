@@ -33,6 +33,8 @@ using namespace Windows::Foundation;
 using namespace Microsoft::WRL;
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 typedef FTTextPainter TextPainter;
+#include "CCDirector.h"
+#include "keypad_dispatcher/CCKeypadDispatcher.h"
 #else
 typedef DXTextPainter TextPainter;
 using namespace D2D1;
@@ -82,7 +84,10 @@ void DirectXRender::Initialize(CoreWindow^ window, float dpi)
 
     window->CharacterReceived += 
         ref new TypedEventHandler<CoreWindow^, CharacterReceivedEventArgs^>(this, &DirectXRender::OnCharacterReceived);
-
+#ifdef CC_WIN8_PHONE
+	using namespace Windows::Phone::UI::Input;
+	HardwareButtons::BackPressed += ref new EventHandler<BackPressedEventArgs^>(this, &DirectXRender::OnBackButtonPressed);
+#endif
     CreateDeviceIndependentResources();
     CreateDeviceResources();
     SetDpi(dpi);
@@ -778,7 +783,12 @@ void DirectXRender::Render()
     //m_d3dContext->ClearRenderTargetView(m_renderTargetView.Get(), color);
     //m_d3dContext->ClearDepthStencilView(m_depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 }
-
+#ifdef CC_WIN8_PHONE
+float DirectXRender::GetDpi()
+{
+	return m_dpi;
+}
+#endif
 // Method to deliver the final image to the display.
 void DirectXRender::Present()
 {
@@ -937,7 +947,13 @@ void DirectXRender::OnPointerPressed(
 		view->OnPointerPressed(args->CurrentPoint->PointerId, point);
 	}
 }
-
+#ifdef CC_WIN8_PHONE
+void DirectXRender::OnBackButtonPressed(Platform::Object^ sender, Windows::Phone::UI::Input::BackPressedEventArgs^ args)
+{
+	CCDirector::sharedDirector()->getKeypadDispatcher()->dispatchKeypadMSG(kTypeBackClicked);
+	args->Handled = true;
+}
+#endif
 void DirectXRender::OnPointerReleased(
     _In_ Windows::UI::Core::CoreWindow^ sender,
     _In_ Windows::UI::Core::PointerEventArgs^ args

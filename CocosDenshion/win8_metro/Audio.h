@@ -65,7 +65,7 @@ struct StreamingVoiceContext : public IXAudio2VoiceCallback
     STDMETHOD_(void, OnVoiceError)(void*, HRESULT){}
 
     HANDLE hBufferEndEvent;
-    StreamingVoiceContext() : hBufferEndEvent(CreateEventEx(NULL, FALSE, FALSE, NULL))
+    StreamingVoiceContext() : hBufferEndEvent(CreateEventExW(NULL, FALSE, FALSE, NULL))
     {
     }
     virtual ~StreamingVoiceContext()

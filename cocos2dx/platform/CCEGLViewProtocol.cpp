@@ -132,8 +132,14 @@ CCPoint CCEGLViewProtocol::getVisibleOrigin() const
 {
     if (m_eResolutionPolicy == kResolutionNoBorder)
     {
+#ifndef CC_WIN8_PHONE
         return CCPointMake((m_obDesignResolutionSize.width - m_obScreenSize.width/m_fScaleX)/2, 
                            (m_obDesignResolutionSize.height - m_obScreenSize.height/m_fScaleY)/2);
+#else
+		return CCPointMake((m_obDesignResolutionSize.width - m_obScreenSize.width/m_fScaleX)/2, 
+                           (m_obDesignResolutionSize.height - m_obScreenSize.height/m_fScaleY)/2);
+
+#endif
     }
     else 
     {

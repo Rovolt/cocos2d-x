@@ -796,9 +796,10 @@ void CCDXTextureAtlas::initVertexBuffer(unsigned short* indices,unsigned int cap
 
 		D3D11_SUBRESOURCE_DATA iinitData;
 		iinitData.pSysMem = indices;
+		//m_dirty = true;
 		CCID3D11Device->CreateBuffer(&indexBufferDesc, &iinitData, &m_indexBuffer);
 	}
-	else if(m_dirty)
+	/*else if(m_dirty)
 	{
 		D3D11_MAPPED_SUBRESOURCE resource;
 		if(FAILED(CCID3D11DeviceContext->Map(m_indexBuffer, 0,
@@ -808,7 +809,7 @@ void CCDXTextureAtlas::initVertexBuffer(unsigned short* indices,unsigned int cap
 		}
 		memcpy(resource.pData, (void*)indices, sizeof(CCushort) * 6 * capacity);
 		CCID3D11DeviceContext->Unmap(m_indexBuffer, 0);
-	}
+	}*/
 }
 
 bool CCDXTextureAtlas::InitializeShader()

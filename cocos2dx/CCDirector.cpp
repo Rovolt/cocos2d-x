@@ -696,7 +696,10 @@ void CCDirector::popToRootScene(void)
 
 void CCDirector::end()
 {
-    m_bPurgeDirecotorInNextLoop = true;
+    //m_bPurgeDirecotorInNextLoop = true;
+#ifdef CC_WIN8_PHONE
+	//Microsoft.Phone.Controls
+#endif
 }
 
 void CCDirector::purgeDirector()

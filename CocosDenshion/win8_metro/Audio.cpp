@@ -10,7 +10,7 @@
 #include "Audio.h"
 #include "MediaStreamer.h"
 #include "CCCommon.h"
-
+#include "CCFileUtils.h"
 void AudioEngineCallbacks::Initialize(Audio *audio)
 {
     m_audio = audio;
@@ -436,7 +436,7 @@ bool Audio::IsSoundEffectStarted(unsigned int sound)
 
 void Audio::PreloadSoundEffect(const char* pszFilePath, bool isMusic)
 {
-#ifndef CC_WIN8_PHONE
+//#ifndef CC_WIN8_PHONE
     if (m_engineExperiencedCriticalError) {
         return;
     }
@@ -444,7 +444,8 @@ void Audio::PreloadSoundEffect(const char* pszFilePath, bool isMusic)
     int sound = Hash(pszFilePath);
 
 	MediaStreamer mediaStreamer;
-	mediaStreamer.Initialize(cocos2d::CCUtf8ToUnicode(pszFilePath).c_str());
+	std::string full_path = cocos2d::CCFileUtils::sharedFileUtils()->fullPathFromRelativePath(pszFilePath);
+	mediaStreamer.Initialize(cocos2d::CCUtf8ToUnicode(full_path.c_str()).c_str());
 	m_soundEffects[sound].m_soundID = sound;	
 	
 	uint32 bufferLength = mediaStreamer.GetMaxStreamLengthInBytes();
@@ -493,7 +494,7 @@ void Audio::PreloadSoundEffect(const char* pszFilePath, bool isMusic)
 	m_soundEffects[sound].m_audioBuffer.pContext = &m_soundEffects[sound];
 	m_soundEffects[sound].m_audioBuffer.Flags = XAUDIO2_END_OF_STREAM;
     m_soundEffects[sound].m_audioBuffer.LoopCount = 0;
-#endif
+//#endif
 }
 
 void Audio::UnloadSoundEffect(const char* pszFilePath)

@@ -180,6 +180,9 @@ public:
     void UpdateForWindowSizeChange();
     void CreateWindowSizeDependentResources();
     void Render();
+#ifdef CC_WIN8_PHONE
+	float GetDpi();
+#endif
     void Present();
 	void SetBackBufferRenderTarget();
     void CloseWindow();
@@ -263,6 +266,7 @@ protected:
         _In_ Windows::UI::Core::CharacterReceivedEventArgs^ args
         );
 
+	void OnBackButtonPressed(Platform::Object^ sender, Windows::Phone::UI::Input::BackPressedEventArgs^ args);
 };
 
 }
