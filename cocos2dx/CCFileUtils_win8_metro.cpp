@@ -879,5 +879,12 @@ string CCFileUtils::getWriteablePath()
 	ret = CCUnicodeToUtf8(folderPath->Data());
 	return ret;
 }
+std::wstring CCFileUtils::getWriteablePathW()
+{
+	//return the path of Appliction LocalFolor
+	StorageFolder^ localFolder = ApplicationData::Current->LocalFolder;
+	Platform::String^ folderPath = localFolder->Path + "\\";
 
+	return folderPath->Data();
+}
 NS_CC_END;

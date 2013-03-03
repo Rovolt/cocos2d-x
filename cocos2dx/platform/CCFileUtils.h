@@ -92,7 +92,7 @@ public:
     @return  The path that can write/read file
     */
     std::string getWriteablePath();
-
+	std::wstring getWriteablePathW();
     /**
     @brief Set/Get whether pop-up a message box when the image load failed
     */
