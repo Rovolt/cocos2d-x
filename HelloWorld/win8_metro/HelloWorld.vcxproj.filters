@@ -877,6 +877,34 @@
     <Image Include="Assets\WideLogo.png">
       <Filter>Resources</Filter>
     </Image>
+    <Image Include="Assets\fonts\Marker Felt.ttf" />
+    <Image Include="Assets\ipad\CloseNormal.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="Assets\ipad\CloseSelected.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="Assets\ipad\HelloWorld.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="Assets\ipadhd\CloseNormal.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="Assets\ipadhd\CloseSelected.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="Assets\ipadhd\HelloWorld.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="Assets\iphone\CloseNormal.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="Assets\iphone\CloseSelected.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="Assets\iphone\HelloWorld.png">
+      <Filter>Resources</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\cocos2dx\kazmath\src\CMakeLists.txt">

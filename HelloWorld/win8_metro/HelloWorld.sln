@@ -3,6 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Windows 8
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HelloWorld", "HelloWorld.vcxproj", "{285C09C8-3417-49D1-B538-7F52A605820A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Performance Reports", "Performance Reports", "{6693E3E2-5F56-40FD-93CF-CA3FDA4C9180}"
+	ProjectSection(SolutionItems) = preProject
+		HelloWorld130304.vspx = HelloWorld130304.vspx
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM

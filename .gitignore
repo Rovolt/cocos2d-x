@@ -1,8 +1,10 @@
 #ignore thumbnails created by windows
 Thumbs.db
 MathIsFun/
-
+AppPackages/
 #Ignore files build by Visual Studio
+*.user
+*.vspx
 *.obj
 *.exe
 *.pdb

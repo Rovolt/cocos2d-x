@@ -305,7 +305,7 @@ void CCDirector::setOpenGLView(CCEGLView *pobOpenGLView)
         // set size
         m_obWinSizeInPoints = m_pobOpenGLView->getDesignResolutionSize();
         
-        createStatsLabel();
+        //createStatsLabel();
         
         /*if (m_pobOpenGLView)
         {
@@ -919,7 +919,7 @@ void CCDirector::setContentScaleFactor(float scaleFactor)
     if (scaleFactor != m_fContentScaleFactor)
     {
         m_fContentScaleFactor = scaleFactor;
-        createStatsLabel();
+        //createStatsLabel();
     }
 }
 
