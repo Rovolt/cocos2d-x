@@ -44,7 +44,6 @@ THE SOFTWARE.
 #include "support/TransformUtils.h"
 #include "support/CCProfiling.h"
 // external
-#include "kazmath/GL/matrix.h"
 #include <string.h>
 #include "CCEGLView.h"
 #include <fstream>

@@ -14,6 +14,12 @@ public:
 	static cocos2d::CCScene* scene();
 	// a selector callback
     void menuCloseCallback(CCObject* pSender);
+
+	virtual void registerWithTouchDispatcher(void);
+    virtual void ccTouchesBegan(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent);
+    virtual void ccTouchesMoved(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent);
+    virtual void ccTouchesEnded(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent);
+    virtual void ccTouchesCancelled(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent);
 	// implement the "static node()" method manually
 	CREATE_FUNC(HelloWorld);
 

@@ -36,7 +36,7 @@ THE SOFTWARE.
 #include "text_input_node/CCIMEDispatcher.h"
 #include "keypad_dispatcher/CCKeypadDispatcher.h"
 #include "CCApplication.h"
-
+//#include <fstream>
 using namespace DirectX;
 NS_CC_BEGIN;
 
@@ -46,33 +46,33 @@ static CCEGLView * s_pMainWindow;
 // (even if invalid value is received)
 static float GetResolutionScale()
 {
-    float ret = 1.0;
-    int resolutionScale = (int)Windows::Graphics::Display::DisplayProperties::ResolutionScale;
-    if (resolutionScale && resolutionScale != 100)
-    {
-        ret = (float)resolutionScale / 100;
-    }
-    return ret;
+	float ret = 1.0;
+	int resolutionScale = (int)Windows::Graphics::Display::DisplayProperties::ResolutionScale;
+	if (resolutionScale && resolutionScale != 100)
+	{
+		ret = (float)resolutionScale / 100;
+	}
+	return ret;
 }
 
 CCEGLView::CCEGLView()
-: m_pDelegate(NULL)
-, m_fScreenScaleFactor(1.0f)
-, m_fWinScaleX(1.0f)
-, m_fWinScaleY(1.0f)
+	: m_pDelegate(NULL)
+	, m_fScreenScaleFactor(1.0f)
+	, m_fWinScaleX(1.0f)
+	, m_fWinScaleY(1.0f)
 {
-    m_rcViewPort.bottom = 0;
-    m_rcViewPort.left = 0;
-    m_rcViewPort.right = 0;
-    m_rcViewPort.top = 0;
+	m_rcViewPort.bottom = 0;
+	m_rcViewPort.left = 0;
+	m_rcViewPort.right = 0;
+	m_rcViewPort.top = 0;
 
-    m_d3dDevice = DirectXRender::SharedDXRender()->m_d3dDevice.Get();
-    m_d3dContext = DirectXRender::SharedDXRender()->m_d3dContext.Get();
-    m_swapChain = DirectXRender::SharedDXRender()->m_swapChain.Get();
-    m_renderTargetView = DirectXRender::SharedDXRender()->m_renderTargetView.Get();
-    m_depthStencilView = DirectXRender::SharedDXRender()->m_depthStencilView.Get();
+	m_d3dDevice = DirectXRender::SharedDXRender()->m_d3dDevice.Get();
+	m_d3dContext = DirectXRender::SharedDXRender()->m_d3dContext.Get();
+	m_swapChain = DirectXRender::SharedDXRender()->m_swapChain.Get();
+	m_renderTargetView = DirectXRender::SharedDXRender()->m_renderTargetView.Get();
+	m_depthStencilView = DirectXRender::SharedDXRender()->m_depthStencilView.Get();
 
-    m_projectionMatrix = XMMatrixIdentity();
+	m_projectionMatrix = XMMatrixIdentity();
 	m_viewMatrix = XMMatrixIdentity();
 	mMatrixMode = -1;
 }
@@ -83,43 +83,43 @@ CCEGLView::~CCEGLView()
 
 ID3D11Device* CCEGLView::GetDevice()
 {
-    return m_d3dDevice;
+	return m_d3dDevice;
 }
 
 ID3D11DeviceContext* CCEGLView::GetDeviceContext()
 {
-    return m_d3dContext;
+	return m_d3dContext;
 }
 
 ID3D11DepthStencilView* CCEGLView::GetDepthStencilView()
 {
-    return m_depthStencilView;
+	return m_depthStencilView;
 }
-#ifdef CC_WIN8_PHONE
+//#ifdef CC_WIN8_PHONE
 inline float DIP2Pixels(float DIP, float dpi)
 {
 	return DIP * dpi / 96;
 }
-#endif
+//#endif
 bool CCEGLView::Create()
 {
 	bool bRet = false;
 	do 
 	{
-        DirectXRender^ render = DirectXRender::SharedDXRender();
+		DirectXRender^ render = DirectXRender::SharedDXRender();
 
-#ifndef CC_WIN8_PHONE
-		m_obScreenSize.width = (int)render->m_window->Bounds.Width;
-		m_obScreenSize.height = (int)render->m_window->Bounds.Height;
-#else
+		//#ifndef CC_WIN8_PHONE
+		//		m_obScreenSize.width = (int)render->m_window->Bounds.Width;
+		//		m_obScreenSize.height = (int)render->m_window->Bounds.Height;
+		//#else
 		float dpi = render->GetDpi();
 		m_obScreenSize.width = DIP2Pixels(render->m_window->Bounds.Width, dpi);
 		m_obScreenSize.height = DIP2Pixels(render->m_window->Bounds.Height, dpi);
-#endif
-        setDesignResolution(m_obScreenSize.width, m_obScreenSize.height);
-        SetBackBufferRenderTarget();
+		//#endif
+		setDesignResolution(m_obScreenSize.width, m_obScreenSize.height);
+		SetBackBufferRenderTarget();
 #ifndef CC_WIN8_PHONE
-        m_oldViewState = int(Windows::UI::ViewManagement::ApplicationView::Value);
+		m_oldViewState = int(Windows::UI::ViewManagement::ApplicationView::Value);
 #else
 		m_oldViewState = 0;
 #endif
@@ -132,61 +132,61 @@ bool CCEGLView::Create()
 
 CCSize CCEGLView::getSize()
 {
-    return m_sizeInPoints;
+	return m_sizeInPoints;
 }
 
 CCSize CCEGLView::getSizeInPixel()
 {
-    return getSize();
+	return getSize();
 }
 
 bool CCEGLView::isOpenGLReady()
 {
-    return s_pMainWindow != NULL;
+	return s_pMainWindow != NULL;
 }
 
 void CCEGLView::release()
 {
 	s_pMainWindow = NULL;
 
-    SetMap::iterator setIter = m_pSets.begin();
-    for ( ; setIter != m_pSets.end(); ++setIter)
-    {
-        CC_SAFE_DELETE(setIter->second);
-    }
-    m_pSets.clear();
+	SetMap::iterator setIter = m_pSets.begin();
+	for ( ; setIter != m_pSets.end(); ++setIter)
+	{
+		CC_SAFE_DELETE(setIter->second);
+	}
+	m_pSets.clear();
 
-    TouchMap::iterator touchIter = m_pTouches.begin();
-    for ( ; touchIter != m_pTouches.end(); ++touchIter)
-    {
-        CC_SAFE_DELETE(touchIter->second);
-    }
-    m_pTouches.clear();
+	TouchMap::iterator touchIter = m_pTouches.begin();
+	for ( ; touchIter != m_pTouches.end(); ++touchIter)
+	{
+		CC_SAFE_DELETE(touchIter->second);
+	}
+	m_pTouches.clear();
 
-    CC_SAFE_DELETE(m_pDelegate);
+	CC_SAFE_DELETE(m_pDelegate);
 }
 
 void CCEGLView::setTouchDelegate(EGLTouchDelegate * pDelegate)
 {
-    m_pDelegate = pDelegate;
+	m_pDelegate = pDelegate;
 }
 
 void CCEGLView::swapBuffers()
 {
-    DirectXRender::SharedDXRender()->Present();
+	DirectXRender::SharedDXRender()->Present();
 }
 
 void CCEGLView::setViewPortInPoints(float x, float y, float w, float h)
 {
 	/*float factor = m_fScreenScaleFactor * CC_CONTENT_SCALE_FACTOR();
-	
-    */
+
+	*/
 #ifndef CC_WIN8_PHONE
 	D3DViewport(
-		(int)(x * m_fScaleX + m_obViewPortRect.origin.x),
-		(int)(y * m_fScaleY + m_obViewPortRect.origin.y),
-		(int)(w * m_fScaleX),
-		(int)(h * m_fScaleY));
+		(int)(x),
+		(int)(y),
+		(int)(w),
+		(int)(h));
 #else
 	D3DViewport(
 		(int)(x * m_fScaleX + m_obViewPortRect.origin.y),
@@ -195,26 +195,26 @@ void CCEGLView::setViewPortInPoints(float x, float y, float w, float h)
 		(int)(h * m_fScaleY));
 #endif
 	/*glViewport((GLint)(x * m_fScaleX + m_obViewPortRect.origin.x),
-               (GLint)(y * m_fScaleY + m_obViewPortRect.origin.y),
-               (GLsizei)(w * m_fScaleX),
-               (GLsizei)(h * m_fScaleY));*/
+	(GLint)(y * m_fScaleY + m_obViewPortRect.origin.y),
+	(GLsizei)(w * m_fScaleX),
+	(GLsizei)(h * m_fScaleY));*/
 }
 
 void CCEGLView::setScissorInPoints(float x, float y, float w, float h)
 {
-    float factor = m_fScreenScaleFactor * CC_CONTENT_SCALE_FACTOR();
-    // Switch coordinate system's origin from bottomleft(OpenGL) to topleft(DirectX)
+	float factor = m_fScreenScaleFactor * CC_CONTENT_SCALE_FACTOR();
+	// Switch coordinate system's origin from bottomleft(OpenGL) to topleft(DirectX)
 #ifndef CC_WIN8_PHONE
-    y = m_sizeInPoints.height - (y + h) * m_fScaleY; 
-    D3DScissor(
-		(int)(x * m_fScaleX + m_obViewPortRect.origin.x),
-		(int)(y + m_obViewPortRect.origin.y),
-		(int)(w * m_fScaleX),
-		(int)(h * m_fScaleY));
+	y = m_sizeInPoints.height - ((y+ m_obViewPortOrigin.y) + h) * m_fViewPortScale * m_fScaleY; 
+	D3DScissor(
+		(int)((x + m_obViewPortOrigin.x)*m_fViewPortScale * m_fScaleX + m_obViewPortRect.origin.x),
+		(int)((y + m_obViewPortRect.origin.y) ),
+		(int)(w * m_fScaleX * m_fViewPortScale),
+		(int)(h * m_fScaleY * m_fViewPortScale));
 #else
 	//y = m_sizeInPoints.width - (y + h) * m_fScaleY; 
 	//x = m_sizeInPoints.height - (x + w) * m_fScaleX;
-    D3DScissor(
+	D3DScissor(
 		(int)(y + m_obViewPortRect.origin.y),
 		(int)(x * m_fScaleX + m_obViewPortRect.origin.y),
 		(int)(h * m_fScaleY),
@@ -222,9 +222,9 @@ void CCEGLView::setScissorInPoints(float x, float y, float w, float h)
 #endif
 
 	/*glScissor((GLint)(x * m_fScaleX + m_obViewPortRect.origin.x),
-              (GLint)(y * m_fScaleY + m_obViewPortRect.origin.y),
-              (GLsizei)(w * m_fScaleX),
-              (GLsizei)(h * m_fScaleY));*/
+	(GLint)(y * m_fScaleY + m_obViewPortRect.origin.y),
+	(GLsizei)(w * m_fScaleX),
+	(GLsizei)(h * m_fScaleY));*/
 }
 
 void CCEGLView::setIMEKeyboardState(bool /*bOpen*/)
@@ -234,68 +234,68 @@ void CCEGLView::setIMEKeyboardState(bool /*bOpen*/)
 void CCEGLView::getScreenRectInView(CCRect& rect)
 {
 	DirectXRender^ render = DirectXRender::SharedDXRender();
-    float winWidth = render->m_window->Bounds.Width;
-    float winHeight = render->m_window->Bounds.Height;
-    
-    rect.origin.x = float(- m_rcViewPort.left) / m_fScreenScaleFactor;
+	float winWidth = render->m_window->Bounds.Width;
+	float winHeight = render->m_window->Bounds.Height;
+
+	rect.origin.x = float(- m_rcViewPort.left) / m_fScreenScaleFactor;
 	rect.origin.y = float((m_rcViewPort.bottom - m_rcViewPort.top) - winHeight) / (2.0f * m_fScreenScaleFactor);
-    rect.size.width = float(winWidth) / m_fScreenScaleFactor;
-    rect.size.height = float(winHeight) / m_fScreenScaleFactor;
+	rect.size.width = float(winWidth) / m_fScreenScaleFactor;
+	rect.size.height = float(winHeight) / m_fScreenScaleFactor;
 }
 
 void CCEGLView::setScreenScale(float factor)
 {
-    m_fScreenScaleFactor = factor;
+	m_fScreenScaleFactor = factor;
 }
 
 bool CCEGLView::canSetContentScaleFactor()
 {
-    return false;
+	return false;
 }
 
 void CCEGLView::setContentScaleFactor(float contentScaleFactor)
 {
-    m_fScreenScaleFactor = contentScaleFactor;
+	m_fScreenScaleFactor = contentScaleFactor;
 }
 
 void CCEGLView::setDesignResolution(int dx, int dy)
 {
-    // 重新计算 contentScale 和 m_rcViewPort 
-    m_sizeInPoints.width = (float)dx;
-    m_sizeInPoints.height = (float)dy;
-    
-    DirectXRender^ render = DirectXRender::SharedDXRender();
-#ifndef CC_WIN8_PHONE
-	float winWidth = render->m_window->Bounds.Width;
-    float winHeight = render->m_window->Bounds.Height;
-#else
+	// 重新计算 contentScale 和 m_rcViewPort 
+	m_sizeInPoints.width = (float)dx;
+	m_sizeInPoints.height = (float)dy;
+
+	DirectXRender^ render = DirectXRender::SharedDXRender();
+	//#ifndef CC_WIN8_PHONE
+	//	float winWidth = render->m_window->Bounds.Width;
+	//    float winHeight = render->m_window->Bounds.Height;
+	//#else
 	float dpi = render->GetDpi();
 	float winWidth = DIP2Pixels(render->m_window->Bounds.Width, dpi);
-    float winHeight = DIP2Pixels(render->m_window->Bounds.Height, dpi);
-		
-#endif
-    
+	float winHeight = DIP2Pixels(render->m_window->Bounds.Height, dpi);
 
-    // m_window size might be less than its real size due to ResolutionScale
-    winWidth *= GetResolutionScale();
-    winHeight *= GetResolutionScale();
+	//#endif
 
-    m_fScreenScaleFactor = min(winWidth / dx, winHeight / dy);
-    m_fScreenScaleFactor *= CCDirector::sharedDirector()->getContentScaleFactor();
 
-    int viewPortW = (int)(m_sizeInPoints.width * m_fScreenScaleFactor);
-    int viewPortH = (int)(m_sizeInPoints.height * m_fScreenScaleFactor);
+	// m_window size might be less than its real size due to ResolutionScale
+	winWidth *= GetResolutionScale();
+	winHeight *= GetResolutionScale();
 
-    // calculate client new width and height
-    m_rcViewPort.left   = LONG((winWidth - viewPortW) / 2);
-    m_rcViewPort.top    = LONG((winHeight - viewPortH) / 2);
-    m_rcViewPort.right  = LONG(m_rcViewPort.left + viewPortW);
-    m_rcViewPort.bottom = LONG(m_rcViewPort.top + viewPortH);
+	m_fScreenScaleFactor = min(winWidth / dx, winHeight / dy);
+	m_fScreenScaleFactor *= CCDirector::sharedDirector()->getContentScaleFactor();
+
+	int viewPortW = (int)(m_sizeInPoints.width * m_fScreenScaleFactor);
+	int viewPortH = (int)(m_sizeInPoints.height * m_fScreenScaleFactor);
+
+	// calculate client new width and height
+	m_rcViewPort.left   = LONG((winWidth - viewPortW) / 2);
+	m_rcViewPort.top    = LONG((winHeight - viewPortH) / 2);
+	m_rcViewPort.right  = LONG(m_rcViewPort.left + viewPortW);
+	m_rcViewPort.bottom = LONG(m_rcViewPort.top + viewPortH);
 }
 
 void CCEGLView::SetBackBufferRenderTarget()
 {
-    m_d3dContext->OMSetRenderTargets(1, &m_renderTargetView, m_depthStencilView);
+	m_d3dContext->OMSetRenderTargets(1, &m_renderTargetView, m_depthStencilView);
 }
 
 void CCEGLViewProtocol::D3DPerspective( FLOAT fovy, FLOAT aspect, FLOAT zNear, FLOAT zFar)
@@ -361,16 +361,16 @@ void CCEGLViewProtocol::D3DLoadIdentity()
 void CCEGLViewProtocol::D3DViewport(int x, int y, int width, int height)
 {
 	D3D11_VIEWPORT viewport;
-
+	//std::cout << "Viewport: x " << x << " y " << y << " widht " << width << " height " << height << std::endl;
 	// Setup the viewport for rendering.
-//#ifndef CC_WIN8_PHONE
+	//#ifndef CC_WIN8_PHONE
 	viewport.Width = (float)width;
 	viewport.Height = (float)height;
-//#else
-//	//To make the view landscape
-//	viewport.Width = (float)height;
-//	viewport.Height = (float)width;
-//#endif
+	//#else
+	//	//To make the view landscape
+	//	viewport.Width = (float)height;
+	//	viewport.Height = (float)width;
+	//#endif
 	viewport.MinDepth = 0.0f;
 	viewport.MaxDepth = 1.0f;
 	viewport.TopLeftX = (float)x;
@@ -577,7 +577,7 @@ void CCEGLViewProtocol::D3DDepthFunc(int func)
 
 	if(FAILED(m_d3dDevice->CreateDepthStencilState(&dsd,&dss1)))
 		exit(-1);
-	
+
 	m_d3dContext->OMSetDepthStencilState(dss1,sref);
 
 	if(dss0)
@@ -671,13 +671,13 @@ void CCEGLView::clearRender(ID3D11RenderTargetView* renderTargetView)
 	float color[4]={m_color[0],m_color[1],m_color[2],m_color[3]};
 	if ( !renderTargetView )
 	{
-        m_d3dContext->ClearRenderTargetView(m_renderTargetView, color);
+		m_d3dContext->ClearRenderTargetView(m_renderTargetView, color);
 	}
 	else
 	{
 		m_d3dContext->ClearRenderTargetView(renderTargetView, color);
 	}
-    m_d3dContext->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	m_d3dContext->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 }
 
 void CCEGLViewProtocol::D3DClearColor(float r, float b, float g, float a)
@@ -698,96 +698,109 @@ void CCEGLView::GetClearColor(float* color)
 
 CCEGLView* CCEGLView::sharedOpenGLView()
 {
-    assert(s_pMainWindow);
-    return s_pMainWindow;
+	assert(s_pMainWindow);
+	return s_pMainWindow;
 }
 
 void CCEGLView::OnWindowSizeChanged()
 {
-    m_renderTargetView = DirectXRender::SharedDXRender()->m_renderTargetView.Get();
-    m_depthStencilView = DirectXRender::SharedDXRender()->m_depthStencilView.Get();
+	m_renderTargetView = DirectXRender::SharedDXRender()->m_renderTargetView.Get();
+	m_depthStencilView = DirectXRender::SharedDXRender()->m_depthStencilView.Get();
 
-    //// 重新确定 viewPort
-    DirectXRender^ render = DirectXRender::SharedDXRender();
-    float winWidth = render->m_window->Bounds.Width;
-    float winHeight = render->m_window->Bounds.Height;
+	//// 重新确定 viewPort
+	DirectXRender^ render = DirectXRender::SharedDXRender();
+	static float dpi = DirectXRender::SharedDXRender()->GetDpi();
 
-	
-	//m_fScaleX = ;
-	//m_fScaleY = ;
-	//float scale = MIN((float)winWidth / m_obScreenSize.width, (float)winHeight / m_obScreenSize.height);
-	//m_fScaleX *= scale;
-	//m_fScaleY *= scale;
-	//m_fScaleX = scale;
-	//m_fScaleY = scale;
-	//m_fScaleX *= 0.5;
-	//m_fScaleY *= 0.5;
+	float winWidth = DIP2Pixels(render->m_window->Bounds.Width, dpi);
+	float winHeight = DIP2Pixels(render->m_window->Bounds.Height, dpi);
+
+
+
 	CCDirector::sharedDirector()->setProjection(kCCDirectorProjection3D);
-	//CCDirector::sharedDirector()->setContentScaleFactor(scale);
-    //int newState = int(Windows::UI::ViewManagement::ApplicationView::Value);
-    //CCApplication::sharedApplication()->applicationViewStateChanged(newState, m_oldViewState);
-    //m_oldViewState = newState;
+	float design_width = m_obScreenSize.width / getScaleX();
+	float design_height = m_obScreenSize.height / getScaleY();
+
+	float scale = MIN(winWidth / design_width,
+		winHeight / design_height);
+
+
+	if(design_width*scale > winWidth)
+	{
+		design_width = winWidth / scale;
+	}
+	if(design_height*scale > winHeight)
+	{
+		design_height = winHeight / scale;
+	}
+
+	float new_width = design_width*scale;
+	float new_height = design_height*scale;
+	m_obViewPortOrigin.x = (winWidth - new_width) / 2;
+	m_obViewPortOrigin.y = (winHeight - new_height) /2;
+	setViewPortInPoints(m_obViewPortOrigin.x, m_obViewPortOrigin.y, new_width, new_height);
+
+	m_fViewPortScale = scale / getScaleX();
 }
 
 void CCEGLView::OnCharacterReceived(unsigned int keyCode)
 {
-    switch (keyCode)
-    {
-    case VK_BACK:
-        CCIMEDispatcher::sharedDispatcher()->dispatchDeleteBackward();
-        break;
+	switch (keyCode)
+	{
+	case VK_BACK:
+		CCIMEDispatcher::sharedDispatcher()->dispatchDeleteBackward();
+		break;
 
-    case VK_RETURN:
-        CCIMEDispatcher::sharedDispatcher()->dispatchInsertText("\n", 1);
-        break;
+	case VK_RETURN:
+		CCIMEDispatcher::sharedDispatcher()->dispatchInsertText("\n", 1);
+		break;
 
-//    case VK_TAB:
-//
-//        break;
-//
-    case VK_ESCAPE:
-        // ESC input
+		//    case VK_TAB:
+		//
+		//        break;
+		//
+	case VK_ESCAPE:
+		// ESC input
 		//CCDirector::sharedDirector()->end();
-        //CCKeypadDispatcher::sharedDispatcher()->dispatchKeypadMSG(kTypeBackClicked);
-        
-        break;
+		//CCKeypadDispatcher::sharedDispatcher()->dispatchKeypadMSG(kTypeBackClicked);
 
-    default:
-        if (keyCode < 0x20)
-        {
-            break;
-        }
-        else if (keyCode < 128)
-        {
-            // ascii char
-            CCIMEDispatcher::sharedDispatcher()->dispatchInsertText((const char *)&keyCode, 1);
-        }
-        else
-        {
-            char szUtf8[8] = {0};
-            int nLen = WideCharToMultiByte(CP_UTF8, 0, (LPCWSTR)&keyCode, 1, szUtf8, sizeof(szUtf8), NULL, NULL);
+		break;
 
-            CCIMEDispatcher::sharedDispatcher()->dispatchInsertText(szUtf8, nLen);
-        }
-        break;
-    }
+	default:
+		if (keyCode < 0x20)
+		{
+			break;
+		}
+		else if (keyCode < 128)
+		{
+			// ascii char
+			CCIMEDispatcher::sharedDispatcher()->dispatchInsertText((const char *)&keyCode, 1);
+		}
+		else
+		{
+			char szUtf8[8] = {0};
+			int nLen = WideCharToMultiByte(CP_UTF8, 0, (LPCWSTR)&keyCode, 1, szUtf8, sizeof(szUtf8), NULL, NULL);
+
+			CCIMEDispatcher::sharedDispatcher()->dispatchInsertText(szUtf8, nLen);
+		}
+		break;
+	}
 }
 
 void CCEGLView::ConvertPointerCoords(float &x, float &y)
 {
-#ifdef CC_WIN8_PHONE
+	//#ifdef CC_WIN8_PHONE
 	static float dpi = DirectXRender::SharedDXRender()->GetDpi();
 	x = DIP2Pixels(x, dpi);
 	y = DIP2Pixels(y, dpi);
+	//#endif
+#ifndef CC_WIN8_PHONE
+	y = m_obScreenSize.height-y;
 #endif
-	x=(x - m_obViewPortRect.origin.x) / m_fScaleX;
-	y=(y - m_obViewPortRect.origin.y) / m_fScaleY;
-	//float factor = CC_CONTENT_SCALE_FACTOR()/m_fScreenScaleFactor;
-	//// received coord are calculated within original window (ResolutionScale)
-	//x *= GetResolutionScale();
-	//y *= GetResolutionScale();
-	//x = (x / m_fWinScaleX - m_rcViewPort.left) * factor;
-	//y = (y / m_fWinScaleY - m_rcViewPort.top) * factor;
+
+	x=((x - m_obViewPortOrigin.x)/ m_fViewPortScale - m_obViewPortRect.origin.x)  / m_fScaleX ;
+	y=((y - m_obViewPortOrigin.y)/ m_fViewPortScale - m_obViewPortRect.origin.y)  / m_fScaleY;
+
+
 }
 
 void CCEGLView::end()
@@ -795,82 +808,82 @@ void CCEGLView::end()
 
 void CCEGLView::OnPointerPressed(int id, const CCPoint& point)
 {
-    // prepare CCTouch
-    CCTouch* pTouch = m_pTouches[id];
-    if (! pTouch)
-    {
-        pTouch = new CCTouch();
-        m_pTouches[id] = pTouch;
-    }
+	// prepare CCTouch
+	CCTouch* pTouch = m_pTouches[id];
+	if (! pTouch)
+	{
+		pTouch = new CCTouch();
+		m_pTouches[id] = pTouch;
+	}
 
-    // prepare CCSet
-    CCSet* pSet = m_pSets[id];
-    if (! pSet)
-    {
-        pSet = new CCSet();
-        m_pSets[id] = pSet;
-    }
+	// prepare CCSet
+	CCSet* pSet = m_pSets[id];
+	if (! pSet)
+	{
+		pSet = new CCSet();
+		m_pSets[id] = pSet;
+	}
 
-    if (! pTouch || ! pSet)
-        return;
+	if (! pTouch || ! pSet)
+		return;
 #ifndef CC_WIN8_PHONE
-    float x = point.x;
-    float y = point.y;
+	float x = point.x;
+	float y = point.y;
 #else
 	float x = point.y;
-    float y = point.x;
+	float y = point.x;
 #endif
-    ConvertPointerCoords(x, y);
-    pTouch->SetTouchInfo(x, y);
-    pSet->addObject(pTouch);
+	ConvertPointerCoords(x, y);
+	pTouch->SetTouchInfo(x, y);
+	pSet->addObject(pTouch);
 
-    m_pDelegate->touchesBegan(pSet, NULL);
+	m_pDelegate->touchesBegan(pSet, NULL);
 }
 
 void CCEGLView::OnPointerReleased(int id, const CCPoint& point)
 {
-    CCTouch* pTouch = m_pTouches[id];
-    CCSet* pSet = m_pSets[id];
+	CCTouch* pTouch = m_pTouches[id];
+	CCSet* pSet = m_pSets[id];
 
-    if (! pTouch || ! pSet)
-        return;
+	if (! pTouch || ! pSet)
+		return;
 
 #ifndef CC_WIN8_PHONE
-    float x = point.x;
-    float y = point.y;
+	float x = point.x;
+	float y = point.y;
 #else
 	float x = point.y;
-    float y = point.x;
+	float y = point.x;
 #endif
-    ConvertPointerCoords(x, y);
-    pTouch->SetTouchInfo(x, y);
+	ConvertPointerCoords(x, y);
+	pTouch->SetTouchInfo(x, y);
 
-    m_pDelegate->touchesEnded(pSet, NULL);
-    pSet->removeObject(pTouch);
+	m_pDelegate->touchesEnded(pSet, NULL);
+	pSet->removeObject(pTouch);
 
-    CC_SAFE_DELETE(m_pTouches[id]);
-    CC_SAFE_DELETE(m_pSets[id]);
+	CC_SAFE_DELETE(m_pTouches[id]);
+	CC_SAFE_DELETE(m_pSets[id]);
 }
 
 void CCEGLView::OnPointerMoved(int id, const CCPoint& point)
 {
-    CCTouch* pTouch = m_pTouches[id];
-    CCSet* pSet = m_pSets[id];
-    
-    if (! pTouch || ! pSet)
-        return;
+	CCTouch* pTouch = m_pTouches[id];
+	CCSet* pSet = m_pSets[id];
+
+	if (! pTouch || ! pSet)
+		return;
 
 #ifndef CC_WIN8_PHONE
-    float x = point.x;
-    float y = point.y;
+	float x = point.x;
+	float y = point.y;
 #else
 	float x = point.y;
-    float y = point.x;
+	float y = point.x;
 #endif
-    ConvertPointerCoords(x, y);
-    pTouch->SetTouchInfo(x, y);
+	ConvertPointerCoords(x, y);
+	pTouch->SetTouchInfo(x, y);
 
-    m_pDelegate->touchesMoved(pSet, NULL);
+	m_pDelegate->touchesMoved(pSet, NULL);
 }
 
 NS_CC_END;

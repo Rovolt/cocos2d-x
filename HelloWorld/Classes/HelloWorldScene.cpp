@@ -22,59 +22,43 @@ public:
         //setShaderProgram(CCShaderCache::sharedShaderCache()->programForKey(kCCShader_PositionTextureColor));
     }
 
-    virtual void draw()
-    {
-        ccDrawColor4B(m_TouchColor.r, m_TouchColor.g, m_TouchColor.b, 255);
-        //glLineWidth(10);
-        ccDrawLine( ccp(0, m_pTouchPoint.y), ccp(getContentSize().width, m_pTouchPoint.y) );
-        ccDrawLine( ccp(m_pTouchPoint.x, 0), ccp(m_pTouchPoint.x, getContentSize().height) );
-        //glLineWidth(1);
-        ccPointSize(30);
-        ccDrawPoint(m_pTouchPoint);
-    }
-
     void setTouchPos(const CCPoint& pt)
     {
-        m_pTouchPoint = pt;
+		_touch->setPosition(pt);
     }
 
     void setTouchColor(ccColor3B color)
     {
-        m_TouchColor = color;
+		_touch->setColor(color);
     }
 
     static TouchPoint* touchPointWithParent(CCNode* pParent)
     {
         TouchPoint* pRet = new TouchPoint();
-        pRet->setContentSize(pParent->getContentSize());
-        pRet->setAnchorPoint(ccp(0.0f, 0.0f));
+        //pRet->setContentSize(pParent->getContentSize());
+        pRet->setAnchorPoint(ccp(0.5f, 0.5f));
+		pRet->_touch = CCSprite::create("touch.png");
+		pRet->addChild(pRet->_touch);
         pRet->autorelease();
         return pRet;
     }
 
 private:
-    CCPoint m_pTouchPoint;
-    ccColor3B m_TouchColor;
+    //CCPoint m_pTouchPoint;
+    //ccColor3B m_TouchColor;
+	CCSprite* _touch;
 };
 
-bool MutiTouchTestLayer::init()
-{
-    if (CCLayer::init())
-    {
-        setTouchEnabled(true);
-        return true;
-    }
-    return false;
-}
+
 
 static CCDictionary s_dic;
 
-void MutiTouchTestLayer::registerWithTouchDispatcher(void)
+void HelloWorld::registerWithTouchDispatcher(void)
 {
     CCDirector::sharedDirector()->getTouchDispatcher()->addStandardDelegate(this, 0);
 }
 
-void MutiTouchTestLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent)
+void HelloWorld::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent)
 {
     CCSetIterator iter = pTouches->begin();
     for (; iter != pTouches->end(); iter++)
@@ -93,7 +77,7 @@ void MutiTouchTestLayer::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent)
 
 }
 
-void MutiTouchTestLayer::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent)
+void HelloWorld::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent)
 {
     CCSetIterator iter = pTouches->begin();
     for (; iter != pTouches->end(); iter++)
@@ -105,7 +89,7 @@ void MutiTouchTestLayer::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent)
     }
 }
 
-void MutiTouchTestLayer::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent)
+void HelloWorld::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent)
 {
     CCSetIterator iter = pTouches->begin();
     for (; iter != pTouches->end(); iter++)
@@ -117,7 +101,7 @@ void MutiTouchTestLayer::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent)
     }
 }
 
-void MutiTouchTestLayer::ccTouchesCancelled(CCSet *pTouches, CCEvent *pEvent)
+void HelloWorld::ccTouchesCancelled(CCSet *pTouches, CCEvent *pEvent)
 {
     ccTouchesEnded(pTouches, pEvent);
 }
@@ -140,7 +124,9 @@ CCScene* HelloWorld::scene()
     // return the scene
     return scene;
 }
-
+#include "CCEGLView.h"
+#include "win8_metro/DirectXRender.h"
+#include <sstream>
 // on "init" you need to initialize your instance
 bool HelloWorld::init()
 {
@@ -148,12 +134,13 @@ bool HelloWorld::init()
     // 1. super init first
     if ( !CCLayer::init() )
     {
+		
         return false;
     }
-    
+    setTouchEnabled(true);
     CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
     CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
-
+	//origin.y = -origin.y;
     /////////////////////////////
     // 2. add a menu item with "X" image, which is clicked to quit the program
     //    you may modify it.
@@ -169,6 +156,8 @@ bool HelloWorld::init()
                                 origin.y + pCloseItem->getContentSize().height/2));*/
 	pCloseItem->setPosition(ccp(origin.x + visibleSize.width/2,
                                 origin.y + visibleSize.height/2));
+
+	
     // create menu, it's an autorelease object
     CCMenu* pMenu = CCMenu::create(pCloseItem, NULL);
     pMenu->setPosition(CCPointZero);
@@ -176,16 +165,33 @@ bool HelloWorld::init()
 
     /////////////////////////////
     // 3. add your codes below...
+	CCRect view_port = CCEGLView::sharedOpenGLView()->getViewPortRect();
+	DirectXRender^ render = DirectXRender::SharedDXRender();
 
+	
     // add a label shows "Hello World"
     // create and initialize a label
-    
-    CCLabelTTF* pLabel = CCLabelTTF::create("Hello World", "Arial", 36);
+	std::stringstream ss;
+	ss << "Vis Width: " << visibleSize.width << std::endl;
+	ss << "Vis Hegiht: " << visibleSize.height << std::endl;
+	ss << "Origin X: " << origin.x << std::endl;
+	ss << "Origin Y: " << origin.y << std::endl;
+
+	ss << "VPR Width: " << view_port.size.width << std::endl;
+	ss << "VPR Hegiht: " << view_port.size.height << std::endl;
+	ss << "VPR Origin X: " << view_port.origin.x << std::endl;
+	ss << "VPR Origin Y: " << view_port.origin.y << std::endl;
+	ss << "DPI: " << render->GetDpi() << std::endl;
+	std::string val = ss.str();
+	CCLabelTTF* pLabel = CCLabelTTF::create(val.c_str(), "Arial", 16);
+
+	pLabel->setColor(ccc3(0,0,0));
     
     // position the label on the center of the screen
     /*pLabel->setPosition(ccp(origin.x + visibleSize.width/2,
                             origin.y + visibleSize.height - pLabel->getContentSize().height));*/
-	pLabel->setPosition(ccp(200, 200));
+	pLabel->setPosition(ccp(origin.x, origin.y));
+	pLabel->setAnchorPoint(ccp(0,0));
     // add the label as a child to this layer
     this->addChild(pLabel, 1);
 
@@ -199,7 +205,29 @@ bool HelloWorld::init()
     this->addChild(pSprite, 0);
     
 	
+	CCSprite* left_bottom = CCSprite::create("touch.png");
+    left_bottom->setColor(ccc3(255, 0, 0));
+    left_bottom->setPosition(ccp(origin.x, origin.y));
+    left_bottom->setAnchorPoint(ccp(0.5, 0.5));
+    this->addChild(left_bottom);
 
+    CCSprite* right_bottom = CCSprite::create("touch.png");
+    right_bottom->setColor(ccc3(0, 255, 0));
+    right_bottom->setPosition(ccp(origin.x+visibleSize.width, origin.y));
+    right_bottom->setAnchorPoint(ccp(0.5, 0.5));
+    this->addChild(right_bottom);
+
+    CCSprite* right_top = CCSprite::create("touch.png");
+    right_top->setColor(ccc3(0, 0, 255));
+    right_top->setPosition(ccp(origin.x+visibleSize.width, origin.y+visibleSize.height));
+    right_top->setAnchorPoint(ccp(0.5, 0.5));
+    this->addChild(right_top);
+
+    CCSprite* left_top = CCSprite::create("touch.png");
+    left_top->setColor(ccc3(0, 255, 255));
+    left_top->setPosition(ccp(origin.x, origin.y+visibleSize.height));
+    left_top->setAnchorPoint(ccp(0.5, 0.5));
+    this->addChild(left_top);
 
     return true;
 }

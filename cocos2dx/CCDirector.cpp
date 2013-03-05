@@ -50,8 +50,6 @@ THE SOFTWARE.
 #include "support/CCUserDefault.h"
 #include "shaders/ccGLStateCache.h"
 #include "shaders/CCShaderCache.h"
-#include "kazmath/kazmath.h"
-#include "kazmath/GL/matrix.h"
 #include "support/CCProfiling.h"
 #include "CCEGLView.h"
 #include <string>
@@ -333,73 +331,28 @@ void CCDirector::setProjection(ccDirectorProjection kProjection)
 	size.height = size.width;
 	size.width = tmp;
 #endif
-    //if (m_pobOpenGLView)
-    //{
-    //    m_pobOpenGLView->setViewPortInPoints(0, 0, size.width, size.height);
-    //}
-
-    //switch (kProjection)
-    //{
-    //case kCCDirectorProjection2D:
-    //    {
-    //        kmGLMatrixMode(KM_GL_PROJECTION);
-    //        kmGLLoadIdentity();
-    //        kmMat4 orthoMatrix;
-    //        kmMat4OrthographicProjection(&orthoMatrix, 0, size.width, 0, size.height, -1024, 1024 );
-    //        kmGLMultMatrix(&orthoMatrix);
-    //        kmGLMatrixMode(KM_GL_MODELVIEW);
-    //        kmGLLoadIdentity();
-    //    }
-    //    break;
-
-    //case kCCDirectorProjection3D:
-    //    {
-    //        float zeye = this->getZEye();
-
-    //        kmMat4 matrixPerspective, matrixLookup;
-
-    //        kmGLMatrixMode(KM_GL_PROJECTION);
-    //        kmGLLoadIdentity();
-
-    //        // issue #1334
-    //        kmMat4PerspectiveProjection( &matrixPerspective, 60, (GLfloat)size.width/size.height, 0.1f, zeye*2);
-    //        // kmMat4PerspectiveProjection( &matrixPerspective, 60, (GLfloat)size.width/size.height, 0.1f, 1500);
-
-    //        kmGLMultMatrix(&matrixPerspective);
-
-    //        kmGLMatrixMode(KM_GL_MODELVIEW);
-    //        kmGLLoadIdentity();
-    //        kmVec3 eye, center, up;
-    //        kmVec3Fill( &eye, size.width/2, size.height/2, zeye );
-    //        kmVec3Fill( &center, size.width/2, size.height/2, 0.0f );
-    //        kmVec3Fill( &up, 0.0f, 1.0f, 0.0f);
-    //        kmMat4LookAt(&matrixLookup, &eye, &center, &up);
-    //        kmGLMultMatrix(&matrixLookup);
-    //    }
-    //    break;
-    //        
-    //case kCCDirectorProjectionCustom:
-    //    if (m_pProjectionDelegate)
-    //    {
-    //        m_pProjectionDelegate->updateProjection();
-    //    }
-    //    break;
-    //        
-    //default:
-    //    CCLOG("cocos2d: Director: unrecognized projection");
-    //    break;
-    //}
-
-    //m_eProjection = kProjection;
-    //ccSetProjectionMatrixDirty();
+    
 
 	float zeye = this->getZEye();
+	CCPoint origin_rect = m_pobOpenGLView->getViewPortRect().origin;
+	CCSize frame_size = m_pobOpenGLView->getFrameSize();
+
+	//To cut the frame no less no more
+	if(size.width*m_pobOpenGLView->getScaleX() > frame_size.width)
+	{
+		size.width = frame_size.width / m_pobOpenGLView->getScaleX();
+	}
+	if(size.height*m_pobOpenGLView->getScaleY() > frame_size.height)
+	{
+		size.height = frame_size.height / m_pobOpenGLView->getScaleY();
+		zeye = size.height / 1.1566f;
+	}
 	switch (kProjection)
 	{
 	case kCCDirectorProjection2D:
 		if (m_pobOpenGLView) 
 		{
-			m_pobOpenGLView->setViewPortInPoints(0, 0, size.width, size.height);
+			m_pobOpenGLView->setViewPortInPoints(0, 0, size.width * m_pobOpenGLView->getScaleX(), size.height * m_pobOpenGLView->getScaleY());
 		}
 		m_pobOpenGLView->D3DMatrixMode(CC_PROJECTION);
 		m_pobOpenGLView->D3DLoadIdentity();
@@ -412,12 +365,12 @@ void CCDirector::setProjection(ccDirectorProjection kProjection)
 	case kCCDirectorProjection3D:
 		if (m_pobOpenGLView) 
 		{
-#ifndef CC_WIN8_PHONE
-			m_pobOpenGLView->setViewPortInPoints(0, 0, size.width, size.height);
-#else
-			m_pobOpenGLView->setViewPortInPoints(0, 0, size.width, size.height);
-#endif
+
+			m_pobOpenGLView->setViewPortInPoints(0, 0, size.width * m_pobOpenGLView->getScaleX(), size.height * m_pobOpenGLView->getScaleY());
+
 		}
+		
+
 		m_pobOpenGLView->D3DMatrixMode(CC_PROJECTION);
 		m_pobOpenGLView->D3DLoadIdentity();
 		m_pobOpenGLView->D3DPerspective(60, (CCfloat)size.width/size.height, 0.1f, zeye*2);
@@ -428,6 +381,8 @@ void CCDirector::setProjection(ccDirectorProjection kProjection)
 			size.width/2, size.height/2, 0,
 			0.0f, 1.0, 0.0f);
 #ifndef CC_WIN8_PHONE
+		m_pobOpenGLView->D3DTranslate(origin_rect.x / m_pobOpenGLView->getScaleX(),
+			origin_rect.y / m_pobOpenGLView->getScaleY(),0);
 #else
 
 		m_pobOpenGLView->D3DTranslate(size.width/2,size.height/2,0);
@@ -435,33 +390,6 @@ void CCDirector::setProjection(ccDirectorProjection kProjection)
 		m_pobOpenGLView->D3DTranslate(-size.height/2,-size.width/2,0);
 		
 #endif
-
-		//Kazmath part
-		kmMat4 matrixPerspective, matrixLookup;
-
-        kmGLMatrixMode(KM_GL_PROJECTION);
-        kmGLLoadIdentity();
-
-        // issue #1334
-        kmMat4PerspectiveProjection( &matrixPerspective, 60, (GLfloat)size.width/size.height, 0.1f, zeye*2);
-        // kmMat4PerspectiveProjection( &matrixPerspective, 60, (GLfloat)size.width/size.height, 0.1f, 1500);
-
-        kmGLMultMatrix(&matrixPerspective);
-
-        kmGLMatrixMode(KM_GL_MODELVIEW);
-        kmGLLoadIdentity();
-        kmVec3 eye, center, up;
-        kmVec3Fill( &eye, size.width/2, size.height/2, zeye );
-        kmVec3Fill( &center, size.width/2, size.height/2, 0.0f );
-        kmVec3Fill( &up, 0.0f, 1.0f, 0.0f);
-        kmMat4LookAt(&matrixLookup, &eye, &center, &up);
-#ifdef CC_WIN8_PHONE
-
-		/*kmMat4Translation(&matrixLookup,size.width/2,size.height/2,0);
-		kmMat4RotationZ(&matrixLookup, CC_DEGREES_TO_RADIANS(-90));
-		kmMat4Translation(&matrixLookup,-size.height/2,-size.width/2,0);*/
-#endif
-        kmGLMultMatrix(&matrixLookup);
 
 		break;
 			
@@ -528,54 +456,55 @@ void CCDirector::setDepthTest(bool bOn)
 	}
 }
 
-static void
-GLToClipTransform(kmMat4 *transformOut)
-{
-	kmMat4 projection;
-	kmGLGetMatrix(KM_GL_PROJECTION, &projection);
-	
-	kmMat4 modelview;
-	kmGLGetMatrix(KM_GL_MODELVIEW, &modelview);
-	
-	kmMat4Multiply(transformOut, &projection, &modelview);
-}
+//static void
+//GLToClipTransform(kmMat4 *transformOut)
+//{
+//	kmMat4 projection;
+//	kmGLGetMatrix(KM_GL_PROJECTION, &projection);
+//	
+//	kmMat4 modelview;
+//	kmGLGetMatrix(KM_GL_MODELVIEW, &modelview);
+//	
+//	kmMat4Multiply(transformOut, &projection, &modelview);
+//}
 
 CCPoint CCDirector::convertToGL(const CCPoint& uiPoint)
 {
-#ifndef CC_WIN8_PHONE
-    kmMat4 transform;
-	GLToClipTransform(&transform);
-	
-	kmMat4 transformInv;
-	kmMat4Inverse(&transformInv, &transform);
-	
-	// Calculate z=0 using -> transform*[0, 0, 0, 1]/w
-	kmScalar zClip = transform.mat[14]/transform.mat[15];
-	
-    CCSize glSize = m_pobOpenGLView->getDesignResolutionSize();
-	kmVec3 clipCoord = {2.0f*uiPoint.x/glSize.width - 1.0f, 1.0f - 2.0f*uiPoint.y/glSize.height, zClip};
-	
-	kmVec3 glCoord;
-	kmVec3TransformCoord(&glCoord, &clipCoord, &transformInv);
-	
-	return ccp(glCoord.x, glCoord.y);
-#else
+//#ifndef CC_WIN8_PHONE
+//    kmMat4 transform;
+//	GLToClipTransform(&transform);
+//	
+//	kmMat4 transformInv;
+//	kmMat4Inverse(&transformInv, &transform);
+//	
+//	// Calculate z=0 using -> transform*[0, 0, 0, 1]/w
+//	kmScalar zClip = transform.mat[14]/transform.mat[15];
+//	
+//    CCSize glSize = m_pobOpenGLView->getDesignResolutionSize();
+//	kmVec3 clipCoord = {2.0f*uiPoint.x/glSize.width - 1.0f, 1.0f - 2.0f*uiPoint.y/glSize.height, zClip};
+//	
+//	kmVec3 glCoord;
+//	kmVec3TransformCoord(&glCoord, &clipCoord, &transformInv);
+//	
+//	return ccp(glCoord.x, glCoord.y);
+//#else
 	return uiPoint;
-#endif
+//#endif
 }
 
 CCPoint CCDirector::convertToUI(const CCPoint& glPoint)
 {
-    kmMat4 transform;
-	GLToClipTransform(&transform);
-    
-	kmVec3 clipCoord;
-	// Need to calculate the zero depth from the transform.
-	kmVec3 glCoord = {glPoint.x, glPoint.y, 0.0};
-	kmVec3TransformCoord(&clipCoord, &glCoord, &transform);
-	
-	CCSize glSize = m_pobOpenGLView->getDesignResolutionSize();
-	return ccp(glSize.width*(clipCoord.x*0.5 + 0.5), glSize.height*(-clipCoord.y*0.5 + 0.5));
+ //   kmMat4 transform;
+	//GLToClipTransform(&transform);
+ //   
+	//kmVec3 clipCoord;
+	//// Need to calculate the zero depth from the transform.
+	//kmVec3 glCoord = {glPoint.x, glPoint.y, 0.0};
+	//kmVec3TransformCoord(&clipCoord, &glCoord, &transform);
+	//
+	//CCSize glSize = m_pobOpenGLView->getDesignResolutionSize();
+	//return ccp(glSize.width*(clipCoord.x*0.5 + 0.5), glSize.height*(-clipCoord.y*0.5 + 0.5));
+	return glPoint;
 }
 
 CCSize CCDirector::getWinSize(void)

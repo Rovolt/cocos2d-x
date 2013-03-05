@@ -239,6 +239,11 @@ protected:
 
     float  m_fScaleX;
     float  m_fScaleY;
+
+	//Windows 8 window change
+	float	m_fViewPortScale;
+	CCPoint m_obViewPortOrigin;
+
     ResolutionPolicy m_eResolutionPolicy;
 
 	ID3D11Device1*           m_d3dDevice;

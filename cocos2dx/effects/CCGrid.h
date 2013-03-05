@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "ccTypes.h"
 #include "textures/CCTexture2D.h"
 #include "CCDirector.h"
-#include "kazmath/mat4.h"
+
 
 NS_CC_BEGIN
 

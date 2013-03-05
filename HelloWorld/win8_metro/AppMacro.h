@@ -53,20 +53,6 @@ static cocos2d::CCSize designResolutionSize = cocos2d::CCSizeMake(2048, 1536);
 // The font size 24 is designed for small resolution, so we should change it to fit for current design resolution
 #define TITLE_FONT_SIZE  (cocos2d::CCEGLView::sharedOpenGLView()->getDesignResolutionSize().width / smallResource.size.width * 24)
 
-#include "cocos2d.h"
-using namespace cocos2d;
-class MutiTouchTestLayer : public CCLayer
-{
-public:
-    bool init();
 
-    virtual void registerWithTouchDispatcher(void);
-    virtual void ccTouchesBegan(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent);
-    virtual void ccTouchesMoved(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent);
-    virtual void ccTouchesEnded(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent);
-    virtual void ccTouchesCancelled(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent);
-
-    CREATE_FUNC(MutiTouchTestLayer)
-};
 
 #endif /* __APPMACROS_H__ */

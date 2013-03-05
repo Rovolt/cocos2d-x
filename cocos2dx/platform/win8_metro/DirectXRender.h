@@ -55,6 +55,7 @@ public:
     void CreateDeviceIndependentResources();
     void CreateDeviceResources();
     void SetDpi(float dpi);
+	float GetDpi();
     void UpdateForWindowSizeChange();
     void CreateWindowSizeDependentResources();
     void Render();

@@ -38,7 +38,6 @@ THE SOFTWARE.
 #include "support/TransformUtils.h"
 #include "support/CCProfiling.h"
 // external
-#include "kazmath/GL/matrix.h"
 #include "CCEGLView.h"
 NS_CC_BEGIN
 

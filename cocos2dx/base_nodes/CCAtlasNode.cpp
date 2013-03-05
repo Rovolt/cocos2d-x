@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include "support/TransformUtils.h"
 #include "CCEGLView.h"
 // external
-#include "kazmath/GL/matrix.h"
+
 
 NS_CC_BEGIN
 

@@ -35,8 +35,7 @@ THE SOFTWARE.
 #include "support/TransformUtils.h"
 #include "cocoa/CCInteger.h"
 #include "platform/CCFileUtils.h"
-// external
-#include "kazmath/GL/matrix.h"
+
 
 NS_CC_BEGIN
 

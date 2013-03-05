@@ -101,18 +101,12 @@
     <Filter Include="cocos2dx\support\image_support">
       <UniqueIdentifier>{bf357230-4cd0-47fa-9e83-c1c9d52a73f2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="cocos2dx\kazmath">
-      <UniqueIdentifier>{c8a0e890-a7c5-4da1-9d8e-5638e3b2172b}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
   </ItemGroup>
   <ItemGroup>
     <None Include="HelloWorld_TemporaryKey.pfx" />
-    <None Include="..\..\cocos2dx\kazmath\src\ChangeLog">
-      <Filter>cocos2dx\kazmath</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -735,45 +729,6 @@
     <ClCompile Include="..\..\cocos2dx\CCFileUtils_win8_metro.cpp">
       <Filter>cocos2dx</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cocos2dx\kazmath\src\aabb.c">
-      <Filter>cocos2dx\kazmath</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cocos2dx\kazmath\src\mat3.c">
-      <Filter>cocos2dx\kazmath</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cocos2dx\kazmath\src\mat4.c">
-      <Filter>cocos2dx\kazmath</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cocos2dx\kazmath\src\neon_matrix_impl.c">
-      <Filter>cocos2dx\kazmath</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cocos2dx\kazmath\src\plane.c">
-      <Filter>cocos2dx\kazmath</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cocos2dx\kazmath\src\quaternion.c">
-      <Filter>cocos2dx\kazmath</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cocos2dx\kazmath\src\ray2.c">
-      <Filter>cocos2dx\kazmath</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cocos2dx\kazmath\src\utility.c">
-      <Filter>cocos2dx\kazmath</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cocos2dx\kazmath\src\vec2.c">
-      <Filter>cocos2dx\kazmath</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cocos2dx\kazmath\src\vec3.c">
-      <Filter>cocos2dx\kazmath</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cocos2dx\kazmath\src\vec4.c">
-      <Filter>cocos2dx\kazmath</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cocos2dx\kazmath\src\GL\mat4stack.c">
-      <Filter>cocos2dx\kazmath</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cocos2dx\kazmath\src\GL\matrix.c">
-      <Filter>cocos2dx\kazmath</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\cocos2dx\support\CCNotificationCenter.cpp">
       <Filter>cocos2dx\support</Filter>
     </ClCompile>
@@ -905,10 +860,23 @@
     <Image Include="Assets\iphone\HelloWorld.png">
       <Filter>Resources</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\..\cocos2dx\kazmath\src\CMakeLists.txt">
-      <Filter>cocos2dx\kazmath</Filter>
-    </Text>
+    <Image Include="Assets\Icon.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="Assets\touch.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="Assets\hidden\CloseNormal.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="Assets\hidden\CloseSelected.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="Assets\hidden\HelloWorld.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="Assets\hidden\Icon.png">
+      <Filter>Resources</Filter>
+    </Image>
   </ItemGroup>
 </Project>

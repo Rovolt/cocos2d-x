@@ -64,7 +64,7 @@
     <IncludePath>F:\GitHub\cocos2d-x\cocos2dx\kazmath\include;F:\GitHub\cocos2d-x\HelloWorld;F:\GitHub\cocos2d-x\CocosDenshion;F:\GitHub\cocos2d-x\CocosDenshion\include;F:\GitHub\cocos2d-x\cocos2dx;$(SolutionDir)cocos2dx\include;$(SolutionDir)cocos2dx\platform;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath)</IncludePath>
     <PackageCertificateKeyFile>HelloWorld_TemporaryKey.pfx</PackageCertificateKeyFile>
     <PackageCertificateThumbprint>748ED1A0395381428A8ECA505820B6BFC1CCC592</PackageCertificateThumbprint>
-    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LibraryPath>F:\GitHub\cocos2d-x\cocos2dx\platform\third_party\win8_metro\libraries;$(LibraryPath)</LibraryPath>
@@ -117,6 +117,18 @@
     <PreBuildEvent>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy_res $(ProjectDir)Assets</Command>
     </PreBuildEvent>
+    <FxCompile>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0_level_9_1</ShaderModel>
+    </FxCompile>
+    <FxCompile>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0_level_9_1</ShaderModel>
+    </FxCompile>
+    <FxCompile>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0_level_9_1</ShaderModel>
+    </FxCompile>
+    <FxCompile>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0_level_9_1</ShaderModel>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\cocos2dx\CCDirector.h" />
@@ -255,84 +267,6 @@
     <ClCompile Include="..\..\cocos2dx\cocoa\CCDictionary.cpp" />
     <ClCompile Include="..\..\cocos2dx\cocoa\CCString.cpp" />
     <ClCompile Include="..\..\cocos2dx\draw_nodes\CCDrawingPrimitives.cpp" />
-    <ClCompile Include="..\..\cocos2dx\kazmath\src\aabb.c">
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsWinRT>
-    </ClCompile>
-    <ClCompile Include="..\..\cocos2dx\kazmath\src\GL\mat4stack.c">
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsWinRT>
-    </ClCompile>
-    <ClCompile Include="..\..\cocos2dx\kazmath\src\GL\matrix.c">
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsWinRT>
-    </ClCompile>
-    <ClCompile Include="..\..\cocos2dx\kazmath\src\mat3.c">
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsWinRT>
-    </ClCompile>
-    <ClCompile Include="..\..\cocos2dx\kazmath\src\mat4.c">
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsWinRT>
-    </ClCompile>
-    <ClCompile Include="..\..\cocos2dx\kazmath\src\neon_matrix_impl.c">
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsWinRT>
-    </ClCompile>
-    <ClCompile Include="..\..\cocos2dx\kazmath\src\plane.c">
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsWinRT>
-    </ClCompile>
-    <ClCompile Include="..\..\cocos2dx\kazmath\src\quaternion.c">
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsWinRT>
-    </ClCompile>
-    <ClCompile Include="..\..\cocos2dx\kazmath\src\ray2.c">
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsWinRT>
-    </ClCompile>
-    <ClCompile Include="..\..\cocos2dx\kazmath\src\utility.c">
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsWinRT>
-    </ClCompile>
-    <ClCompile Include="..\..\cocos2dx\kazmath\src\vec2.c">
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsWinRT>
-    </ClCompile>
-    <ClCompile Include="..\..\cocos2dx\kazmath\src\vec3.c">
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsWinRT>
-    </ClCompile>
-    <ClCompile Include="..\..\cocos2dx\kazmath\src\vec4.c">
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
-      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsWinRT>
-    </ClCompile>
     <ClCompile Include="..\..\cocos2dx\platform\CCEGLViewProtocol.cpp" />
     <ClCompile Include="..\..\cocos2dx\platform\CCImage.cpp" />
     <ClCompile Include="..\..\cocos2dx\platform\win8_metro\FontLoader.cpp" />
@@ -424,7 +358,6 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\cocos2dx\kazmath\src\ChangeLog" />
     <None Include="HelloWorld_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
@@ -754,12 +687,18 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Assets\Icon.png" />
     <Image Include="Assets\Logo.png" />
     <Image Include="Assets\SmallLogo.png" />
     <Image Include="Assets\SplashScreen.png" />
     <Image Include="Assets\StoreLogo.png" />
+    <Image Include="Assets\touch.png" />
     <Image Include="Assets\WideLogo.png" />
     <Image Include="Assets\fonts\Marker Felt.ttf" />
+    <Image Include="Assets\hidden\CloseNormal.png" />
+    <Image Include="Assets\hidden\CloseSelected.png" />
+    <Image Include="Assets\hidden\HelloWorld.png" />
+    <Image Include="Assets\hidden\Icon.png" />
     <Image Include="Assets\ipad\CloseNormal.png" />
     <Image Include="Assets\ipad\CloseSelected.png" />
     <Image Include="Assets\ipad\HelloWorld.png" />
@@ -769,9 +708,6 @@
     <Image Include="Assets\iphone\CloseNormal.png" />
     <Image Include="Assets\iphone\CloseSelected.png" />
     <Image Include="Assets\iphone\HelloWorld.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\..\cocos2dx\kazmath\src\CMakeLists.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

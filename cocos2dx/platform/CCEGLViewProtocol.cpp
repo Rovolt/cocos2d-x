@@ -50,6 +50,8 @@ CCEGLViewProtocol::CCEGLViewProtocol()
 : m_pDelegate(NULL)
 , m_fScaleY(1.0f)
 , m_fScaleX(1.0f)
+, m_obViewPortOrigin(0.0f,0.0f)
+, m_fViewPortScale(1.0f)
 , m_eResolutionPolicy(kResolutionUnKnown)
 {
 }
@@ -154,18 +156,18 @@ void CCEGLViewProtocol::setTouchDelegate(EGLTouchDelegate * pDelegate)
 
 void CCEGLViewProtocol::setViewPortInPoints(float x , float y , float w , float h)
 {
-    /*glViewport((GLint)(x * m_fScaleX + m_obViewPortRect.origin.x),
-               (GLint)(y * m_fScaleY + m_obViewPortRect.origin.y),
-               (GLsizei)(w * m_fScaleX),
-               (GLsizei)(h * m_fScaleY));
+  //  /*glViewport((GLint)(x * m_fScaleX + m_obViewPortRect.origin.x),
+  //             (GLint)(y * m_fScaleY + m_obViewPortRect.origin.y),
+  //             (GLsizei)(w * m_fScaleX),
+  //             (GLsizei)(h * m_fScaleY));
 
-		float factor = m_fScreenScaleFactor / CC_CONTENT_SCALE_FACTOR();*/
+		//float factor = m_fScreenScaleFactor / CC_CONTENT_SCALE_FACTOR();*/
 	
-    D3DViewport(
-		(int)((x * m_fScaleX + m_obViewPortRect.origin.x)),
-		(int)((y * m_fScaleY + m_obViewPortRect.origin.y)),
-		(int)(w * m_fScaleX),
-		(int)(h * m_fScaleY));
+  //  D3DViewport(
+		//(int)((x * m_fScaleX + m_obViewPortRect.origin.x)),
+		//(int)((y * m_fScaleY + m_obViewPortRect.origin.y)),
+		//(int)(w * m_fScaleX),
+		//(int)(h * m_fScaleY));
 }
 
 void CCEGLViewProtocol::setScissorInPoints(float x , float y , float w , float h)

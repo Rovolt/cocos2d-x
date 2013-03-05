@@ -29,7 +29,6 @@ THE SOFTWARE.
 
 #include "draw_nodes/CCDrawingPrimitives.h"
 #include "CCDirector.h"
-#include "kazmath/GL/matrix.h"
 
 using namespace std;
 
@@ -65,14 +64,14 @@ void CCCamera::restore(void)
     m_fUpY = 1.0f;
     m_fUpZ = 0.0f;
 
-    kmMat4Identity( &m_lookupMatrix );
+    //kmMat4Identity( &m_lookupMatrix );
 
     m_bDirty = false;
 }
 
 void CCCamera::locate(void)
 {
-    if (m_bDirty)
+    /*if (m_bDirty)
     {
         kmVec3 eye, center, up;
 
@@ -84,7 +83,7 @@ void CCCamera::locate(void)
 
         m_bDirty = false;
     }
-    kmGLMultMatrix( &m_lookupMatrix );
+    kmGLMultMatrix( &m_lookupMatrix );*/
 }
 
 float CCCamera::getZEye(void)

@@ -150,7 +150,7 @@ void CCFrameworkView::SetWindow(
 	DisplayProperties::LogicalDpiChanged +=
 		ref new DisplayPropertiesEventHandler(this, &CCFrameworkView::OnLogicalDpiChanged);
 //#ifdef CC_WIN8_PHONE
-//	DisplayProperties::AutoRotationPreferences = Windows::Graphics::Display::DisplayOrientations::Landscape;
+	DisplayProperties::AutoRotationPreferences = Windows::Graphics::Display::DisplayOrientations::Landscape;
 //	//Windows::Graphics::Display::DisplayOrientations test = DisplayProperties::CurrentOrientation;// = Windows::Graphics::Display::DisplayOrientations::Landscape;
 //#endif
 	m_renderer->Initialize(window, DisplayProperties::LogicalDpi);
@@ -267,19 +267,19 @@ void CCFrameworkView::OnWindowActivationChanged(
     _In_ Windows::UI::Core::WindowActivatedEventArgs^ args
     )
 {
-    CCLog("CCFrameworkView::+OnWindowActivationChanged()");
+    /*CCLog("CCFrameworkView::+OnWindowActivationChanged()");
     if (args->WindowActivationState == CoreWindowActivationState::Deactivated)
     {
-        //m_renderer->OnFocusChange(false);
-        // CCApplication::sharedApplication().applicationDidEnterBackground();
+        m_renderer->OnFocusChange(false);
+        CCApplication::sharedApplication()->applicationDidEnterBackground();
     }
     else if (args->WindowActivationState == CoreWindowActivationState::CodeActivated 
         || args->WindowActivationState == CoreWindowActivationState::PointerActivated)
     {
-        // CCApplication::sharedApplication().applicationWillEnterForeground();
-        //m_renderer->OnFocusChange(true);
+        CCApplication::sharedApplication()->applicationWillEnterForeground();
+        m_renderer->OnFocusChange(true);
     }
-    CCLog("CCFrameworkView::-OnWindowActivationChanged()");
+    CCLog("CCFrameworkView::-OnWindowActivationChanged()");*/
 }
 
 void CCFrameworkView::OnSuspending(

@@ -37,7 +37,6 @@ THE SOFTWARE.
 #include "script_support/CCScriptSupport.h"
 #include "shaders/CCGLProgram.h"
 // externals
-#include "kazmath/GL/matrix.h"
 #include "CCEGLView.h"
 
 #if CC_NODE_RENDER_SUBPIXEL

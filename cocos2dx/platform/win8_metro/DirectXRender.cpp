@@ -362,7 +362,7 @@ void DirectXRender::SetDpi(float dpi)
         // Update Direct2D's stored DPI.
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 #else
-        m_d2dContext->SetDpi(m_dpi, m_dpi);
+        //m_d2dContext->SetDpi(m_dpi, m_dpi);
 #endif
         // Often a DPI change implies a window size change. In some cases Windows will issues
         // both a size changed event and a DPI changed event. In this case, the resulting bounds 
@@ -783,12 +783,12 @@ void DirectXRender::Render()
     //m_d3dContext->ClearRenderTargetView(m_renderTargetView.Get(), color);
     //m_d3dContext->ClearDepthStencilView(m_depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 }
-#ifdef CC_WIN8_PHONE
+//#ifdef CC_WIN8_PHONE
 float DirectXRender::GetDpi()
 {
 	return m_dpi;
 }
-#endif
+//#endif
 // Method to deliver the final image to the display.
 void DirectXRender::Present()
 {
@@ -914,14 +914,14 @@ void DirectXRender::OnWindowVisibilityChanged(
         )
 {
 	//m_windowVisible = args->Visible;
- //   if (m_windowVisible)
- //   {
- //       CCApplication::sharedApplication().applicationWillEnterForeground();
- //   } 
- //   else
- //   {
- //       CCApplication::sharedApplication().applicationDidEnterBackground();
- //   }
+    /*if (args->Visible)
+    {
+        CCApplication::sharedApplication()->applicationWillEnterForeground();
+    } 
+    else
+    {
+        CCApplication::sharedApplication()->applicationDidEnterBackground();
+    }*/
 }
 
 void DirectXRender::OnWindowSizeChanged(

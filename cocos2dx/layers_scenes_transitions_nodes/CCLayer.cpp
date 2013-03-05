@@ -37,7 +37,7 @@ THE SOFTWARE.
 #include "shaders/ccGLStateCache.h"
 #include "support/TransformUtils.h"
 // extern
-#include "kazmath/GL/matrix.h"
+
 #include "CCEGLView.h"
 NS_CC_BEGIN
 
