@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="b1ee2ff4-bd0c-48b3-9c8f-f4856abdfba1" Publisher="CN=cocos2d-x" Version="1.0.1.10" />
+  <Identity Name="b1ee2ff4-bd0c-48b3-9c8f-f4856abdfba1" Publisher="CN=cocos2d-x" Version="1.0.1.11" />
   <Properties>
     <DisplayName>hellotest</DisplayName>
     <PublisherDisplayName>cocos2d-x</PublisherDisplayName>
