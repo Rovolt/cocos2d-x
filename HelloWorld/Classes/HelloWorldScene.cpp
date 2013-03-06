@@ -176,12 +176,13 @@ bool HelloWorld::init()
 	ss << "Vis Hegiht: " << visibleSize.height << std::endl;
 	ss << "Origin X: " << origin.x << std::endl;
 	ss << "Origin Y: " << origin.y << std::endl;
-
+#ifndef CC_WIN8_PHONE
 	ss << "VPR Width: " << view_port.size.width << std::endl;
 	ss << "VPR Hegiht: " << view_port.size.height << std::endl;
 	ss << "VPR Origin X: " << view_port.origin.x << std::endl;
 	ss << "VPR Origin Y: " << view_port.origin.y << std::endl;
 	ss << "DPI: " << render->GetDpi() << std::endl;
+#endif
 	std::string val = ss.str();
 	CCLabelTTF* pLabel = CCLabelTTF::create(val.c_str(), "Arial", 16);
 

@@ -1,0 +1,643 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Assets">
+      <UniqueIdentifier>17b52f90-9b33-4188-8a0e-808582bbabbc</UniqueIdentifier>
+      <Extensions>ico;bmp;dlg;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;resw;resjson</Extensions>
+    </Filter>
+    <Filter Include="cocos2dx">
+      <UniqueIdentifier>{076e9eea-ec1a-41c0-8455-0033d277f1c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cocos2dx\shaders">
+      <UniqueIdentifier>{964af52a-dee0-4e47-bcf9-5266ec6b6fd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cocos2dx\kazmath">
+      <UniqueIdentifier>{e47f2fe1-e869-4563-a536-1f5ec9217a1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cocos2dx\sources">
+      <UniqueIdentifier>{c5ad79ef-7d7f-4c32-bb8f-0658c4e69f08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes">
+      <UniqueIdentifier>{44c0f4ef-a2a3-4c8e-87bb-2ebcd764b47d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cocos2dx\nodes">
+      <UniqueIdentifier>{6128bc45-3acb-4235-a75f-7e97ab255d25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cocos2dx\cocoa">
+      <UniqueIdentifier>{b292fb70-06a6-4bf6-8d8c-bb5e091a232d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cocos2dx\actions">
+      <UniqueIdentifier>{674526fa-2a6c-4efe-a4ec-d6b68683e28c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cocos2dx\effects">
+      <UniqueIdentifier>{733c4f64-2082-4573-8540-1e7b6b4cf40e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cocos2dx\support">
+      <UniqueIdentifier>{6d8eb6f6-9422-4e0f-8102-a423e2b46603}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cocos2dx\textures">
+      <UniqueIdentifier>{10797f77-fd3b-470e-89b3-46ebd32e6aa4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cocos2dx\sprite_nodes">
+      <UniqueIdentifier>{c6e5b043-fca3-4e9a-897f-34bb62785257}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cocos2dx\platform">
+      <UniqueIdentifier>{e0637021-44a6-403e-8f10-2fcbed75e269}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cocos2dx\touch_dispatcher">
+      <UniqueIdentifier>{45f0e3ff-a0a4-46a5-a861-08911c19c316}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cocos2dx\keypad_dispatcher">
+      <UniqueIdentifier>{2ebb7d48-c412-4595-80ab-942bc544aecb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cocos2dx\label_nodes">
+      <UniqueIdentifier>{e9ccf345-4c1b-4c2f-b678-9e782517957e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CocosDension">
+      <UniqueIdentifier>{2f7803b8-3fb9-4384-9839-86dabee281d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cocos2dx\layers_scenes_transitions_nodes">
+      <UniqueIdentifier>{171f1b69-ae20-4414-b2ca-d37081a70c3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cocos2dx\menu_nodes">
+      <UniqueIdentifier>{9cae8713-9d95-404d-8b09-cf4f97e0087f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cocos2dx\text_input_node">
+      <UniqueIdentifier>{14405a66-9372-415b-a813-4d9ed6e1cef9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cocos2dx\platform\tinyxml">
+      <UniqueIdentifier>{5fdb0280-172d-430b-bba1-b1f609c3e775}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\ApplicationIcon.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\AlignmentGrid.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Tiles\FlipCycleTileLarge.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Tiles\FlipCycleTileMedium.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Tiles\FlipCycleTileSmall.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Tiles\IconicTileMediumLarge.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Tiles\IconicTileSmall.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\touch.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\fonts\Marker Felt.ttf" />
+    <Image Include="Assets\hidden\CloseNormal.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\hidden\CloseSelected.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\hidden\HelloWorld.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\hidden\Icon.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\ipad\CloseNormal.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\ipad\CloseSelected.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\ipad\HelloWorld.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\ipadhd\CloseNormal.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\ipadhd\CloseSelected.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\ipadhd\HelloWorld.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\iphone\CloseNormal.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\iphone\CloseSelected.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\iphone\HelloWorld.png">
+      <Filter>Assets</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="WMAppManifest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\cocos2dx\BasicLoader.h">
+      <Filter>cocos2dx\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\BasicReaderWriter.h">
+      <Filter>cocos2dx\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\CCAccelerometer.h">
+      <Filter>cocos2dx\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\CCApplication.h">
+      <Filter>cocos2dx\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\CCCamera.h">
+      <Filter>cocos2dx\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\CCConfiguration.h">
+      <Filter>cocos2dx\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\CCDirector.h">
+      <Filter>cocos2dx\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\CCEGLView.h">
+      <Filter>cocos2dx\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\CCGL.h">
+      <Filter>cocos2dx\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\CCScheduler.h">
+      <Filter>cocos2dx\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\CCStdC.h">
+      <Filter>cocos2dx\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\DirectXHelper.h">
+      <Filter>cocos2dx\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\DirectXRender.h">
+      <Filter>cocos2dx\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\DXFontCommon.h">
+      <Filter>cocos2dx\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\DXTextPainter.h">
+      <Filter>cocos2dx\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\FontFileStream.h">
+      <Filter>cocos2dx\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\FontLoader.h">
+      <Filter>cocos2dx\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="..\..\..\cocos2dx\base_nodes\CCAtlasNode.h">
+      <Filter>cocos2dx\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\base_nodes\CCNode.h">
+      <Filter>cocos2dx\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\draw_nodes\CCDrawingPrimitives.h">
+      <Filter>cocos2dx\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\draw_nodes\CCDrawNode.h">
+      <Filter>cocos2dx\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\cocoa\CCAffineTransform.h">
+      <Filter>cocos2dx\cocoa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\cocoa\CCArray.h">
+      <Filter>cocos2dx\cocoa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\cocoa\CCAutoreleasePool.h">
+      <Filter>cocos2dx\cocoa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\cocoa\CCBool.h">
+      <Filter>cocos2dx\cocoa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\cocoa\CCDictionary.h">
+      <Filter>cocos2dx\cocoa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\cocoa\CCDouble.h">
+      <Filter>cocos2dx\cocoa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\cocoa\CCFloat.h">
+      <Filter>cocos2dx\cocoa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\cocoa\CCGeometry.h">
+      <Filter>cocos2dx\cocoa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\cocoa\CCInteger.h">
+      <Filter>cocos2dx\cocoa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\cocoa\CCNS.h">
+      <Filter>cocos2dx\cocoa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\cocoa\CCObject.h">
+      <Filter>cocos2dx\cocoa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\cocoa\CCSet.h">
+      <Filter>cocos2dx\cocoa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\cocoa\CCString.h">
+      <Filter>cocos2dx\cocoa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\cocoa\CCZone.h">
+      <Filter>cocos2dx\cocoa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\effects\CCGrabber.h">
+      <Filter>cocos2dx\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\effects\CCGrid.h">
+      <Filter>cocos2dx\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\support\base64.h">
+      <Filter>cocos2dx\support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\support\CCNotificationCenter.h">
+      <Filter>cocos2dx\support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\support\CCPointExtension.h">
+      <Filter>cocos2dx\support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\support\CCProfiling.h">
+      <Filter>cocos2dx\support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\support\CCUserDefault.h">
+      <Filter>cocos2dx\support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\support\ccUtils.h">
+      <Filter>cocos2dx\support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\support\CCVertex.h">
+      <Filter>cocos2dx\support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2dx\support\TransformUtils.h">
+      <Filter>cocos2dx\support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\HelloWorldScene.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AppDelegate.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\cocos2dx\BasicLoader.cpp">
+      <Filter>cocos2dx\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\BasicReaderWriter.cpp">
+      <Filter>cocos2dx\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\CCCamera.cpp">
+      <Filter>cocos2dx\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\CCConfiguration.cpp">
+      <Filter>cocos2dx\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\CCDirector.cpp">
+      <Filter>cocos2dx\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\CCImage_win8_metro.cpp">
+      <Filter>cocos2dx\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\CCScheduler.cpp">
+      <Filter>cocos2dx\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\cocos2d.cpp">
+      <Filter>cocos2dx\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\DXTextPainter.cpp">
+      <Filter>cocos2dx\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\kazmath\src\aabb.c">
+      <Filter>cocos2dx\kazmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\kazmath\src\mat3.c">
+      <Filter>cocos2dx\kazmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\kazmath\src\mat4.c">
+      <Filter>cocos2dx\kazmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\kazmath\src\neon_matrix_impl.c">
+      <Filter>cocos2dx\kazmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\kazmath\src\plane.c">
+      <Filter>cocos2dx\kazmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\kazmath\src\quaternion.c">
+      <Filter>cocos2dx\kazmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\kazmath\src\ray2.c">
+      <Filter>cocos2dx\kazmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\kazmath\src\utility.c">
+      <Filter>cocos2dx\kazmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\kazmath\src\vec2.c">
+      <Filter>cocos2dx\kazmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\kazmath\src\vec3.c">
+      <Filter>cocos2dx\kazmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\kazmath\src\vec4.c">
+      <Filter>cocos2dx\kazmath</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\platform\win8_metro\FTTextPainter.cpp">
+      <Filter>cocos2dx\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\base_nodes\CCAtlasNode.cpp">
+      <Filter>cocos2dx\nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\base_nodes\CCNode.cpp">
+      <Filter>cocos2dx\nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\draw_nodes\CCDrawingPrimitives.cpp">
+      <Filter>cocos2dx\nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\cocoa\CCAffineTransform.cpp">
+      <Filter>cocos2dx\cocoa</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\cocoa\CCArray.cpp">
+      <Filter>cocos2dx\cocoa</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\cocoa\CCAutoreleasePool.cpp">
+      <Filter>cocos2dx\cocoa</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\cocoa\CCDictionary.cpp">
+      <Filter>cocos2dx\cocoa</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\cocoa\CCGeometry.cpp">
+      <Filter>cocos2dx\cocoa</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\cocoa\CCNS.cpp">
+      <Filter>cocos2dx\cocoa</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\cocoa\CCObject.cpp">
+      <Filter>cocos2dx\cocoa</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\cocoa\CCSet.cpp">
+      <Filter>cocos2dx\cocoa</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\cocoa\CCString.cpp">
+      <Filter>cocos2dx\cocoa</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\cocoa\CCZone.cpp">
+      <Filter>cocos2dx\cocoa</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\actions\CCAction.cpp">
+      <Filter>cocos2dx\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\actions\CCActionCamera.cpp">
+      <Filter>cocos2dx\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\actions\CCActionEase.cpp">
+      <Filter>cocos2dx\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\actions\CCActionInstant.cpp">
+      <Filter>cocos2dx\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\actions\CCActionInterval.cpp">
+      <Filter>cocos2dx\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\actions\CCActionManager.cpp">
+      <Filter>cocos2dx\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\support\base64.cpp">
+      <Filter>cocos2dx\support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\support\CCNotificationCenter.cpp">
+      <Filter>cocos2dx\support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\support\CCPointExtension.cpp">
+      <Filter>cocos2dx\support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\support\CCProfiling.cpp">
+      <Filter>cocos2dx\support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\support\CCUserDefault.cpp">
+      <Filter>cocos2dx\support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\support\ccUtils.cpp">
+      <Filter>cocos2dx\support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\support\CCVertex.cpp">
+      <Filter>cocos2dx\support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\support\TransformUtils.cpp">
+      <Filter>cocos2dx\support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\support\data_support\ccCArray.cpp">
+      <Filter>cocos2dx\support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\support\image_support\TGAlib.cpp">
+      <Filter>cocos2dx\support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\support\zip_support\ioapi.cpp">
+      <Filter>cocos2dx\support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\support\zip_support\unzip.cpp">
+      <Filter>cocos2dx\support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\support\zip_support\ZipUtils.cpp">
+      <Filter>cocos2dx\support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\textures\CCTexture2D.cpp">
+      <Filter>cocos2dx\textures</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\textures\CCTextureAtlas.cpp">
+      <Filter>cocos2dx\textures</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\textures\CCTextureCache.cpp">
+      <Filter>cocos2dx\textures</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\sprite_nodes\CCAnimation.cpp">
+      <Filter>cocos2dx\sprite_nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\sprite_nodes\CCAnimationCache.cpp">
+      <Filter>cocos2dx\sprite_nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\sprite_nodes\CCSprite.cpp">
+      <Filter>cocos2dx\sprite_nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\sprite_nodes\CCSpriteBatchNode.cpp">
+      <Filter>cocos2dx\sprite_nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\sprite_nodes\CCSpriteFrame.cpp">
+      <Filter>cocos2dx\sprite_nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\sprite_nodes\CCSpriteFrameCache.cpp">
+      <Filter>cocos2dx\sprite_nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\platform\win8_metro\CCEGLView_win8_metro.cpp">
+      <Filter>cocos2dx\platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\touch_dispatcher\CCTouch.cpp">
+      <Filter>cocos2dx\touch_dispatcher</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\touch_dispatcher\CCTouchDispatcher.cpp">
+      <Filter>cocos2dx\touch_dispatcher</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\touch_dispatcher\CCTouchHandler.cpp">
+      <Filter>cocos2dx\touch_dispatcher</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\kazmath\src\GL\mat4stack.c">
+      <Filter>cocos2dx\kazmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\kazmath\src\GL\matrix.c">
+      <Filter>cocos2dx\kazmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\keypad_dispatcher\CCKeypadDelegate.cpp">
+      <Filter>cocos2dx\keypad_dispatcher</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\keypad_dispatcher\CCKeypadDispatcher.cpp">
+      <Filter>cocos2dx\keypad_dispatcher</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\CCFileUtils_win8_metro.cpp">
+      <Filter>cocos2dx\platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\label_nodes\CCLabelAtlas.cpp">
+      <Filter>cocos2dx\label_nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\label_nodes\CCLabelBMFont.cpp">
+      <Filter>cocos2dx\label_nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\label_nodes\CCLabelTTF.cpp">
+      <Filter>cocos2dx\label_nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\platform\win8_metro\CCApplication_win8_metro.cpp">
+      <Filter>cocos2dx\platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CocosDenshion\win8_metro\Audio.cpp">
+      <Filter>CocosDension</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CocosDenshion\win8_metro\MediaStreamer.cpp">
+      <Filter>CocosDension</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CocosDenshion\win8_metro\SimpleAudioEngine.cpp">
+      <Filter>CocosDension</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\platform\win8_metro\DirectXRender.cpp">
+      <Filter>cocos2dx\platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\layers_scenes_transitions_nodes\CCLayer.cpp">
+      <Filter>cocos2dx\layers_scenes_transitions_nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\layers_scenes_transitions_nodes\CCScene.cpp">
+      <Filter>cocos2dx\layers_scenes_transitions_nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\menu_nodes\CCMenu.cpp">
+      <Filter>cocos2dx\menu_nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\menu_nodes\CCMenuItem.cpp">
+      <Filter>cocos2dx\menu_nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\platform\CCEGLViewProtocol.cpp">
+      <Filter>cocos2dx\platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\platform\CCStdC.cpp">
+      <Filter>cocos2dx\platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\platform\platform.cpp">
+      <Filter>cocos2dx\platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\platform\CCImage.cpp">
+      <Filter>cocos2dx\platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\text_input_node\CCIMEDispatcher.cpp">
+      <Filter>cocos2dx\text_input_node</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\text_input_node\CCTextFieldTTF.cpp">
+      <Filter>cocos2dx\text_input_node</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\platform\CCCommon.cpp">
+      <Filter>cocos2dx\platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CCSAXParser.cpp">
+      <Filter>cocos2dx\platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\platform\tinyxml\tinystr.cpp">
+      <Filter>cocos2dx\platform\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\platform\tinyxml\tinyxml.cpp">
+      <Filter>cocos2dx\platform\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\platform\tinyxml\tinyxmlerror.cpp">
+      <Filter>cocos2dx\platform\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\platform\tinyxml\tinyxmlparser.cpp">
+      <Filter>cocos2dx\platform\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\HelloWorldScene.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AppDelegate.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCDrawingPixelShader.hlsl">
+      <Filter>cocos2dx\shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCDrawingVertexShader.hlsl">
+      <Filter>cocos2dx\shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCGridPixelShader.hlsl">
+      <Filter>cocos2dx\shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCGridVertexShader.hlsl">
+      <Filter>cocos2dx\shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCLayerColorPixelShader.hlsl">
+      <Filter>cocos2dx\shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCLayerColorVertexShader.hlsl">
+      <Filter>cocos2dx\shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCParticlePixelShader.hlsl">
+      <Filter>cocos2dx\shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCParticleVertexShader.hlsl">
+      <Filter>cocos2dx\shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCProgressTimerPixelShader.hlsl">
+      <Filter>cocos2dx\shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCProgressTimerVertexShader.hlsl">
+      <Filter>cocos2dx\shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCRibbonSegmentPixelShader.hlsl">
+      <Filter>cocos2dx\shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCRibbonSegmentVertexShader.hlsl">
+      <Filter>cocos2dx\shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCSpritePixelShader.hlsl">
+      <Filter>cocos2dx\shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCSpriteVertexShader.hlsl">
+      <Filter>cocos2dx\shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCTexture2DPixelShader.hlsl">
+      <Filter>cocos2dx\shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCTexture2DVertexShader.hlsl">
+      <Filter>cocos2dx\shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCTextureAtlasPixelShader.hlsl">
+      <Filter>cocos2dx\shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCTextureAtlasVertexShader.hlsl">
+      <Filter>cocos2dx\shaders</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="win8_phone_2013_02_28_11_58_06.sap" />
+    <None Include="win8_phone_2013_02_28_18_58_41.sap" />
+    <None Include="win8_phone_2013_02_28_19_38_23.sap" />
+    <None Include="win8_phone_2013_02_28_23_32_41.sap" />
+    <None Include="win8_phone_2013_02_28_23_36_56.sap" />
+  </ItemGroup>
+</Project>

@@ -181,19 +181,19 @@ void CCEGLView::setViewPortInPoints(float x, float y, float w, float h)
 	/*float factor = m_fScreenScaleFactor * CC_CONTENT_SCALE_FACTOR();
 
 	*/
-#ifndef CC_WIN8_PHONE
+//#ifndef CC_WIN8_PHONE
 	D3DViewport(
 		(int)(x),
 		(int)(y),
 		(int)(w),
 		(int)(h));
-#else
-	D3DViewport(
-		(int)(x * m_fScaleX + m_obViewPortRect.origin.y),
-		(int)(y * m_fScaleY + m_obViewPortRect.origin.x),
-		(int)(w * m_fScaleX),
-		(int)(h * m_fScaleY));
-#endif
+//#else
+//	D3DViewport(
+//		(int)(x * m_fScaleX + m_obViewPortRect.origin.y),
+//		(int)(y * m_fScaleY + m_obViewPortRect.origin.x),
+//		(int)(w * m_fScaleX),
+//		(int)(h * m_fScaleY));
+//#endif
 	/*glViewport((GLint)(x * m_fScaleX + m_obViewPortRect.origin.x),
 	(GLint)(y * m_fScaleY + m_obViewPortRect.origin.y),
 	(GLsizei)(w * m_fScaleX),

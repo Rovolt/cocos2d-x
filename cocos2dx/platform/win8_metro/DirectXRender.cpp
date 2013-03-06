@@ -950,8 +950,8 @@ void DirectXRender::OnPointerPressed(
 #ifdef CC_WIN8_PHONE
 void DirectXRender::OnBackButtonPressed(Platform::Object^ sender, Windows::Phone::UI::Input::BackPressedEventArgs^ args)
 {
-	CCDirector::sharedDirector()->getKeypadDispatcher()->dispatchKeypadMSG(kTypeBackClicked);
-	args->Handled = true;
+	bool res = CCDirector::sharedDirector()->getKeypadDispatcher()->dispatchKeypadMSG(kTypeBackClicked);
+	args->Handled = res;
 }
 #endif
 void DirectXRender::OnPointerReleased(

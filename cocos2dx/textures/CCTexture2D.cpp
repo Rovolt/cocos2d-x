@@ -278,7 +278,7 @@ bool CCTexture2D::initWithData(const void *data, CCTexture2DPixelFormat pixelFor
 	
 	if(FAILED(pdevice->CreateTexture2D(&tdesc,&tbsd,&tex)))
 	{
-		// e_fail
+		return false;
 	}
 
 	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;

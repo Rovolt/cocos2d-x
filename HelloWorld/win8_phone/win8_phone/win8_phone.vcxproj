@@ -1,0 +1,511 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|ARM">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ARM">
+      <Configuration>Release</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{9006ea7a-4e8c-430b-98b9-5f4cf791975b}</ProjectGuid>
+    <RootNamespace>win8_phone</RootNamespace>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
+    <XapOutputs>true</XapOutputs>
+    <XapFilename>win8_phone_$(Configuration)_$(Platform).xap</XapFilename>
+    <WinMDAssembly>true</WinMDAssembly>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110_wp80</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110_wp80</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v110_wp80</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v110_wp80</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
+    <IncludePath>$(WP80ToolSetPath)include;$(WindowsSDK_IncludePath);D:\GitHub\cocos2d-x\cocos2dx\platform\win8_metro;D:\GitHub\cocos2d-x\cocos2dx;D:\GitHub\cocos2d-x\cocos2dx\include;D:\GitHub\cocos2d-x\cocos2dx\platform;D:\GitHub\cocos2d-x\cocos2dx\platform\third_party\win8_metro\freetype;D:\GitHub\cocos2d-x\cocos2dx\kazmath\include;D:\GitHub\cocos2d-x\cocos2dx\platform\third_party\win8_metro\zlib;D:\GitHub\cocos2d-x\MathIsFun\Classes;D:\GitHub\cocos2d-x\CocosDenshion\include;D:\GitHub\cocos2d-x\cocos2dx\platform\third_party\win8_metro\libpng;D:\GitHub\cocos2d-x\cocos2dx\platform\third_party\win8_metro\libjpeg</IncludePath>
+    <LibraryPath>D:\GitHub\cocos2d-x\cocos2dx\platform\third_party\win8_metro\libraries\ARM;$(LibraryPath)</LibraryPath>
+    <TargetName>HelloWorld</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+    <IncludePath>$(WP80ToolSetPath)include;$(WindowsSDK_IncludePath);D:\GitHub\cocos2d-x\cocos2dx\platform\win8_metro;D:\GitHub\cocos2d-x\cocos2dx;D:\GitHub\cocos2d-x\cocos2dx\include;D:\GitHub\cocos2d-x\cocos2dx\platform;D:\GitHub\cocos2d-x\cocos2dx\platform\third_party\win8_metro\freetype;D:\GitHub\cocos2d-x\cocos2dx\kazmath\include;D:\GitHub\cocos2d-x\cocos2dx\platform\third_party\win8_metro\zlib;D:\GitHub\cocos2d-x\MathIsFun\Classes;D:\GitHub\cocos2d-x\CocosDenshion\include;D:\GitHub\cocos2d-x\cocos2dx\platform\third_party\win8_metro\libpng;D:\GitHub\cocos2d-x\cocos2dx\platform\third_party\win8_metro\libjpeg</IncludePath>
+    <LibraryPath>D:\GitHub\cocos2d-x\cocos2dx\platform\third_party\win8_metro\libraries\ARM;$(LibraryPath)</LibraryPath>
+    <TargetName>HelloWorld</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(WP80ToolSetPath)include;$(WindowsSDK_IncludePath);D:\GitHub\cocos2d-x\cocos2dx\platform\win8_metro;D:\GitHub\cocos2d-x\cocos2dx;D:\GitHub\cocos2d-x\cocos2dx\include;D:\GitHub\cocos2d-x\cocos2dx\platform;D:\GitHub\cocos2d-x\cocos2dx\platform\third_party\win8_metro\freetype;D:\GitHub\cocos2d-x\cocos2dx\kazmath\include;D:\GitHub\cocos2d-x\cocos2dx\platform\third_party\win8_metro\zlib;D:\GitHub\cocos2d-x\MathIsFun\Classes;D:\GitHub\cocos2d-x\CocosDenshion\include;D:\GitHub\cocos2d-x\cocos2dx\platform\third_party\win8_metro\libpng;D:\GitHub\cocos2d-x\cocos2dx\platform\third_party\win8_metro\libjpeg</IncludePath>
+    <LibraryPath>D:\GitHub\cocos2d-x\cocos2dx\platform\third_party\win8_metro\libraries\x86;$(LibraryPath)</LibraryPath>
+    <TargetName>HelloWorld</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(WP80ToolSetPath)include;$(WindowsSDK_IncludePath);D:\GitHub\cocos2d-x\cocos2dx\platform\win8_metro;D:\GitHub\cocos2d-x\cocos2dx;D:\GitHub\cocos2d-x\cocos2dx\include;D:\GitHub\cocos2d-x\cocos2dx\platform;D:\GitHub\cocos2d-x\cocos2dx\platform\third_party\win8_metro\freetype;D:\GitHub\cocos2d-x\cocos2dx\kazmath\include;D:\GitHub\cocos2d-x\cocos2dx\platform\third_party\win8_metro\zlib;D:\GitHub\cocos2d-x\MathIsFun\Classes;D:\GitHub\cocos2d-x\CocosDenshion\include;D:\GitHub\cocos2d-x\cocos2dx\platform\third_party\win8_metro\libpng;D:\GitHub\cocos2d-x\cocos2dx\platform\third_party\win8_metro\libjpeg</IncludePath>
+    <LibraryPath>D:\GitHub\cocos2d-x\cocos2dx\platform\third_party\win8_metro\libraries\x86;$(LibraryPath)</LibraryPath>
+    <TargetName>HelloWorld</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WINAPI_FAMILY=WINAPI_FAMILY_PHONE_APP;_CRT_SECURE_NO_WARNINGS;CC_DLL=/**/;NULL=0;MIN=min;MAX=max;CC_WIN8_METRO;CC_WIN8_PHONE</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <CompileAsWinRT>true</CompileAsWinRT>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>d3d11.lib;libpng.lib;zlib.lib;freetype.lib;xaudio2.lib;LibJPEG.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
+      <IgnoreSpecificDefaultLibraries>ole32.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ShowProgress>LinkVerbose</ShowProgress>
+      <LinkStatus>true</LinkStatus>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WINAPI_FAMILY=WINAPI_FAMILY_PHONE_APP;_CRT_SECURE_NO_WARNINGS;CC_DLL=/**/;NULL=0;MIN=min;MAX=max;CC_WIN8_METRO;CC_WIN8_PHONE</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <CompileAsWinRT>true</CompileAsWinRT>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>d3d11.lib;libpng.lib;zlib.lib;freetype.lib;xaudio2.lib;LibJPEG.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
+      <IgnoreSpecificDefaultLibraries>ole32.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ShowProgress>NotSet</ShowProgress>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
+    <ClCompile>
+      <PreprocessorDefinitions>WINAPI_FAMILY=WINAPI_FAMILY_PHONE_APP;_CRT_SECURE_NO_WARNINGS;CC_DLL=/**/;NULL=0;MIN=min;MAX=max;CC_WIN8_METRO;CC_WIN8_PHONE</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <CompileAsWinRT>true</CompileAsWinRT>
+      <AdditionalUsingDirectories>$(WindowsSDK_MetadataPath);$(AdditionalUsingDirectories)</AdditionalUsingDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>d3d11.lib;freetype.lib;jpeglib.lib;libpng.lib;zlib.lib;xaudio2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
+      <IgnoreSpecificDefaultLibraries>ole32.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+    <ClCompile>
+      <PreprocessorDefinitions>WINAPI_FAMILY=WINAPI_FAMILY_PHONE_APP;_CRT_SECURE_NO_WARNINGS;CC_DLL=/**/;NULL=0;MIN=min;MAX=max;CC_WIN8_METRO;CC_WIN8_PHONE</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <CompileAsWinRT>true</CompileAsWinRT>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>d3d11.lib;freetype.lib;jpeglib.lib;libpng.lib;zlib.lib;xaudio2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
+      <IgnoreSpecificDefaultLibraries>ole32.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Reference Include="platform.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\AlignmentGrid.png" />
+    <Image Include="Assets\ApplicationIcon.png" />
+    <Image Include="Assets\touch.png" />
+    <Image Include="Assets\fonts\Marker Felt.ttf" />
+    <Image Include="Assets\hidden\CloseNormal.png" />
+    <Image Include="Assets\hidden\CloseSelected.png" />
+    <Image Include="Assets\hidden\HelloWorld.png" />
+    <Image Include="Assets\hidden\Icon.png" />
+    <Image Include="Assets\ipad\CloseNormal.png" />
+    <Image Include="Assets\ipad\CloseSelected.png" />
+    <Image Include="Assets\ipad\HelloWorld.png" />
+    <Image Include="Assets\ipadhd\CloseNormal.png" />
+    <Image Include="Assets\ipadhd\CloseSelected.png" />
+    <Image Include="Assets\ipadhd\HelloWorld.png" />
+    <Image Include="Assets\iphone\CloseNormal.png" />
+    <Image Include="Assets\iphone\CloseSelected.png" />
+    <Image Include="Assets\iphone\HelloWorld.png" />
+    <Image Include="Assets\Tiles\FlipCycleTileLarge.png" />
+    <Image Include="Assets\Tiles\FlipCycleTileMedium.png" />
+    <Image Include="Assets\Tiles\FlipCycleTileSmall.png" />
+    <Image Include="Assets\Tiles\IconicTileMediumLarge.png" />
+    <Image Include="Assets\Tiles\IconicTileSmall.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="WMAppManifest.xml">
+      <SubType>Designer</SubType>
+    </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\cocos2dx\base_nodes\CCAtlasNode.h" />
+    <ClInclude Include="..\..\..\cocos2dx\base_nodes\CCNode.h" />
+    <ClInclude Include="..\..\..\cocos2dx\BasicLoader.h" />
+    <ClInclude Include="..\..\..\cocos2dx\BasicReaderWriter.h" />
+    <ClInclude Include="..\..\..\cocos2dx\CCAccelerometer.h" />
+    <ClInclude Include="..\..\..\cocos2dx\CCApplication.h" />
+    <ClInclude Include="..\..\..\cocos2dx\CCCamera.h" />
+    <ClInclude Include="..\..\..\cocos2dx\CCConfiguration.h" />
+    <ClInclude Include="..\..\..\cocos2dx\CCDirector.h" />
+    <ClInclude Include="..\..\..\cocos2dx\CCEGLView.h" />
+    <ClInclude Include="..\..\..\cocos2dx\CCGL.h" />
+    <ClInclude Include="..\..\..\cocos2dx\CCScheduler.h" />
+    <ClInclude Include="..\..\..\cocos2dx\CCStdC.h" />
+    <ClInclude Include="..\..\..\cocos2dx\cocoa\CCAffineTransform.h" />
+    <ClInclude Include="..\..\..\cocos2dx\cocoa\CCArray.h" />
+    <ClInclude Include="..\..\..\cocos2dx\cocoa\CCAutoreleasePool.h" />
+    <ClInclude Include="..\..\..\cocos2dx\cocoa\CCBool.h" />
+    <ClInclude Include="..\..\..\cocos2dx\cocoa\CCDictionary.h" />
+    <ClInclude Include="..\..\..\cocos2dx\cocoa\CCDouble.h" />
+    <ClInclude Include="..\..\..\cocos2dx\cocoa\CCFloat.h" />
+    <ClInclude Include="..\..\..\cocos2dx\cocoa\CCGeometry.h" />
+    <ClInclude Include="..\..\..\cocos2dx\cocoa\CCInteger.h" />
+    <ClInclude Include="..\..\..\cocos2dx\cocoa\CCNS.h" />
+    <ClInclude Include="..\..\..\cocos2dx\cocoa\CCObject.h" />
+    <ClInclude Include="..\..\..\cocos2dx\cocoa\CCSet.h" />
+    <ClInclude Include="..\..\..\cocos2dx\cocoa\CCString.h" />
+    <ClInclude Include="..\..\..\cocos2dx\cocoa\CCZone.h" />
+    <ClInclude Include="..\..\..\cocos2dx\DirectXHelper.h" />
+    <ClInclude Include="..\..\..\cocos2dx\DirectXRender.h" />
+    <ClInclude Include="..\..\..\cocos2dx\draw_nodes\CCDrawingPrimitives.h" />
+    <ClInclude Include="..\..\..\cocos2dx\draw_nodes\CCDrawNode.h" />
+    <ClInclude Include="..\..\..\cocos2dx\DXFontCommon.h" />
+    <ClInclude Include="..\..\..\cocos2dx\DXTextPainter.h" />
+    <ClInclude Include="..\..\..\cocos2dx\effects\CCGrabber.h" />
+    <ClInclude Include="..\..\..\cocos2dx\effects\CCGrid.h" />
+    <ClInclude Include="..\..\..\cocos2dx\FontFileStream.h" />
+    <ClInclude Include="..\..\..\cocos2dx\FontLoader.h" />
+    <ClInclude Include="..\..\..\cocos2dx\support\base64.h" />
+    <ClInclude Include="..\..\..\cocos2dx\support\CCNotificationCenter.h" />
+    <ClInclude Include="..\..\..\cocos2dx\support\CCPointExtension.h" />
+    <ClInclude Include="..\..\..\cocos2dx\support\CCProfiling.h" />
+    <ClInclude Include="..\..\..\cocos2dx\support\CCUserDefault.h" />
+    <ClInclude Include="..\..\..\cocos2dx\support\ccUtils.h" />
+    <ClInclude Include="..\..\..\cocos2dx\support\CCVertex.h" />
+    <ClInclude Include="..\..\..\cocos2dx\support\TransformUtils.h" />
+    <ClInclude Include="..\..\AppDelegate.h" />
+    <ClInclude Include="..\..\Classes\HelloWorldScene.h" />
+    <ClInclude Include="pch.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\CCSAXParser.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\actions\CCAction.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\actions\CCActionCamera.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\actions\CCActionEase.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\actions\CCActionInstant.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\actions\CCActionInterval.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\actions\CCActionManager.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\base_nodes\CCAtlasNode.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\base_nodes\CCNode.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\BasicLoader.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\BasicReaderWriter.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\CCCamera.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\CCConfiguration.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\CCDirector.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\CCFileUtils_win8_metro.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\CCImage_win8_metro.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\CCScheduler.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\cocoa\CCAffineTransform.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\cocoa\CCArray.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\cocoa\CCAutoreleasePool.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\cocoa\CCDictionary.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\cocoa\CCGeometry.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\cocoa\CCNS.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\cocoa\CCObject.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\cocoa\CCSet.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\cocoa\CCString.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\cocoa\CCZone.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\cocos2d.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\draw_nodes\CCDrawingPrimitives.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\DXTextPainter.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\kazmath\src\aabb.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\kazmath\src\GL\mat4stack.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\kazmath\src\GL\matrix.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\kazmath\src\mat3.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\kazmath\src\mat4.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\kazmath\src\neon_matrix_impl.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\kazmath\src\plane.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\kazmath\src\quaternion.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\kazmath\src\ray2.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\kazmath\src\utility.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\kazmath\src\vec2.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\kazmath\src\vec3.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\kazmath\src\vec4.c">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsWinRT>
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2dx\keypad_dispatcher\CCKeypadDelegate.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\keypad_dispatcher\CCKeypadDispatcher.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\label_nodes\CCLabelAtlas.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\label_nodes\CCLabelBMFont.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\label_nodes\CCLabelTTF.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\layers_scenes_transitions_nodes\CCLayer.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\layers_scenes_transitions_nodes\CCScene.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\menu_nodes\CCMenu.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\menu_nodes\CCMenuItem.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\platform\CCCommon.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\platform\CCEGLViewProtocol.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\platform\CCImage.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\platform\CCStdC.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\platform\platform.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\platform\tinyxml\tinystr.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\platform\tinyxml\tinyxml.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\platform\tinyxml\tinyxmlerror.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\platform\tinyxml\tinyxmlparser.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\platform\win8_metro\CCApplication_win8_metro.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\platform\win8_metro\CCEGLView_win8_metro.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\platform\win8_metro\DirectXRender.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\platform\win8_metro\FTTextPainter.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\sprite_nodes\CCAnimation.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\sprite_nodes\CCAnimationCache.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\sprite_nodes\CCSprite.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\sprite_nodes\CCSpriteBatchNode.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\sprite_nodes\CCSpriteFrame.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\sprite_nodes\CCSpriteFrameCache.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\support\base64.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\support\CCNotificationCenter.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\support\CCPointExtension.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\support\CCProfiling.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\support\CCUserDefault.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\support\ccUtils.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\support\CCVertex.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\support\data_support\ccCArray.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\support\image_support\TGAlib.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\support\TransformUtils.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\support\zip_support\ioapi.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\support\zip_support\unzip.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\support\zip_support\ZipUtils.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\textures\CCTexture2D.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\textures\CCTextureAtlas.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\textures\CCTextureCache.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\text_input_node\CCIMEDispatcher.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\text_input_node\CCTextFieldTTF.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\touch_dispatcher\CCTouch.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\touch_dispatcher\CCTouchDispatcher.cpp" />
+    <ClCompile Include="..\..\..\cocos2dx\touch_dispatcher\CCTouchHandler.cpp" />
+    <ClCompile Include="..\..\..\CocosDenshion\win8_metro\Audio.cpp" />
+    <ClCompile Include="..\..\..\CocosDenshion\win8_metro\MediaStreamer.cpp" />
+    <ClCompile Include="..\..\..\CocosDenshion\win8_metro\SimpleAudioEngine.cpp" />
+    <ClCompile Include="..\..\AppDelegate.cpp" />
+    <ClCompile Include="..\..\Classes\HelloWorldScene.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="pch.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCDrawingPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCDrawingVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCGridPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCGridVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCLayerColorPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCLayerColorVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCParticlePixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCParticleVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCProgressTimerPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCProgressTimerVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCRibbonSegmentPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCRibbonSegmentVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCSpritePixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCSpriteVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCTexture2DPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCTexture2DVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCTextureAtlasPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\..\..\cocos2dx\hlsl\CCTextureAtlasVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">Vertex</ShaderType>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="win8_phone_2013_02_28_11_58_06.sap" />
+    <None Include="win8_phone_2013_02_28_18_58_41.sap" />
+    <None Include="win8_phone_2013_02_28_19_38_23.sap" />
+    <None Include="win8_phone_2013_02_28_23_32_41.sap" />
+    <None Include="win8_phone_2013_02_28_23_36_56.sap" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsPhone\v$(TargetPlatformVersion)\Microsoft.Cpp.WindowsPhone.$(TargetPlatformVersion).targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

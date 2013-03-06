@@ -337,6 +337,7 @@ void CCDirector::setProjection(ccDirectorProjection kProjection)
 	CCPoint origin_rect = m_pobOpenGLView->getViewPortRect().origin;
 	CCSize frame_size = m_pobOpenGLView->getFrameSize();
 
+#ifndef CC_WIN8_PHONE
 	//To cut the frame no less no more
 	if(size.width*m_pobOpenGLView->getScaleX() > frame_size.width)
 	{
@@ -347,6 +348,18 @@ void CCDirector::setProjection(ccDirectorProjection kProjection)
 		size.height = frame_size.height / m_pobOpenGLView->getScaleY();
 		zeye = size.height / 1.1566f;
 	}
+#else
+	//To cut the frame no less no more
+	if(size.width*m_pobOpenGLView->getScaleX() > frame_size.height)
+	{
+		size.width = frame_size.height / m_pobOpenGLView->getScaleX();
+	}
+	if(size.height*m_pobOpenGLView->getScaleY() > frame_size.width)
+	{
+		size.height = frame_size.width / m_pobOpenGLView->getScaleY();
+		zeye = size.height / 1.1566f;
+	}
+#endif
 	switch (kProjection)
 	{
 	case kCCDirectorProjection2D:
@@ -365,9 +378,7 @@ void CCDirector::setProjection(ccDirectorProjection kProjection)
 	case kCCDirectorProjection3D:
 		if (m_pobOpenGLView) 
 		{
-
 			m_pobOpenGLView->setViewPortInPoints(0, 0, size.width * m_pobOpenGLView->getScaleX(), size.height * m_pobOpenGLView->getScaleY());
-
 		}
 		
 
@@ -384,7 +395,8 @@ void CCDirector::setProjection(ccDirectorProjection kProjection)
 		m_pobOpenGLView->D3DTranslate(origin_rect.x / m_pobOpenGLView->getScaleX(),
 			origin_rect.y / m_pobOpenGLView->getScaleY(),0);
 #else
-
+		m_pobOpenGLView->D3DTranslate(origin_rect.y / m_pobOpenGLView->getScaleY(),
+			origin_rect.x / m_pobOpenGLView->getScaleX(),0);
 		m_pobOpenGLView->D3DTranslate(size.width/2,size.height/2,0);
 		m_pobOpenGLView->D3DRotate(CC_DEGREES_TO_RADIANS(-90), 0,0,1);
 		m_pobOpenGLView->D3DTranslate(-size.height/2,-size.width/2,0);

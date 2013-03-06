@@ -124,9 +124,10 @@ bool CCKeypadDispatcher::dispatchKeypadMSG(ccKeypadMSGType nMsgType)
     CCKeypadDelegate* pDelegate = NULL;
 
     m_bLocked = true;
-
+	bool is_dispatched = false;
     if (m_pDelegates->count() > 0)
     {
+		is_dispatched = true;
         CCObject* pObj = NULL;
         CCARRAY_FOREACH(m_pDelegates, pObj)
         {
@@ -170,7 +171,7 @@ bool CCKeypadDispatcher::dispatchKeypadMSG(ccKeypadMSGType nMsgType)
         ccCArrayRemoveAllValues(m_pHandlersToAdd);
     }
 
-    return true;
+    return is_dispatched;
 }
 
 NS_CC_END
