@@ -77,7 +77,7 @@ protected:
     float m_fUpZ;
 
     bool m_bDirty;
-    kmMat4    m_lookupMatrix;
+    //kmMat4    m_lookupMatrix;
 public:
     CCCamera(void);
     ~CCCamera(void);

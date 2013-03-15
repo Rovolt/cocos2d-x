@@ -150,7 +150,7 @@ void CCFrameworkView::SetWindow(
 	DisplayProperties::LogicalDpiChanged +=
 		ref new DisplayPropertiesEventHandler(this, &CCFrameworkView::OnLogicalDpiChanged);
 //#ifdef CC_WIN8_PHONE
-	DisplayProperties::AutoRotationPreferences = Windows::Graphics::Display::DisplayOrientations::Landscape;
+//	DisplayProperties::AutoRotationPreferences = Windows::Graphics::Display::DisplayOrientations::Landscape;
 //	//Windows::Graphics::Display::DisplayOrientations test = DisplayProperties::CurrentOrientation;// = Windows::Graphics::Display::DisplayOrientations::Landscape;
 //#endif
 	m_renderer->Initialize(window, DisplayProperties::LogicalDpi);

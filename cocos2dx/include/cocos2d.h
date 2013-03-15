@@ -113,9 +113,10 @@ THE SOFTWARE.
 #include "misc_nodes/CCRenderTexture.h"
 
 // particle_nodes
-#include "particle_nodes/CCParticleBatchNode.h"
+//#include "particle_nodes/CCParticleBatchNode.h"
 #include "particle_nodes/CCParticleSystem.h"
 #include "particle_nodes/CCParticleExamples.h"
+#include "particle_nodes/CCParticleSystemPoint.h"
 #include "particle_nodes/CCParticleSystemQuad.h"
 
 // platform

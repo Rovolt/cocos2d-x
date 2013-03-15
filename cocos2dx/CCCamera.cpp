@@ -25,10 +25,11 @@ THE SOFTWARE.
 
 #include "CCCamera.h"
 #include "cocoa/CCString.h"
-#include "CCGL.h"
+#include "CCEGLView.h"
 
 #include "draw_nodes/CCDrawingPrimitives.h"
 #include "CCDirector.h"
+//#include "kazmath/GL/matrix.h"
 
 using namespace std;
 
@@ -71,9 +72,13 @@ void CCCamera::restore(void)
 
 void CCCamera::locate(void)
 {
-    /*if (m_bDirty)
+    if (m_bDirty)
     {
-        kmVec3 eye, center, up;
+
+		CCD3DCLASS->D3DLookAt(m_fEyeX, m_fEyeY, m_fEyeZ,
+			m_fCenterX, m_fCenterY, m_fCenterZ,
+			m_fUpX, m_fUpY, m_fUpZ);
+        /*kmVec3 eye, center, up;
 
         kmVec3Fill( &eye, m_fEyeX, m_fEyeY , m_fEyeZ );
         kmVec3Fill( &center, m_fCenterX, m_fCenterY, m_fCenterZ );
@@ -81,9 +86,9 @@ void CCCamera::locate(void)
         kmVec3Fill( &up, m_fUpX, m_fUpY, m_fUpZ);
         kmMat4LookAt( &m_lookupMatrix, &eye, &center, &up);
 
-        m_bDirty = false;
+        m_bDirty = false;*/
     }
-    kmGLMultMatrix( &m_lookupMatrix );*/
+    //kmGLMultMatrix( &m_lookupMatrix );
 }
 
 float CCCamera::getZEye(void)

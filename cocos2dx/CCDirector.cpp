@@ -258,7 +258,7 @@ void CCDirector::drawScene(void)
 
 void CCDirector::calculateDeltaTime(void)
 {
-    struct cc_timeval now;
+	struct cc_timeval now = {};
 
     if (CCTime::gettimeofdayCocos2d(&now, NULL) != 0)
     {
@@ -365,7 +365,7 @@ void CCDirector::setProjection(ccDirectorProjection kProjection)
 	case kCCDirectorProjection2D:
 		if (m_pobOpenGLView) 
 		{
-			m_pobOpenGLView->setViewPortInPoints(0, 0, size.width * m_pobOpenGLView->getScaleX(), size.height * m_pobOpenGLView->getScaleY());
+			m_pobOpenGLView->setViewPortInPoints(0, 0, size.width, size.height);
 		}
 		m_pobOpenGLView->D3DMatrixMode(CC_PROJECTION);
 		m_pobOpenGLView->D3DLoadIdentity();
@@ -808,7 +808,7 @@ void CCDirector::showStats(void)
 
 void CCDirector::calculateMPF()
 {
-    struct cc_timeval now;
+	struct cc_timeval now = {};
     CCTime::gettimeofdayCocos2d(&now, NULL);
     
     m_fSecondsPerFrame = (now.tv_sec - m_pLastUpdate->tv_sec) + (now.tv_usec - m_pLastUpdate->tv_usec) / 1000000.0f;
